@@ -1,14 +1,8 @@
 cmake_minimum_required(VERSION 3.23.0)
 
-aux_source_directory(
-    .
-    SRC_LIST
-)
+aux_source_directory(. SRC_LIST)
 
-add_library(
-    Alice_Log SHARED
-    ${SRC_LIST}
-)
+add_library(Alice_Log SHARED ${SRC_LIST})
 
 target_link_libraries(Alice_Log spdlog)
 

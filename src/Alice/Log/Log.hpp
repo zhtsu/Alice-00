@@ -1,6 +1,7 @@
 #pragma once 
 
-#include "Alice/pch.hpp"
+#include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 
 namespace Alice
 {
