@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Alice/PCH.hpp"
+#include "Alice/Window/Window.hpp"
+
 namespace Alice
 {
 
@@ -11,6 +14,10 @@ public:
     ~Application();
 
     void Run();
+
+private:
+    std::unique_ptr<Window> m_window;
+    bool m_running;
 };
 
 } // namespace Alice

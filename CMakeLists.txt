@@ -34,6 +34,8 @@ message(">> Successfully download spdlog!")
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 
+find_package(OpenGL REQUIRED)
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glfw-3.3.3)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glad)
 
@@ -41,6 +43,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Application)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Log)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Events)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Window)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/Windows)
 
 add_executable(
     Alice

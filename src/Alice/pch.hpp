@@ -3,3 +3,5 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <cassert>
+#include <cstdlib>
