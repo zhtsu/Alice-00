@@ -3,6 +3,7 @@
 #include "Alice/Events/ApplicationEvent.hpp"
 #include "Alice/Events/KeyEvent.hpp"
 #include "Alice/Events/MouseEvent.hpp"
+#include "glad/glad.h"
 
 namespace Alice
 {
@@ -54,6 +55,8 @@ void WindowsWindow::Init(const WindowProps& props)
         props.title.c_str(), nullptr, nullptr
     );
     glfwMakeContextCurrent(m_window);
+    int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    ALICE_ASSERT(status, "Failed to initialize glad!");
     glfwSetWindowUserPointer(m_window, &m_data);
     SetVSync(true);
 
