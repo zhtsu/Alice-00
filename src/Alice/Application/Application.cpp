@@ -40,7 +40,7 @@ void Application::Run()
 {
     while(m_running)
     {
-        glClearColor(1, 0, 1, 1);
+        glClearColor(0.38, 0.55, 0.56, 1);
         glClear(GL_COLOR_BUFFER_BIT);
 
         for (Layer* layer : m_layer_stack)
