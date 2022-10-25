@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23.0)
+cmake_minimum_required(VERSION 3.16.0)
 
 project(Alice)
 
@@ -44,6 +44,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Log)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Events)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Window)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/Windows)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Layer)
 
 add_executable(
     Alice

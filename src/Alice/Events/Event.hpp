@@ -58,7 +58,6 @@ public:
         return GetCategoryFlags() & category;
     }
 
-protected:
     bool m_handled;
 };
 
