@@ -2,6 +2,7 @@
 
 #include "Alice/PCH.hpp"
 #include "Alice/Window/Window.hpp"
+#include "Alice/Events/ApplicationEvent.hpp"
 
 namespace Alice
 {
@@ -14,6 +15,7 @@ public:
     ~Application();
 
     void OnEvent(Event& event);
+    bool OnWindowClose(WindowCloseEvent& e);
 
     void Run();
 

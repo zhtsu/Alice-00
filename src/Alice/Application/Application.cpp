@@ -1,18 +1,17 @@
 #include "Application.hpp"
-#include "Alice/Events/ApplicationEvent.hpp"
 #include "Alice/Log/Log.hpp"
 #include "GLFW/glfw3.h"
 
 namespace Alice
 {
 
+#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
 Application::Application() : m_running(true)
 {
     Alice::Log::Init();
     m_window = std::unique_ptr<Window>(Window::Create());
-    m_window->SetEventCallback(
-        std::bind(&Application::OnEvent, this, std::placeholders::_1)
-    );
+    m_window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 }
 
 Application::~Application()
@@ -22,7 +21,10 @@ Application::~Application()
 
 void Application::OnEvent(Alice::Event &event)
 {
-    ALICE_INFO("{}", event);
+    EventDispatcher dispatcher(event);
+    dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+
+    ALICE_TRACE("{}", event);
 }
 
 void Application::Run()
@@ -33,6 +35,12 @@ void Application::Run()
         glClear(GL_COLOR_BUFFER_BIT);
         m_window->OnUpdate();
     }
+}
+
+bool Application::OnWindowClose(WindowCloseEvent& e)
+{
+    m_running = false;
+    return true;
 }
 
 } // namespace Alice
