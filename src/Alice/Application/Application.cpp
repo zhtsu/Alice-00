@@ -10,6 +10,9 @@ Application::Application() : m_running(true)
 {
     Alice::Log::Init();
     m_window = std::unique_ptr<Window>(Window::Create());
+    m_window->SetEventCallback(
+        std::bind(&Application::OnEvent, this, std::placeholders::_1)
+    );
 }
 
 Application::~Application()
@@ -17,6 +20,10 @@ Application::~Application()
 
 }
 
+void Application::OnEvent(Alice::Event &event)
+{
+    ALICE_INFO("{}", event);
+}
 
 void Application::Run()
 {

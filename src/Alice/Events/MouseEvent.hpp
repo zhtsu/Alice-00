@@ -56,7 +56,7 @@ private:
 };
 
 // 鼠标按键事件基类
-class MouseButtonEvent : Event
+class MouseButtonEvent : public Event
 {
 public:
     inline int GetMouseButton() const { return m_button; }

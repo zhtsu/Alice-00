@@ -13,6 +13,8 @@ public:
     Application();
     ~Application();
 
+    void OnEvent(Event& event);
+
     void Run();
 
 private:
