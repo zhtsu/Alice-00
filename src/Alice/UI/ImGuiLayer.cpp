@@ -15,7 +15,14 @@ ImGuiLayer::~ImGuiLayer()
 
 void ImGuiLayer::OnAttach()
 {
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
 
+    ImGuiIO& io = ImGui::GetIO();
+    io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+    io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+
+    
 }
 
 void ImGuiLayer::OnDetach()

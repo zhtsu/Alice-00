@@ -39,13 +39,14 @@ find_package(OpenGL REQUIRED)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glfw-3.3.3)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glad)
-add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui-1.88)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui-1.67)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Application)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Log)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Events)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Window)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/Windows)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/OpenGL)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Layer)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/UI)
 
