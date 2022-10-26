@@ -47,6 +47,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Events)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Window)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/Windows)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Layer)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/UI)
 
 add_executable(
     Alice
@@ -55,4 +56,4 @@ add_executable(
 
 target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/PCH.hpp)
 
-target_link_libraries(Alice Alice_Application imgui)
+target_link_libraries(Alice Alice_Application)
