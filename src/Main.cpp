@@ -1,5 +1,6 @@
 #include "Alice/Application/Application.hpp"
 #include "Alice/Layer/Layer.hpp"
+#include "Alice/UI/ImGuiLayer.hpp"
 #include "Alice/Log/Log.hpp"
 
 class ExampleLayer : public Alice::Layer
@@ -25,6 +26,7 @@ int main(int argc, char* argv[])
 {
     auto app = new Alice::Application();
     app->PushLayer(new ExampleLayer());
+    app->PushLayer(new Alice::ImGuiLayer());
     app->Run();
     delete app;
 

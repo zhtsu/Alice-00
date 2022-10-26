@@ -57,4 +57,9 @@ add_executable(
 
 target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/PCH.hpp)
 
-target_link_libraries(Alice Alice_Application)
+target_link_libraries(
+    Alice
+    Alice_Application
+    imgui
+    Alice_UI
+)

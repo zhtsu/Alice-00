@@ -57,9 +57,6 @@ void ImGuiLayer::OnDetach()
 
 void ImGuiLayer::OnUpdate()
 {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui::NewFrame();
-
     ImGuiIO& io = ImGui::GetIO();
     Application& app = Application::Get();
     io.DisplaySize = ImVec2(
@@ -70,6 +67,9 @@ void ImGuiLayer::OnUpdate()
     float time = (float)glfwGetTime();
     io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
     m_time = time;
+
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui::NewFrame();
 
     static bool show = true;
     ImGui::ShowDemoWindow(&show);

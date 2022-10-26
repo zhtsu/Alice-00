@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Alice/Layer/Layer.hpp"
-#include "imgui.h"
 #include "Alice/Platform/OpenGL/ImGuiOpenGLRenderer.h"
 
 namespace Alice
