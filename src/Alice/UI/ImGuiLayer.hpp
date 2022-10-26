@@ -19,7 +19,7 @@ public:
     void OnEvent(Event& event);
 
 private:
-
+    float m_time;
 };
 
 } // namespace Alice

@@ -22,12 +22,17 @@ public:
     void PushLayer(Layer* layer);
     void PushOverlay(Layer* layer);
 
+    inline static Application& Get() { return *s_instance; }
+    inline Window& GetWindow() { return *m_window; }
+
 private:
     bool OnWindowClose(WindowCloseEvent& e);
 
     std::unique_ptr<Window> m_window;
     bool m_running;
     LayerStack m_layer_stack;
+
+    static Application* s_instance;
 };
 
 } // namespace Alice

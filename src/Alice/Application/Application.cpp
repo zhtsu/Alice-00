@@ -7,8 +7,13 @@ namespace Alice
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+Application* Application::s_instance = nullptr;
+
 Application::Application() : m_running(true)
 {
+    ALICE_ASSERT(!s_instance, "Application already exists!");
+    s_instance = this;
+    
     Alice::Log::Init();
     m_window = std::unique_ptr<Window>(Window::Create());
     m_window->SetEventCallback(BIND_EVENT_FN(OnEvent));
