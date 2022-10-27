@@ -5,8 +5,6 @@
 namespace Alice
 {
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 Application* Application::s_instance = nullptr;
 
 Application::Application() : m_running(true)
@@ -16,7 +14,7 @@ Application::Application() : m_running(true)
     
     Alice::Log::Init();
     m_window = std::unique_ptr<Window>(Window::Create());
-    m_window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+    m_window->SetEventCallback(ALICE_BIND_EVENT_FN(Application::OnEvent));
 }
 
 Application::~Application()
@@ -24,10 +22,10 @@ Application::~Application()
 
 }
 
-void Application::OnEvent(Alice::Event &event)
+void Application::OnEvent(Event &event)
 {
     EventDispatcher dispatcher(event);
-    dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+    dispatcher.Dispatch<WindowCloseEvent>(ALICE_BIND_EVENT_FN(Application::OnWindowClose));
 
     ALICE_TRACE("{}", event);
 
@@ -72,6 +70,7 @@ void Application::PushOverlay(Layer* layer)
 bool Application::OnWindowClose(WindowCloseEvent& e)
 {
     m_running = false;
+    
     return true;
 }
 

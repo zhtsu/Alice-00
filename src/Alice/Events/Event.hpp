@@ -92,5 +92,8 @@ inline std::ostream& operator<<(std::ostream& os, const Event& e)
     return os << e.ToString();
 }
 
+// 函数绑定
+#define ALICE_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
 } // namespace Alice
 

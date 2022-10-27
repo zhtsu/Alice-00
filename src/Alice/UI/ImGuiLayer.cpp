@@ -80,7 +80,68 @@ void ImGuiLayer::OnUpdate()
 
 void ImGuiLayer::OnEvent(Event& event)
 {
+    EventDispatcher dispatcher(event);
+    dispatcher.Dispatch<MouseButtonPressedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonPressedEvent));
+    dispatcher.Dispatch<MouseButtonReleasedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonReleasedEvent));
+    dispatcher.Dispatch<MouseMovedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
+    dispatcher.Dispatch<MouseScrolledEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
+    dispatcher.Dispatch<KeyPressedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
+    // dispatcher.Dispatch<KeyTypedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
+    dispatcher.Dispatch<KeyReleasedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
+    dispatcher.Dispatch<WindowResizeEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnWindowResizedEvent));
+}
 
+bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& event)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseDown[event.GetMouseButton()] = true;
+
+    return false;
+}
+
+bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& event)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseDown[event.GetMouseButton()] = false;
+
+    return false;
+}
+
+bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& event)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.MousePos = ImVec2(event.GetX(), event.GetY());
+
+    return false;
+}
+
+bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& event)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseWheelH += event.GetXOffset();
+    io.MouseWheel  += event.GetYOffset();
+
+    return false; 
+}
+
+bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& event)
+{
+    return false;
+}
+
+bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& event)
+{
+    return false;
+}
+
+// bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& event)
+// {
+//     return false;
+// }
+
+bool ImGuiLayer::OnWindowResizedEvent(WindowResizeEvent& event)
+{
+    return false;
 }
 
 } // namespace Alice
