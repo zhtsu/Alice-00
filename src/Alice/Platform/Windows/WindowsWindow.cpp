@@ -75,6 +75,12 @@ void WindowsWindow::Init(const WindowProps& props)
         WindowCloseEvent event;
         data.event_callback(event);
     });
+    glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int keycode){
+        WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+        KeyTypedEvent event(keycode);
+        data.event_callback(event);
+    });
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
         WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 

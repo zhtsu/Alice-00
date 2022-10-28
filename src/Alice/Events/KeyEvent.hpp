@@ -61,4 +61,21 @@ public:
     EVENT_CLASS_TYPE(KeyReleased)
 };
 
+// 键盘按键输入事件
+class KeyTypedEvent : public KeyEvent
+{
+public:
+    KeyTypedEvent(int key_code) : KeyEvent(key_code) {}
+
+    std::string ToString() const override
+    {
+        std::stringstream ss;
+        ss << "KeyTypedEvent: " << m_key_code;
+    
+        return ss.str();
+    }
+
+    EVENT_CLASS_TYPE(KeyTyped)
+};
+
 } // namespace Alice

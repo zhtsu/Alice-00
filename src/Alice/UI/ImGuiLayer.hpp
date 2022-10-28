@@ -27,7 +27,7 @@ private:
     bool OnMouseScrolledEvent(MouseScrolledEvent& event);
     bool OnKeyPressedEvent(KeyPressedEvent& event);
     bool OnKeyReleasedEvent(KeyReleasedEvent& event);
-    // bool OnKeyTypedEvent(KeyTypedEvent& event);
+    bool OnKeyTypedEvent(KeyTypedEvent& event);
     bool OnWindowResizedEvent(WindowResizeEvent& event);
 
 private:

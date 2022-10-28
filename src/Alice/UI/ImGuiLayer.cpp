@@ -86,7 +86,7 @@ void ImGuiLayer::OnEvent(Event& event)
     dispatcher.Dispatch<MouseMovedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
     dispatcher.Dispatch<MouseScrolledEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
     dispatcher.Dispatch<KeyPressedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
-    // dispatcher.Dispatch<KeyTypedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
+    dispatcher.Dispatch<KeyTypedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
     dispatcher.Dispatch<KeyReleasedEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
     dispatcher.Dispatch<WindowResizeEvent>(ALICE_BIND_EVENT_FN(ImGuiLayer::OnWindowResizedEvent));
 }
@@ -126,21 +126,45 @@ bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& event)
 
 bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& event)
 {
+    ImGuiIO& io = ImGui::GetIO();
+    io.KeysDown[event.GetKeyCode()] = true;
+
     return false;
 }
 
 bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& event)
 {
+    ImGuiIO& io = ImGui::GetIO();
+    io.KeysDown[event.GetKeyCode()] = false;
+
+    io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+    io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+    io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+    io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+
     return false;
 }
 
-// bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& event)
-// {
-//     return false;
-// }
+bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& event)
+{
+    ImGuiIO& io = ImGui::GetIO();
+    int keycode = event.GetKeyCode();
+
+    if (keycode > 0 && keycode < 0x10000)
+    {
+        io.AddInputCharacter((unsigned short)keycode);
+    }
+
+    return false;
+}
 
 bool ImGuiLayer::OnWindowResizedEvent(WindowResizeEvent& event)
 {
+    ImGuiIO& io = ImGui::GetIO();
+    io.DisplaySize = ImVec2(event.GetWidth(), event.GetHeight());
+    io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+    glViewport(0, 0, event.GetWidth(), event.GetHeight());
+
     return false;
 }
 
