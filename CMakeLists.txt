@@ -43,8 +43,6 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui-1.67)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Application)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Log)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Events)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Window)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/Windows)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/OpenGL)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Layer)

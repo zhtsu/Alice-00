@@ -6,7 +6,6 @@ add_library(Alice_Application SHARED ${SRC_LIST})
 
 target_link_libraries(
     Alice_Application
-    Alice_Events
     Alice_Log
     Alice_Platform_Windows
     OpenGL::GL
