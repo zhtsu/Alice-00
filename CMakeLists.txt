@@ -4,6 +4,7 @@ project(Alice)
 
 set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build/bin)
+set(CMAKE_CXX_STANDARD 17)
 
 # 设置 spdlog 的参数
 set(SPDLOG_BUILD_SHARED ON)
@@ -41,23 +42,18 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glfw-3.3.3)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glad)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui-1.67)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Application)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Log)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/Windows)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Platform/OpenGL)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Layer)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/UI)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Core)
 
 add_executable(
     Alice
     ${PROJECT_SOURCE_DIR}/src/Main.cpp
 )
 
-target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/PCH.hpp)
+target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/Core/PCH.hpp)
 
 target_link_libraries(
     Alice
-    Alice_Application
     imgui
+    Alice_Application
     Alice_UI
 )
