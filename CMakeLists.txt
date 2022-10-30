@@ -15,25 +15,6 @@ set(GLFW_BUILD_DOCS OFF)
 set(GLFW_INSTALL OFF)
 set(BUILD_SHARED_LIBS ON)
 
-# 设置第三方库远程下载地址
-# spdlog
-set(
-    3RD_PARTY_SPDLOG
-    URL https://github.com/gabime/spdlog/archive/refs/tags/v1.10.0.zip
-)
-
-# 导入下载功能
-include(FetchContent)
-
-# 下载 spdlog
-message(">> Downloading spdlog from ${3RD_PARTY_SPDLOG}...")
-FetchContent_Declare(
-    spdlog
-    ${3RD_PARTY_SPDLOG}
-)
-FetchContent_MakeAvailable(spdlog)
-message(">> Successfully download spdlog!")
-
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 find_package(OpenGL REQUIRED)
@@ -41,6 +22,7 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glfw-3.3.3)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glad)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui-1.67)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/spdlog-1.10.0)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Core)
 
