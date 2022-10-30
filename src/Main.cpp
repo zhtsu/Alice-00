@@ -5,7 +5,7 @@ class ExampleLayer : public Alice::Layer
 public:
     ExampleLayer() : Layer("Example")
     {
-
+        
     }
 
     void OnUpdate() override
