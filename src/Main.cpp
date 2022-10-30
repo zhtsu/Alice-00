@@ -1,8 +1,4 @@
-#include "Alice/Core/PCH.hpp"
-#include "Alice/Core/Application/Application.hpp"
-#include "Alice/Core/Layer/Layer.hpp"
-#include "Alice/Core/UI/ImGuiLayer.hpp"
-#include "Alice/Core/Log/Log.hpp"
+#include "Alice/Core/Alice.hpp"
 
 class ExampleLayer : public Alice::Layer
 {
