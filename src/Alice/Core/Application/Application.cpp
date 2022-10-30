@@ -28,7 +28,7 @@ void Application::OnEvent(Event &event)
     EventDispatcher dispatcher(event);
     dispatcher.Dispatch<WindowCloseEvent>(ALICE_BIND_EVENT_FN(Application::OnWindowClose));
 
-    ALICE_TRACE("{}", event);
+    // ALICE_TRACE("{}", event);
 
     for (auto it = m_layer_stack.end(); it != m_layer_stack.begin(); )
     {
@@ -52,7 +52,7 @@ void Application::Run()
             layer->OnUpdate();
         }
 
-        ALICE_TRACE("{}, {}", Input::GetMouseX(), Input::GetMouseY());
+        // ALICE_TRACE("{}, {}", Input::GetMouseX(), Input::GetMouseY());
 
         m_window->OnUpdate();
     }

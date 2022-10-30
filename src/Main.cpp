@@ -10,12 +10,15 @@ public:
 
     void OnUpdate() override
     {
-        ALICE_INFO("ExampleLayer::Update");
+        if (Alice::Input::IsKeyPressed(ALICE_KEY_TAB))
+        {
+            ALICE_TRACE("Tab key is pressed!");
+        }
     }
 
     void OnEvent(Alice::Event& event) override
     {
-        ALICE_TRACE("ExampleLayer::OnEvent", event);
+        
     }
 };
 

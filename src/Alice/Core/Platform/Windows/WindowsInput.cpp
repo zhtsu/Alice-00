@@ -14,9 +14,9 @@ bool WindowsInput::IsKeyPressedImpl(int keycode)
         Application::Get().GetWindow().GetNativeWindow()
     );
 
-    auto state = glfwGetKey(window, keycode);
+    int state = glfwGetKey(window, keycode);
 
-    return state == GLFW_PRESS || GLFW_REPEAT;
+    return state == GLFW_PRESS || state == GLFW_REPEAT;
 }
 
 bool WindowsInput::IsMouseButtonPressedImpl(int button)
