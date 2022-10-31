@@ -19,10 +19,10 @@ include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 find_package(OpenGL REQUIRED)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glfw-3.3.3)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/GLFW)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glad)
-add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui-1.67)
-add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/spdlog-1.10.0)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/spdlog)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glm)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Core)
