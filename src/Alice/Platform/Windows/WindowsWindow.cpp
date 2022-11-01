@@ -1,8 +1,8 @@
 #include "WindowsWindow.hpp"
-#include "Alice/Core/Log/Log.hpp"
-#include "Alice/Core/Events/ApplicationEvent.hpp"
-#include "Alice/Core/Events/KeyEvent.hpp"
-#include "Alice/Core/Events/MouseEvent.hpp"
+#include "Alice/Log/Log.hpp"
+#include "Alice/Events/ApplicationEvent.hpp"
+#include "Alice/Events/KeyEvent.hpp"
+#include "Alice/Events/MouseEvent.hpp"
 #include "glad/glad.h"
 
 namespace Alice

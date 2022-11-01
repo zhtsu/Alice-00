@@ -1,6 +1,6 @@
 #include "WindowsInput.hpp"
 
-#include "Alice/Core/Application/Application.hpp"
+#include "Alice/Application/Application.hpp"
 #include "GLFW/glfw3.h"
 
 namespace Alice

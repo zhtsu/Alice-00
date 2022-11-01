@@ -1,4 +1,4 @@
-#include "Alice/Core/Alice.hpp"
+#include "Alice/Alice.hpp"
 
 class ExampleLayer : public Alice::Layer
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Alice/Core/PCH.hpp"
-#include "Alice/Core/Events/Event.hpp"
+#include "Alice/PCH.hpp"
+#include "Alice/Events/Event.hpp"
 
 namespace Alice
 {

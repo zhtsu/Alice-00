@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Alice/Core/Input/Input.hpp"
+#include "Alice/Input/Input.hpp"
 
 namespace Alice
 {

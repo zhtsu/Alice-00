@@ -2,7 +2,7 @@
 
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
-#include "Alice/Core/PCH.hpp"
+#include "Alice/PCH.hpp"
 
 namespace Alice
 {

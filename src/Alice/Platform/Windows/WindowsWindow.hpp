@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Alice/Core/Window/Window.hpp"
+#include "Alice/Window/Window.hpp"
 #include "GLFW/glfw3.h"
 
 namespace Alice

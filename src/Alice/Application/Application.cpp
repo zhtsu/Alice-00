@@ -1,7 +1,7 @@
 #include "Application.hpp"
-#include "Alice/Core/Log/Log.hpp"
+#include "Alice/Log/Log.hpp"
 #include "glad/glad.h"
-#include "Alice/Core/Input/Input.hpp"
+#include "Alice/Input/Input.hpp"
 
 namespace Alice
 {

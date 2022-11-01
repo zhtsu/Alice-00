@@ -1,6 +1,6 @@
 #include "ImGuiLayer.hpp"
 #include "GLFW/glfw3.h"
-#include "Alice/Core/Application/Application.hpp"
+#include "Alice/Application/Application.hpp"
 
 namespace Alice
 {

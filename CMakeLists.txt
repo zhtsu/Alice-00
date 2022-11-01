@@ -25,14 +25,14 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/spdlog)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glm)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice/Core)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice)
 
 add_executable(
     Alice
     ${PROJECT_SOURCE_DIR}/src/Main.cpp
 )
 
-target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/Core/PCH.hpp)
+target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/PCH.hpp)
 
 target_link_libraries(
     Alice

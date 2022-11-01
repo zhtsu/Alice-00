@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Alice/Core/PCH.hpp"
-#include "Alice/Core/Window/Window.hpp"
-#include "Alice/Core/Events/ApplicationEvent.hpp"
-#include "Alice/Core/Layer/LayerStack.hpp"
+#include "Alice/PCH.hpp"
+#include "Alice/Window/Window.hpp"
+#include "Alice/Events/ApplicationEvent.hpp"
+#include "Alice/Layer/LayerStack.hpp"
 
 namespace Alice
 {

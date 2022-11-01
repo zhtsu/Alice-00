@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Alice/Core/PCH.hpp"
+#include "Alice/PCH.hpp"
 
 namespace Alice
 {

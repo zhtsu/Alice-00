@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Alice/Core/Layer/Layer.hpp"
-#include "Alice/Core/Platform/OpenGL/ImGuiOpenGLRenderer.h"
-#include "Alice/Core/Events/KeyEvent.hpp"
-#include "Alice/Core/Events/MouseEvent.hpp"
-#include "Alice/Core/Events/ApplicationEvent.hpp"
+#include "Alice/Layer/Layer.hpp"
+#include "Alice/Platform/OpenGL/ImGuiOpenGLRenderer.h"
+#include "Alice/Events/KeyEvent.hpp"
+#include "Alice/Events/MouseEvent.hpp"
+#include "Alice/Events/ApplicationEvent.hpp"
 
 namespace Alice
 {
