@@ -14,8 +14,12 @@ Application::Application() : m_running(true)
     s_instance = this;
     
     Alice::Log::Init();
+
     m_window = std::unique_ptr<Window>(Window::Create());
     m_window->SetEventCallback(ALICE_BIND_EVENT_FN(Application::OnEvent));
+
+    m_imgui_layer = std::make_unique<ImGuiLayer>();
+    PushOverlay(m_imgui_layer.get());
 }
 
 Application::~Application()
@@ -51,6 +55,13 @@ void Application::Run()
         {
             layer->OnUpdate();
         }
+
+        m_imgui_layer->Begin();
+        for (Layer* layer : m_layer_stack)
+        {
+            layer->OnImGuiRender();
+        }
+        m_imgui_layer->End();
 
         // ALICE_TRACE("{}, {}", Input::GetMouseX(), Input::GetMouseY());
 

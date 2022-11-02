@@ -11,7 +11,7 @@ add_library(
 target_link_libraries(
     Alice_UI
     Alice_Layer
-    glfw
+    imgui
     OpenGL::GL
     Alice_Application
 )

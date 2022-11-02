@@ -4,6 +4,7 @@
 #include "Alice/Events/KeyEvent.hpp"
 #include "Alice/Events/MouseEvent.hpp"
 #include "glad/glad.h"
+#include "Alice/Platform/OpenGL/OpenGLContext.hpp"
 
 namespace Alice
 {
@@ -21,6 +22,7 @@ Window* Window::Create(const WindowProps& props)
 }
 
 WindowsWindow::WindowsWindow(const WindowProps& props)
+    : m_window(nullptr), m_context(nullptr)
 {
     Init(props);
 }
@@ -54,9 +56,10 @@ void WindowsWindow::Init(const WindowProps& props)
         (int)props.width, (int)props.height,
         props.title.c_str(), nullptr, nullptr
     );
-    glfwMakeContextCurrent(m_window);
-    int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-    ALICE_ASSERT(status, "Failed to initialize glad!");
+    
+    m_context = new OpenGLContext(m_window);
+    m_context->Init();
+
     glfwSetWindowUserPointer(m_window, &m_data);
     SetVSync(true);
 
@@ -147,7 +150,7 @@ void WindowsWindow::Shutdown()
 void WindowsWindow::OnUpdate()
 {
     glfwPollEvents();
-    glfwSwapBuffers(m_window);
+    m_context->SwapBuffers();
 }
 
 void WindowsWindow::SetVSync(bool enabled)

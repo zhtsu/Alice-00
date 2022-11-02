@@ -4,6 +4,7 @@
 #include "Alice/Window/Window.hpp"
 #include "Alice/Events/ApplicationEvent.hpp"
 #include "Alice/Layer/LayerStack.hpp"
+#include "Alice/UI/ImGuiLayer.hpp"
 
 namespace Alice
 {
@@ -29,6 +30,7 @@ private:
     bool OnWindowClose(WindowCloseEvent& e);
 
     std::unique_ptr<Window> m_window;
+    std::unique_ptr<ImGuiLayer> m_imgui_layer;
     bool m_running;
     LayerStack m_layer_stack;
 

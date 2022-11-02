@@ -5,7 +5,7 @@ namespace Alice
 
 LayerStack::LayerStack()
 {
-    m_layer_insert = m_layers.begin();
+    m_layer_insert_index = 0;
 }
 
 LayerStack::~LayerStack()
@@ -18,7 +18,8 @@ LayerStack::~LayerStack()
 
 void LayerStack::PushLayer(Layer* layer)
 {
-    m_layer_insert = m_layers.emplace(m_layer_insert, layer);
+    m_layers.emplace(m_layers.begin() + m_layer_insert_index, layer);
+    m_layer_insert_index++;
 }
 
 void LayerStack::PushOverlay(Layer* overlay)
@@ -32,7 +33,7 @@ void LayerStack::PopLayer(Layer* layer)
     if (it != m_layers.end())
     {
         m_layers.erase(it);
-        m_layer_insert--;
+        m_layer_insert_index--;
     }
 }
 

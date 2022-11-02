@@ -2,6 +2,7 @@
 
 #include "Alice/Window/Window.hpp"
 #include "GLFW/glfw3.h"
+#include "Alice/Renderer/GraphicsContext.hpp"
 
 namespace Alice
 {
@@ -39,6 +40,7 @@ private:
 
 private:
     GLFWwindow* m_window;
+    GraphicsContext* m_context;
 
     struct WindowData
     {
@@ -47,6 +49,7 @@ private:
         bool Vsync;
         EventCallbackFn event_callback;
     };
+
 
     WindowData m_data;
 };

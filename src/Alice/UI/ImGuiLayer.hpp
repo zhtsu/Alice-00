@@ -14,9 +14,12 @@ public:
     ImGuiLayer();
     ~ImGuiLayer();
 
-    void OnAttach();
-    void OnDetach();
-    void OnUpdate();
+    void OnAttach() override;
+    void OnDetach() override;
+    void OnImGuiRender() override;
+
+    void Begin();
+    void End();
 
 private:
     float m_time;

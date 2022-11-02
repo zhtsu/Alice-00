@@ -16,6 +16,7 @@ target_link_libraries(
     Alice_Log
     glfw
     glad
+    Alice_Platform_OpenGL
 )
 
 set_target_properties(Alice_Platform_Windows PROPERTIES OUTPUT_NAME "alice-platform-windows")

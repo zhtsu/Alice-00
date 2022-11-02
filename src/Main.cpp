@@ -26,7 +26,6 @@ int main(int argc, char* argv[])
 {
     auto app = new Alice::Application();
     app->PushLayer(new ExampleLayer());
-    app->PushLayer(new Alice::ImGuiLayer());
     app->Run();
     delete app;
 

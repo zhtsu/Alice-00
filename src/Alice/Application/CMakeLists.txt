@@ -13,6 +13,7 @@ target_link_libraries(
     Alice_Log
     glad
     Alice_Layer
+    Alice_UI
     Alice_Platform_Windows
 )
 
