@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16.0)
 
+add_compile_definitions(GLFW_INCLUDE_NONE)
+
 aux_source_directory(. SRC_LIST)
 
 add_library(

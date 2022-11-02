@@ -34,6 +34,8 @@ private:
     bool m_running;
     LayerStack m_layer_stack;
 
+    unsigned int m_vertex_array, m_vertex_buffer, m_index_buffer;
+
     static Application* s_instance;
 };
 
