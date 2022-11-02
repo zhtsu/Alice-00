@@ -13,7 +13,6 @@ target_link_libraries(
     Alice_Layer
     glfw
     OpenGL::GL
-    Alice_Platform_OpenGL
     Alice_Application
 )
 
