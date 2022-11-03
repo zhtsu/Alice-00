@@ -22,28 +22,28 @@ Application::Application() : m_running(true)
     m_imgui_layer = std::make_unique<ImGuiLayer>();
     PushOverlay(m_imgui_layer.get());
 
-    // glGenVertexArrays(1, &m_vertex_array);
-    // glBindVertexArray(m_vertex_array);
+    glGenVertexArrays(1, &m_vertex_array);
+    glBindVertexArray(m_vertex_array);
 
-    // glGenBuffers(GL_ARRAY_BUFFER, &m_vertex_buffer);
-    // glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
+    glGenBuffers(1, &m_vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
 
-    // float vertices[3 * 3] = {
-    //     -0.5f, -0.5f, 0.0f,
-    //     0.5f, -0.5f, 0.0f,
-    //     0.0f, 0.5f, 0.0f,
-    // };
+    float vertices[3 * 3] = {
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.0f, 0.5f, 0.0f,
+    };
 
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // glEnableVertexAttribArray(0);
-    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-    // glGenBuffers(1, &m_index_buffer);
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
+    glGenBuffers(1, &m_index_buffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
 
-    // unsigned int indices[3] = { 0, 1, 2 };
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    unsigned int indices[3] = { 0, 1, 2 };
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 }
 
 Application::~Application()
@@ -80,8 +80,8 @@ void Application::Run()
             layer->OnUpdate();
         }
 
-        // glBindVertexArray(m_vertex_array);
-        // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+        glBindVertexArray(m_vertex_array);
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
         m_imgui_layer->Begin();
         for (Layer* layer : m_layer_stack)
