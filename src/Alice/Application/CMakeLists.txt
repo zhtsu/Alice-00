@@ -15,6 +15,7 @@ target_link_libraries(
     Alice_Layer
     Alice_UI
     Alice_Platform_Windows
+    Alice_Renderer
 )
 
 set_target_properties(Alice_Application PROPERTIES OUTPUT_NAME "alice-application")

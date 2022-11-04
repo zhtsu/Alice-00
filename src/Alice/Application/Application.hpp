@@ -5,6 +5,7 @@
 #include "Alice/Events/ApplicationEvent.hpp"
 #include "Alice/Layer/LayerStack.hpp"
 #include "Alice/UI/ImGuiLayer.hpp"
+#include "Alice/Renderer/Shader.hpp"
 
 namespace Alice
 {
@@ -35,6 +36,7 @@ private:
     LayerStack m_layer_stack;
 
     unsigned int m_vertex_array, m_vertex_buffer, m_index_buffer;
+    std::unique_ptr<Shader> m_shader;
 
     static Application* s_instance;
 };

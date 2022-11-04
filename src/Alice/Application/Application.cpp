@@ -44,6 +44,34 @@ Application::Application() : m_running(true)
 
     unsigned int indices[3] = { 0, 1, 2 };
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    std::string vertex_src = R"(
+        #version 330 core
+
+        layout(location = 0) in vec3 Position;
+        out vec3 v_Position;
+
+        void main()
+        {
+            v_Position = Position;
+            gl_Position = vec4(Position, 1.0);
+        }
+    )";
+
+    std::string fragment_src = R"(
+        #version 330 core
+
+        layout(location = 0) out vec4 Color;
+        in vec3 v_Position;
+
+        void main()
+        {
+            Color = vec4(v_Position, 1.0);
+        }
+    )";
+
+    m_shader.reset(new Shader(vertex_src, fragment_src));
+
 }
 
 Application::~Application()
@@ -80,6 +108,7 @@ void Application::Run()
             layer->OnUpdate();
         }
 
+        m_shader->Bind();
         glBindVertexArray(m_vertex_array);
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
