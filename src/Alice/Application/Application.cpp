@@ -3,6 +3,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Alice/Input/Input.hpp"
+#include "Alice/Platform/OpenGL/OpenGLBuffer.hpp"
 
 namespace Alice
 {
@@ -25,25 +26,18 @@ Application::Application() : m_running(true)
     glGenVertexArrays(1, &m_vertex_array);
     glBindVertexArray(m_vertex_array);
 
-    glGenBuffers(1, &m_vertex_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
-
     float vertices[3 * 3] = {
         -0.5f, -0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
         0.0f, 0.5f, 0.0f,
     };
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    m_vertex_buffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-    glGenBuffers(1, &m_index_buffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
-
     unsigned int indices[3] = { 0, 1, 2 };
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    m_index_buffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
     std::string vertex_src = R"(
         #version 330 core
@@ -71,7 +65,6 @@ Application::Application() : m_running(true)
     )";
 
     m_shader.reset(new Shader(vertex_src, fragment_src));
-
 }
 
 Application::~Application()

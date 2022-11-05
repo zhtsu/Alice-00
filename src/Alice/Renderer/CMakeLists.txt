@@ -12,6 +12,7 @@ target_link_libraries(
     Alice_Renderer
     glad
     Alice_Log
+    Alice_Platform_OpenGL
 )
 
 set_target_properties(Alice_Renderer PROPERTIES OUTPUT_NAME "alice-renderer")

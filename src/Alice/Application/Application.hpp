@@ -6,6 +6,7 @@
 #include "Alice/Layer/LayerStack.hpp"
 #include "Alice/UI/ImGuiLayer.hpp"
 #include "Alice/Renderer/Shader.hpp"
+#include "Alice/Renderer/Buffer.hpp"
 
 namespace Alice
 {
@@ -35,8 +36,11 @@ private:
     bool m_running;
     LayerStack m_layer_stack;
 
-    unsigned int m_vertex_array, m_vertex_buffer, m_index_buffer;
+    unsigned int m_vertex_array;
+    
     std::unique_ptr<Shader> m_shader;
+    std::unique_ptr<VertexBuffer> m_vertex_buffer;
+    std::unique_ptr<IndexBuffer> m_index_buffer;
 
     static Application* s_instance;
 };
