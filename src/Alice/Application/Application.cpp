@@ -4,31 +4,15 @@
 #include "GLFW/glfw3.h"
 #include "Alice/Input/Input.hpp"
 #include "Alice/Platform/OpenGL/OpenGLBuffer.hpp"
+#include "Alice/Platform/OpenGL/OpenGLVertexArray.hpp"
 
 namespace Alice
 {
 
 Application* Application::s_instance = nullptr;
 
-static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-{
-    switch (type)
-    {
-        case ShaderDataType::Float:     return GL_FLOAT;
-        case ShaderDataType::Float2:    return GL_FLOAT;
-        case ShaderDataType::Float3:    return GL_FLOAT;
-        case ShaderDataType::Float4:    return GL_FLOAT;
-        case ShaderDataType::Int:       return GL_INT;
-        case ShaderDataType::Int2:      return GL_INT;
-        case ShaderDataType::Int3:      return GL_INT;
-        case ShaderDataType::Int4:      return GL_INT;
-        case ShaderDataType::Mat3:      return GL_FLOAT;
-        case ShaderDataType::Mat4:      return GL_FLOAT;
-        case ShaderDataType::Bool:      return GL_BOOL;
-    }
-}
-
-Application::Application() : m_running(true)
+Application::Application()
+    : m_running(true)
 {
     ALICE_ASSERT(!s_instance, "Application already exists!");
     s_instance = this;
@@ -41,8 +25,7 @@ Application::Application() : m_running(true)
     m_imgui_layer = std::make_unique<ImGuiLayer>();
     PushOverlay(m_imgui_layer.get());
 
-    glGenVertexArrays(1, &m_vertex_array);
-    glBindVertexArray(m_vertex_array);
+    m_vertex_array.reset(VertexArray::Create());
 
     float vertices[3 * 7] = {
         -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -50,7 +33,6 @@ Application::Application() : m_running(true)
         0.0f, 0.5f, 0.0f, 1.0f, 0.8f, 0.2f, 1.0f,
     };
     m_vertex_buffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
     {
         BufferLayout layout = {
             { ShaderDataType::Float3, "a_Position"},
@@ -59,24 +41,36 @@ Application::Application() : m_running(true)
 
         m_vertex_buffer->SetLayout(layout);
     }
-
-    uint32_t index = 0;
-    const auto& layout = m_vertex_buffer->GetLayout();
-    for (const auto& element : layout)
-    {
-        glEnableVertexAttribArray(index);
-        glVertexAttribPointer(
-            index, element.GetElementCount(),
-            ShaderDataTypeToOpenGLBaseType(element.type),
-            element.normalized ? GL_TRUE : GL_FALSE,
-            layout.GetStride(),
-            (const void*)element.offset
-        );
-        index++;
-    }
+    m_vertex_array->AddVertexBuffer(m_vertex_buffer);
 
     unsigned int indices[3] = { 0, 1, 2 };
     m_index_buffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+    m_vertex_array->SetIndexBuffer(m_index_buffer);
+
+    m_square_vao.reset(VertexArray::Create());
+
+    float square_vertices[4 * 3] = {
+        -0.75f, -0.75f, 0.0f,
+        0.75f, -0.75f, 0.0f,
+        0.75f, 0.75f, 0.0f,
+        -0.75f, 0.75f, 0.0f
+    };
+
+    std::shared_ptr<VertexBuffer> square_vbo;
+    square_vbo.reset(VertexBuffer::Create(square_vertices, sizeof(square_vertices)));
+    {
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "a_Position"}
+        };
+
+        square_vbo->SetLayout(layout);
+    }
+    m_square_vao->AddVertexBuffer(square_vbo);
+
+    unsigned int square_indices[6] = { 0, 1, 2, 2, 3, 0 };
+    std::shared_ptr<IndexBuffer> square_ebo;
+    square_ebo.reset(IndexBuffer::Create(square_indices, sizeof(square_indices) / sizeof(uint32_t)));
+    m_square_vao->SetIndexBuffer(square_ebo);
 
     std::string vertex_src = R"(
         #version 330 core
@@ -109,6 +103,29 @@ Application::Application() : m_running(true)
         }
     )";
 
+    std::string vertex_src2 = R"(
+        #version 330 core
+
+        layout(location = 0) in vec3 a_Position;
+
+        void main()
+        {
+            gl_Position = vec4(a_Position, 1.0);
+        }
+    )";
+
+    std::string fragment_src2 = R"(
+        #version 330 core
+
+        layout(location = 0) out vec4 Color;
+
+        void main()
+        {
+            Color = vec4(0.2, 0.3, 0.8, 1.0);
+        }
+    )";
+    m_blue_shader.reset(new Shader(vertex_src2, fragment_src2));
+    
     m_shader.reset(new Shader(vertex_src, fragment_src));
 }
 
@@ -146,9 +163,13 @@ void Application::Run()
             layer->OnUpdate();
         }
 
+        m_blue_shader->Bind();
+        m_square_vao->Bind();
+        glDrawElements(GL_TRIANGLES, m_square_vao->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
         m_shader->Bind();
-        glBindVertexArray(m_vertex_array);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+        m_vertex_array->Bind();
+        glDrawElements(GL_TRIANGLES, m_index_buffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
         m_imgui_layer->Begin();
         for (Layer* layer : m_layer_stack)

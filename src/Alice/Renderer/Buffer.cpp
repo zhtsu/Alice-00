@@ -23,7 +23,7 @@ VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
         }
     }
 
-    ALICE_ASSERT(false, "Unknown RendererApi!");
+    ALICE_ASSERT(false, "VertexBuffer::Create: Unknown RendererApi!");
 
     return nullptr;
 }
@@ -45,7 +45,7 @@ IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
         }
     }
 
-    ALICE_ASSERT(false, "Unknown RendererApi!");
+    ALICE_ASSERT(false, "IndexBuffer::Create: Unknown RendererApi!");
 
     return nullptr;
 }
