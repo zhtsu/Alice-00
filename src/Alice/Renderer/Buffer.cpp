@@ -10,13 +10,13 @@ VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
 {
     switch (Renderer::GetApi())
     {
-        case RendererApi::None:
+        case RendererApi::Api::None:
         {
             ALICE_ASSERT(false, "VertexBuffer::Create: RendererApi::None is currently not supported!");
             break;
         }
 
-        case RendererApi::OpenGL:
+        case RendererApi::Api::OpenGL:
         {
             return new OpenGLVertexBuffer(vertices, size);
             break;
@@ -32,13 +32,13 @@ IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
 {
     switch (Renderer::GetApi())
     {
-        case RendererApi::None:
+        case RendererApi::Api::None:
         {
             ALICE_ASSERT(false, "IndexBuffer::Create: RendererApi::None is currently not supported!");
             break;
         }
 
-        case RendererApi::OpenGL:
+        case RendererApi::Api::OpenGL:
         {
             return new OpenGLIndexBuffer(indices, count);
             break;

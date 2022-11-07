@@ -1,21 +1,20 @@
 #pragma once
 
+#include "Alice/PCH.hpp"
+#include "RendererApi.hpp"
+
 namespace Alice
 {
-
-enum class RendererApi
-{
-    None = 0,
-    OpenGL = 1
-};
 
 class Renderer
 {
 public:
-    inline static RendererApi GetApi() { return s_renderer_api; }
+    static void BeginScene();
+    static void EndScene();
 
-private:
-    static RendererApi s_renderer_api;
+    static void Submit(const std::shared_ptr<VertexArray>& vertex_array);
+
+    inline static RendererApi::Api GetApi() { return RendererApi::GetApi();}
 };
 
 

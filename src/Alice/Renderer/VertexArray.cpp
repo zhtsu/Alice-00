@@ -9,13 +9,13 @@ VertexArray* VertexArray::Create()
 {
     switch (Renderer::GetApi())
     {
-        case RendererApi::None:
+        case RendererApi::Api::None:
         {
             ALICE_ASSERT(false, "VertexArray::Create: RendererApi::None is currently not supported!");
             break;
         }
 
-        case RendererApi::OpenGL:
+        case RendererApi::Api::OpenGL:
         {
             return new OpenGLVertexArray();
             break;

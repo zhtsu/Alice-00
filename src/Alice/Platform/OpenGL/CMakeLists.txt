@@ -15,6 +15,7 @@ target_link_libraries(
     Alice_Log
     glad
     glfw
+    glm
 )
 
 set_target_properties(Alice_Platform_OpenGL PROPERTIES OUTPUT_NAME "alice-platform-opengl")

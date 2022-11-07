@@ -5,6 +5,8 @@
 #include "Alice/Input/Input.hpp"
 #include "Alice/Platform/OpenGL/OpenGLBuffer.hpp"
 #include "Alice/Platform/OpenGL/OpenGLVertexArray.hpp"
+#include "Alice/Renderer/RenderCommand.hpp"
+#include "Alice/Renderer/Renderer.hpp"
 
 namespace Alice
 {
@@ -155,21 +157,23 @@ void Application::Run()
 {
     while(m_running)
     {
-        glClearColor(0.12f, 0.12f, 0.12f, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
+        RenderCommand::SetClearColor({0.12f, 0.12f, 0.12f, 1});
+        RenderCommand::Clear();
+
+        Renderer::BeginScene();
+
+        m_blue_shader->Bind();
+        Renderer::Submit(m_square_vao);
+
+        m_shader->Bind();
+        Renderer::Submit(m_vertex_array);
+
+        Renderer::EndScene();
 
         for (Layer* layer : m_layer_stack)
         {
             layer->OnUpdate();
         }
-
-        m_blue_shader->Bind();
-        m_square_vao->Bind();
-        glDrawElements(GL_TRIANGLES, m_square_vao->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-        m_shader->Bind();
-        m_vertex_array->Bind();
-        glDrawElements(GL_TRIANGLES, m_index_buffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
         m_imgui_layer->Begin();
         for (Layer* layer : m_layer_stack)
