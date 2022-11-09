@@ -6,6 +6,11 @@
 namespace Alice
 {
 
+//
+// @TODO: 
+// 纹理加载后采样器坐标会向右偏移 0.5
+// 原因未知
+//
 class OpenGLTexture2D : public Texture2D
 {
 public:
