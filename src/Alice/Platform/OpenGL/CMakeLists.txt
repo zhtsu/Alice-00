@@ -16,6 +16,7 @@ target_link_libraries(
     glad
     glfw
     glm
+    stb
 )
 
 set_target_properties(Alice_Platform_OpenGL PROPERTIES OUTPUT_NAME "alice-platform-opengl")

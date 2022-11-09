@@ -10,11 +10,11 @@ public:
     {
         m_vertex_array.reset(Alice::VertexArray::Create());
 
-        float vertices[3 * 7] = {
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-            0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-            -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
+        float vertices[4 * 5] = {
+            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,   // 右上
+            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,   // 右下
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  // 左下
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f   // 左上
         };
 
         Alice::Ref<Alice::VertexBuffer> vertex_buffer;
@@ -25,7 +25,7 @@ public:
         });
         m_vertex_array->AddVertexBuffer(vertex_buffer);
 
-        uint32_t indices[6] = { 0, 1, 2, 2, 3, 0};
+        uint32_t indices[6] = { 0, 1, 3, 1, 2, 3 };
         Alice::Ref<Alice::IndexBuffer> index_buffer;
         index_buffer.reset(Alice::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
         m_vertex_array->SetIndexBuffer(index_buffer);
@@ -54,12 +54,26 @@ public:
 
             in vec2 v_TexCoord;
 
+            uniform sampler2D u_Texture;
+
             void main()
             {
-                color = vec4(v_TexCoord, 0.0, 1.0);
+                color = texture(u_Texture, v_TexCoord - 0.5);
             }
         )";
         m_shader.reset(Alice::Shader::Create(vertex_src, fragment_src));
+
+        std::string img_path = Alice::PathHelper::GeneratePath(
+            Alice::FileType::Image,
+            "KFC.jpg"
+        );
+
+        m_texture = Alice::Texture2D::Create(img_path);
+
+        std::dynamic_pointer_cast<Alice::OpenGLShader>(m_shader)
+            ->Bind();
+        std::dynamic_pointer_cast<Alice::OpenGLShader>(m_shader)
+            ->UploadUniformInt("u_Texture", 0);
     }
 
     void OnUpdate(Alice::Timestep ts) override
@@ -97,8 +111,7 @@ public:
         //     }
         // }
 
-        // std::dynamic_pointer_cast<Alice::OpenGLShader>(m_shader)
-        //     ->UploadUniformFloat3("u_Color", m_color);
+        m_texture->Bind();
         Alice::Renderer::Submit(m_vertex_array, m_shader);
 
         Alice::Renderer::EndScene();
@@ -113,8 +126,10 @@ private:
     Alice::Ref<Alice::Shader> m_shader;
     Alice::Ref<Alice::VertexArray> m_vertex_array;
 
+    Alice::Ref<Alice::Texture2D> m_texture;
+
     Alice::OrthographicCamera m_camera;
-    glm::vec3 m_camera_position;
+    glm::vec3 m_camera_position = { 0.0f, 0.0f, 0.0f };
     float m_camera_move_speed = 1.0f;
 
     float m_camera_rotation = 0.0f;
