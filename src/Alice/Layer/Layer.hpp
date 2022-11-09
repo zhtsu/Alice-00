@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Alice/Events/Event.hpp"
+#include "Alice/Time/Timestep.hpp"
 
 namespace Alice
 {
@@ -13,7 +14,7 @@ public:
 
     virtual void OnAttach() {}
     virtual void OnDetach() {}
-    virtual void OnUpdate() {}
+    virtual void OnUpdate(Timestep ts) {}
     virtual void OnImGuiRender() {}
     virtual void OnEvent(Event& event) {}
 

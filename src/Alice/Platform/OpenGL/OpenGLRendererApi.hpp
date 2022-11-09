@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Alice/Renderer/RendererApi.hpp"
+#include "Alice/Core/Core.hpp"
 
 namespace Alice
 {
@@ -11,7 +12,7 @@ public:
     void SetClearColor(const glm::vec4& color) override;
     void Clear() override;
 
-    void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array) override;
+    void DrawIndexed(const Ref<VertexArray>& vertex_array) override;
 };
 
 } // namespace Alice

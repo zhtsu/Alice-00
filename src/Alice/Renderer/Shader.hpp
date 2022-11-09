@@ -2,20 +2,20 @@
 
 #include "Alice/PCH.hpp"
 
+#include "glm/glm.hpp"
+
 namespace Alice
 {
 
 class Shader
 {
 public:
-    Shader(const std::string& vertex_src, const std::string& fragment_src);
-    ~Shader();
+    ~Shader() = default;
 
-    void Bind() const;
-    void Unbind() const;
+    virtual void Bind() const = 0;
+    virtual void Unbind() const = 0;
 
-private:
-    uint32_t m_renderer_id;
+    static Shader* Create(const std::string& vertex_src, const std::string& fragment_src);
 };
 
 } // namespace Alice

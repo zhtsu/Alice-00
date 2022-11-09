@@ -5,9 +5,6 @@
 #include "Alice/Events/ApplicationEvent.hpp"
 #include "Alice/Layer/LayerStack.hpp"
 #include "Alice/UI/ImGuiLayer.hpp"
-#include "Alice/Renderer/Shader.hpp"
-#include "Alice/Renderer/Buffer.hpp"
-#include "Alice/Renderer/VertexArray.hpp"
 
 namespace Alice
 {
@@ -34,16 +31,10 @@ private:
 
     std::unique_ptr<Window> m_window;
     std::unique_ptr<ImGuiLayer> m_imgui_layer;
-    bool m_running;
+    bool m_running = true;
     LayerStack m_layer_stack;
-    
-    std::shared_ptr<Shader> m_shader;
-    std::shared_ptr<VertexBuffer> m_vertex_buffer;
-    std::shared_ptr<IndexBuffer> m_index_buffer;
-    std::shared_ptr<VertexArray> m_vertex_array;
 
-    std::shared_ptr<Shader> m_blue_shader;
-    std::shared_ptr<VertexArray> m_square_vao;
+    float m_last_frame_time = 0.0f;
 
     static Application* s_instance;
 };
