@@ -3,6 +3,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Alice/Time/Timestep.hpp"
+#include "Alice/Renderer/Renderer.hpp"
 
 namespace Alice
 {
@@ -18,6 +19,8 @@ Application::Application()
 
     m_window = std::unique_ptr<Window>(Window::Create());
     m_window->SetEventCallback(ALICE_BIND_EVENT_FN(Application::OnEvent));
+
+    Renderer::Init();    
 
     m_imgui_layer = std::make_unique<ImGuiLayer>();
     PushOverlay(m_imgui_layer.get());

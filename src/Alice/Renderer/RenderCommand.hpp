@@ -8,6 +8,11 @@ namespace Alice
 class RenderCommand
 {
 public:
+    inline static void Init()
+    {
+        s_renderer_api->Init();
+    }
+
     inline static void SetClearColor(const glm::vec4& color)
     {
         s_renderer_api->SetClearColor(color);

@@ -9,6 +9,11 @@ namespace Alice
 
 Renderer::SceneData* Renderer::s_scene_data = new Renderer::SceneData();
 
+void Renderer::Init()
+{
+    RenderCommand::Init();
+}
+
 void Renderer::BeginScene(OrthographicCamera& camera)
 {
     s_scene_data->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
