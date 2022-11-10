@@ -11,10 +11,10 @@ public:
         m_vertex_array.reset(Alice::VertexArray::Create());
 
         float vertices[4 * 5] = {
-            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,   // 右上
-            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,   // 右下
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  // 左下
-            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f   // 左上
+            0.7f,  0.7f, 0.0f, 1.0f, 1.0f,   // 右上
+            0.7f, -0.7f, 0.0f, 1.0f, 0.0f,   // 右下
+            -0.7f, -0.7f, 0.0f, 0.0f, 0.0f,  // 左下
+            -0.7f,  0.7f, 0.0f, 0.0f, 1.0f   // 左上
         };
 
         Alice::Ref<Alice::VertexBuffer> vertex_buffer;
