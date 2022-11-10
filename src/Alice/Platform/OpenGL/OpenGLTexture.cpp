@@ -19,6 +19,20 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
     m_width = width;
     m_height = height;
 
+    GLenum internal_formal = 0, data_format = 0;
+    if (channels == 4)
+    {
+        internal_formal = GL_RGBA8;
+        data_format = GL_RGBA;
+    }
+    else if (channels == 3)
+    {
+        internal_formal = GL_RGB8;
+        data_format = GL_RGB;
+    }
+
+    ALICE_ASSERT(internal_formal & data_format, "OpenGLTexture2D::OpenGLTexture2D: Format not supported!");
+
     glGenTextures(1, &m_renderer_id);
     glBindTexture(GL_TEXTURE_2D, m_renderer_id);
 
@@ -27,7 +41,7 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, data_format, width, height, 0, data_format, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(data);
@@ -40,7 +54,8 @@ OpenGLTexture2D::~OpenGLTexture2D()
 
 void OpenGLTexture2D::Bind(uint32_t slot) const
 {
-    glBindTexture(slot, m_renderer_id);
+    glActiveTexture(GL_TEXTURE0 + slot);
+    glBindTexture(GL_TEXTURE_2D, m_renderer_id);
 }
 
 } // namespace Alice

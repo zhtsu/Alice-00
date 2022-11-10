@@ -11,10 +11,10 @@ public:
         m_vertex_array.reset(Alice::VertexArray::Create());
 
         float vertices[4 * 5] = {
-            0.7f,  0.7f, 0.0f, 1.0f, 1.0f,   // 右上
-            0.7f, -0.7f, 0.0f, 1.0f, 0.0f,   // 右下
-            -0.7f, -0.7f, 0.0f, 0.0f, 0.0f,  // 左下
-            -0.7f,  0.7f, 0.0f, 0.0f, 1.0f   // 左上
+            0.5f,  0.5f, 0.0f, 1.0f, 1.0f,   // 右上
+            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,   // 右下
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,  // 左下
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f   // 左上
         };
 
         Alice::Ref<Alice::VertexBuffer> vertex_buffer;
@@ -34,7 +34,7 @@ public:
             #version 330 core
 
             layout(location = 0) in vec3 a_Position;
-            layout(location = 0) in vec2 a_TexCoord;
+            layout(location = 1) in vec2 a_TexCoord;
 
             uniform mat4 u_ViewProjection;
             uniform mat4 u_Transform;
@@ -58,14 +58,14 @@ public:
 
             void main()
             {
-                color = texture(u_Texture, v_TexCoord - 0.5);
+                color = texture(u_Texture, v_TexCoord);
             }
         )";
         m_shader.reset(Alice::Shader::Create(vertex_src, fragment_src));
 
         std::string img_path = Alice::PathHelper::GeneratePath(
             Alice::FileType::Image,
-            "KFC.jpg"
+            "alice.png"
         );
 
         m_texture = Alice::Texture2D::Create(img_path);
