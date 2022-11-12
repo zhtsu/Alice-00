@@ -6,4 +6,5 @@
 #include <cassert>
 #include <cstdlib>
 #include <vector>
+#include <array>
 #include <algorithm>
