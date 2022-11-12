@@ -43,13 +43,14 @@ static std::string GetCurrentPath()
 }
 
 // 获取 Alice 资源的相对路径
-static std::string GeneratePath(FileType filetype, std::string filename)
+static std::string GeneratePath(FileType filetype, const std::string& filename)
 {
     std::string filepath = GetCurrentPath();
+    
     switch (filetype)
     {
     case FileType::Shader:
-        filepath += "/shaders/";
+        filepath += "/assets/shaders/";
         break;
 
     case FileType::Image:
