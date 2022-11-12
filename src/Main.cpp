@@ -1,6 +1,7 @@
 #include "Alice/Alice.hpp"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "Alice/Renderer/Shader.hpp"
 
 class ExampleLayer : public Alice::Layer
 {
@@ -35,7 +36,7 @@ public:
             "Texture.glsl"
         );
 
-        m_shader.reset(Alice::Shader::Create(texture_shader_path));
+        auto texture_shader = m_shader_library.Load("Texture", texture_shader_path);
 
         std::string img_path = Alice::PathHelper::GeneratePath(
             Alice::FileType::Image,
@@ -44,9 +45,9 @@ public:
 
         m_texture = Alice::Texture2D::Create(img_path);
 
-        std::dynamic_pointer_cast<Alice::OpenGLShader>(m_shader)
+        std::dynamic_pointer_cast<Alice::OpenGLShader>(texture_shader)
             ->Bind();
-        std::dynamic_pointer_cast<Alice::OpenGLShader>(m_shader)
+        std::dynamic_pointer_cast<Alice::OpenGLShader>(texture_shader)
             ->UploadUniformInt("u_Texture", 0);
     }
 
@@ -86,7 +87,7 @@ public:
         // }
 
         m_texture->Bind();
-        Alice::Renderer::Submit(m_vertex_array, m_shader);
+        Alice::Renderer::Submit(m_vertex_array, m_shader_library.Get("Texture"));
 
         Alice::Renderer::EndScene();
     }
@@ -97,9 +98,8 @@ public:
     }
 
 private:
-    Alice::Ref<Alice::Shader> m_shader;
+    Alice::ShaderLibrary m_shader_library;
     Alice::Ref<Alice::VertexArray> m_vertex_array;
-
     Alice::Ref<Alice::Texture2D> m_texture;
 
     Alice::OrthographicCamera m_camera;

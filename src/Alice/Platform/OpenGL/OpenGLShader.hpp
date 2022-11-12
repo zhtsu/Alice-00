@@ -11,11 +11,13 @@ class OpenGLShader : public Shader
 {
 public:
     OpenGLShader(const std::string& filepath);
-    OpenGLShader(const std::string& vertex_src, const std::string& fragment_src);
+    OpenGLShader(const std::string& name, const std::string& vertex_src, const std::string& fragment_src);
     virtual ~OpenGLShader();
 
     void Bind() const override;
     void Unbind() const override;
+
+    virtual const std::string& GetName() const override { return m_name; }
 
     void UploadUniformInt(const std::string& name, int value);
     void UploadUniformFloat(const std::string& name, float value);
@@ -31,6 +33,7 @@ private:
 
 private:
     uint32_t m_renderer_id;
+    std::string m_name;
 };
 
 } // namespace Alice
