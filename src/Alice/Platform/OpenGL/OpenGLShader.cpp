@@ -122,7 +122,8 @@ std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::stri
 void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shader_sources)
 {
     GLuint program = glCreateProgram();
-    std::vector<GLenum> gl_shader_ids(shader_sources.size());
+    std::vector<GLenum> gl_shader_ids;
+    gl_shader_ids.reserve(shader_sources.size());
     for (auto& kv : shader_sources)
     {
         GLenum type = kv.first;
