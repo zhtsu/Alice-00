@@ -3,7 +3,10 @@
 #include "Alice/PCH.hpp"
 
 #include "Alice/Core/Core.hpp"
-#include "Alice/Time/Timestep.hpp"
+#include "Alice/Core/Timestep.hpp"
+#include "Alice/Core/Input.hpp"
+#include "Alice/Core/KeyCodes.hpp"
+#include "Alice/Core/MouseButtonCodes.hpp"
 
 #include "Alice/Common/PathHelper.hpp"
 #include "Alice/Common/FileHelper.hpp"
@@ -11,10 +14,6 @@
 #include "Alice/Application/Application.hpp"
 #include "Alice/Layer/Layer.hpp"
 #include "Alice/Log/Log.hpp"
-
-#include "Alice/Input/Input.hpp"
-#include "Alice/Input/KeyCodes.hpp"
-#include "Alice/Input/MouseButtonCodes.hpp"
 
 #include "Alice/UI/ImGuiLayer.hpp"
 

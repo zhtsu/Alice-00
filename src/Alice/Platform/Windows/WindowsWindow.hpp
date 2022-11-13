@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Alice/Window/Window.hpp"
+#include "Alice/Core/Window.hpp"
 #include "GLFW/glfw3.h"
 #include "Alice/Renderer/GraphicsContext.hpp"
 

@@ -2,7 +2,7 @@
 #include "Alice/Log/Log.hpp"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "Alice/Time/Timestep.hpp"
+#include "Alice/Core/Timestep.hpp"
 #include "Alice/Renderer/Renderer.hpp"
 
 namespace Alice

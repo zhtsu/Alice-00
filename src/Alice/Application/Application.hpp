@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Alice/PCH.hpp"
-#include "Alice/Window/Window.hpp"
+#include "Alice/Core/Window.hpp"
 #include "Alice/Events/ApplicationEvent.hpp"
 #include "Alice/Layer/LayerStack.hpp"
 #include "Alice/UI/ImGuiLayer.hpp"

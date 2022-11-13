@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Alice/Events/Event.hpp"
-#include "Alice/Time/Timestep.hpp"
+#include "Alice/Core/Timestep.hpp"
 
 namespace Alice
 {
