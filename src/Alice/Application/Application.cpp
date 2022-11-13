@@ -35,6 +35,7 @@ void Application::OnEvent(Event &event)
 {
     EventDispatcher dispatcher(event);
     dispatcher.Dispatch<WindowCloseEvent>(ALICE_BIND_EVENT_FN(Application::OnWindowClose));
+    dispatcher.Dispatch<WindowResizeEvent>(ALICE_BIND_EVENT_FN(Application::OnWindowResize));
 
     // ALICE_TRACE("{}", event);
 
@@ -56,9 +57,12 @@ void Application::Run()
         Timestep timestep = time - m_last_frame_time;
         m_last_frame_time = time;
 
-        for (Layer* layer : m_layer_stack)
+        if (!m_minimized)
         {
-            layer->OnUpdate(timestep);
+            for (Layer* layer : m_layer_stack)
+            {
+                layer->OnUpdate(timestep);
+            }
         }
 
         m_imgui_layer->Begin();
@@ -86,10 +90,25 @@ void Application::PushOverlay(Layer* layer)
     layer->OnAttach();
 }
 
-bool Application::OnWindowClose(WindowCloseEvent& e)
+bool Application::OnWindowClose(WindowCloseEvent& event)
 {
     m_running = false;
     
+    return true;
+}
+
+bool Application::OnWindowResize(WindowResizeEvent& event)
+{
+    if (event.GetWidth() == 0 || event.GetHeight() == 0)
+    {
+        m_minimized = true;
+
+        return false;
+    }
+    
+    m_minimized = false;
+    Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+
     return true;
 }
 

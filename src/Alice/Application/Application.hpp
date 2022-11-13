@@ -27,11 +27,15 @@ public:
     inline Window& GetWindow() { return *m_window; }
 
 private:
-    bool OnWindowClose(WindowCloseEvent& e);
+    bool OnWindowClose(WindowCloseEvent& event);
+    bool OnWindowResize(WindowResizeEvent& event);
+
+private:
 
     std::unique_ptr<Window> m_window;
     std::unique_ptr<ImGuiLayer> m_imgui_layer;
     bool m_running = true;
+    bool m_minimized = false;
     LayerStack m_layer_stack;
 
     float m_last_frame_time = 0.0f;

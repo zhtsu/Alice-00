@@ -20,6 +20,9 @@ public:
     OrthographicCamera& GetCamera() { return m_camera; }
     const OrthographicCamera& GetCamera() const { return m_camera; }
 
+    float GetZoomLevel() const { return m_zoom_level; }
+    void SetZoomLevel(float zoom_level) { m_zoom_level = zoom_level; }
+
 private:
     bool OnMouseScrolled(MouseScrolledEvent& event);
     bool OnWindowResized(WindowResizeEvent& event);
