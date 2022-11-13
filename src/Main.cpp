@@ -7,7 +7,7 @@ class ExampleLayer : public Alice::Layer
 {
 public:
     ExampleLayer()
-        : Layer("Example"), m_camera(-1.6, 1.6, -0.9, 0.9)
+        : Layer("Example"), m_camera_controller(1280.0f / 720.0f)
     {
         m_vertex_array.reset(Alice::VertexArray::Create());
 
@@ -53,28 +53,12 @@ public:
 
     void OnUpdate(Alice::Timestep ts) override
     {
-        if (Alice::Input::IsKeyPressed(ALICE_KEY_LEFT))
-            m_camera_position.x -= m_camera_move_speed * ts;
-        else if (Alice::Input::IsKeyPressed(ALICE_KEY_RIGHT))
-            m_camera_position.x += m_camera_move_speed * ts;
-
-        if (Alice::Input::IsKeyPressed(ALICE_KEY_UP))
-            m_camera_position.y += m_camera_move_speed * ts;
-        else if (Alice::Input::IsKeyPressed(ALICE_KEY_DOWN))
-            m_camera_position.y -= m_camera_move_speed * ts;
-
-        if (Alice::Input::IsKeyPressed(ALICE_KEY_A))
-            m_camera_rotation += m_camera_rotation_speed * ts;
-        else if (Alice::Input::IsKeyPressed(ALICE_KEY_D))
-            m_camera_rotation -= m_camera_rotation_speed * ts;
+        m_camera_controller.OnUpdate(ts);
 
         Alice::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
         Alice::RenderCommand::Clear();
 
-        m_camera.SetPosition(m_camera_position);
-        m_camera.SetRotation(m_camera_rotation);
-
-        Alice::Renderer::BeginScene(m_camera);
+        Alice::Renderer::BeginScene(m_camera_controller.GetCamera());
 
         // glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
         // for (int y = 0; y < 20; y++)
@@ -94,7 +78,7 @@ public:
 
     void OnEvent(Alice::Event& event) override
     {
-        
+        m_camera_controller.OnEvent(event);
     }
 
 private:
@@ -102,12 +86,7 @@ private:
     Alice::Ref<Alice::VertexArray> m_vertex_array;
     Alice::Ref<Alice::Texture2D> m_texture;
 
-    Alice::OrthographicCamera m_camera;
-    glm::vec3 m_camera_position = { 0.0f, 0.0f, 0.0f };
-    float m_camera_move_speed = 1.0f;
-
-    float m_camera_rotation = 0.0f;
-    float m_camera_rotation_speed = 36.0f;
+    Alice::OrthographicCameraController m_camera_controller;
 
     glm::vec3 m_color = { 0.2f, 0.3f, 0.8f };
 };

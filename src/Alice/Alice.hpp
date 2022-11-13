@@ -7,6 +7,7 @@
 #include "Alice/Core/Input.hpp"
 #include "Alice/Core/KeyCodes.hpp"
 #include "Alice/Core/MouseButtonCodes.hpp"
+#include "Alice/Core/OrthographicCameraController.hpp"
 
 #include "Alice/Common/PathHelper.hpp"
 #include "Alice/Common/FileHelper.hpp"
