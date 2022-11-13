@@ -19,6 +19,11 @@ void OpenGLContext::Init()
     glfwMakeContextCurrent(m_window_handle);
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     ALICE_ASSERT(status, "OpenGLContext::Init: Faied to initialize glad!");
+
+    ALICE_INFO("OpenGL Info:");
+    ALICE_INFO("    Vendor: {}", (char*)glGetString(GL_VENDOR));
+    ALICE_INFO("    Renderer: {}", (char*)glGetString(GL_RENDERER));
+    ALICE_INFO("    Version: {}", (char*)glGetString(GL_VERSION));
 }
 
 void OpenGLContext::SwapBuffers()
