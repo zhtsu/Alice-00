@@ -22,5 +22,7 @@ private:
     Alice::Ref<Alice::VertexArray> m_square_vao;
     Alice::Ref<Alice::Shader> m_flat_color_shader;
 
+    Alice::Ref<Alice::Texture2D> m_checkerboard_texture;
+
     glm::vec4 m_square_color = { 0.2f, 0.3f, 0.8f, 1.0f };
 };

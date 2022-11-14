@@ -18,6 +18,7 @@
 #include "Alice/UI/ImGuiLayer.hpp"
 
 #include "Alice/Renderer/Renderer.hpp"
+#include "Alice/Renderer/Renderer2D.hpp"
 #include "Alice/Renderer/RenderCommand.hpp"
 
 #include "Alice/Renderer/Buffer.hpp"

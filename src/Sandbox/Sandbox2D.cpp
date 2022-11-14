@@ -10,33 +10,11 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-    m_square_vao = Alice::VertexArray::Create();
-
-    float vertices[3 * 4] = {
-        0.5f,  0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        -0.5f,  0.5f, 0.0f
-    };
-
-    Alice::Ref<Alice::VertexBuffer> vertex_buffer = Alice::VertexBuffer::Create(vertices, sizeof(vertices));
-    vertex_buffer->SetLayout({
-        { Alice::ShaderDataType::Float3, "a_Position" }
-    });
-    m_square_vao->AddVertexBuffer(vertex_buffer);
-
-    uint32_t indices[6] = { 0, 1, 3, 1, 2, 3 };
-    Alice::Ref<Alice::IndexBuffer> index_buffer = Alice::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
-    m_square_vao->SetIndexBuffer(index_buffer);
-
-    std::string flat_color_shader_path = Alice::PathHelper::GeneratePath(
-        Alice::FileType::Shader,
-        "FlatColor.glsl"
+    std::string img_path = Alice::PathHelper::GeneratePath(
+        Alice::FileType::Image,
+        "alice.png"
     );
-
-    m_flat_color_shader = Alice::Shader::Create(flat_color_shader_path);
-
-    
+    m_checkerboard_texture = Alice::Texture2D::Create(img_path);
 }
 
 void Sandbox2D::OnDetach()
@@ -51,16 +29,13 @@ void Sandbox2D::OnUpdate(Alice::Timestep ts)
     Alice::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
     Alice::RenderCommand::Clear();
 
-    Alice::Renderer::BeginScene(m_camera_controller.GetCamera());
+    Alice::Renderer2D::BeginScene(m_camera_controller.GetCamera());
 
-    std::dynamic_pointer_cast<Alice::OpenGLShader>(m_flat_color_shader)->Bind();
-    std::dynamic_pointer_cast<Alice::OpenGLShader>(m_flat_color_shader)
-        ->UploadUniformFloat4("u_Color", m_square_color);
+    Alice::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+    Alice::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+    Alice::Renderer2D::DrawQuad({ 0.2f, 0.5f }, { 10.0f, 10.0f }, m_checkerboard_texture);
 
-    m_flat_color_shader->Bind();
-    Alice::Renderer::Submit(m_square_vao, m_flat_color_shader);
-
-    Alice::Renderer::EndScene();
+    Alice::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender()
