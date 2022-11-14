@@ -5,7 +5,7 @@
 namespace Alice
 {
 
-VertexArray* VertexArray::Create()
+Ref<VertexArray> VertexArray::Create()
 {
     switch (Renderer::GetApi())
     {
@@ -17,7 +17,7 @@ VertexArray* VertexArray::Create()
 
         case RendererApi::Api::OpenGL:
         {
-            return new OpenGLVertexArray();
+            return std::make_shared<OpenGLVertexArray>();
             break;
         }
     }

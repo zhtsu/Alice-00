@@ -1,7 +1,4 @@
-#include "Alice/Alice.hpp"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "Alice/Renderer/Shader.hpp"
+#include "Sandbox/Sandbox2D.hpp"
 
 class ExampleLayer : public Alice::Layer
 {
@@ -9,7 +6,7 @@ public:
     ExampleLayer()
         : Layer("Example"), m_camera_controller(1280.0f / 720.0f)
     {
-        m_vertex_array.reset(Alice::VertexArray::Create());
+        m_vertex_array = Alice::VertexArray::Create();
 
         float vertices[4 * 5] = {
             0.5f,  0.5f, 0.0f, 1.0f, 1.0f,   // 右上
@@ -18,8 +15,7 @@ public:
             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f   // 左上
         };
 
-        Alice::Ref<Alice::VertexBuffer> vertex_buffer;
-        vertex_buffer.reset(Alice::VertexBuffer::Create(vertices, sizeof(vertices)));
+        Alice::Ref<Alice::VertexBuffer> vertex_buffer = Alice::VertexBuffer::Create(vertices, sizeof(vertices));
         vertex_buffer->SetLayout({
             { Alice::ShaderDataType::Float3, "a_Position" },
             { Alice::ShaderDataType::Float2, "a_TexCoord" }
@@ -27,8 +23,7 @@ public:
         m_vertex_array->AddVertexBuffer(vertex_buffer);
 
         uint32_t indices[6] = { 0, 1, 3, 1, 2, 3 };
-        Alice::Ref<Alice::IndexBuffer> index_buffer;
-        index_buffer.reset(Alice::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+        Alice::Ref<Alice::IndexBuffer> index_buffer = Alice::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
         m_vertex_array->SetIndexBuffer(index_buffer);
 
         std::string texture_shader_path = Alice::PathHelper::GeneratePath(
@@ -94,7 +89,7 @@ private:
 int main(int argc, char* argv[])
 {
     auto app = new Alice::Application();
-    app->PushLayer(new ExampleLayer());
+    app->PushLayer(new Sandbox2D());
     app->Run();
     delete app;
 

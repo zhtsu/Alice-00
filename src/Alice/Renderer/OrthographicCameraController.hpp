@@ -3,7 +3,7 @@
 #include "Alice/Renderer/OrthographicCamera.hpp"
 #include "Alice/Events/ApplicationEvent.hpp"
 #include "Alice/Events/MouseEvent.hpp"
-#include "Timestep.hpp"
+#include "Alice/Core/Timestep.hpp"
 #include "glm/glm.hpp"
 
 namespace Alice

@@ -4,7 +4,7 @@ aux_source_directory(. SRC_LIST)
 
 add_library(
     Alice_Renderer
-    SHARED
+    STATIC
     ${SRC_LIST}
 )
 
@@ -13,6 +13,7 @@ target_link_libraries(
     glad
     Alice_Log
     Alice_Platform_OpenGL
+    Alice_Platform_Windows
 )
 
 set_target_properties(Alice_Renderer PROPERTIES OUTPUT_NAME "alice-renderer")

@@ -27,6 +27,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glm)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/stb)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Sandbox)
 
 add_executable(
     Alice
@@ -37,7 +38,7 @@ target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/PCH.hpp)
 
 target_link_libraries(
     Alice
-    Alice_UI
+    Sandbox
 )
 
 add_custom_command(

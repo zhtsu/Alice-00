@@ -32,7 +32,7 @@ static std::string Read(const std::string& filepath)
 	}
 	catch(const std::exception& e)
 	{
-		ALICE_ERROR("Read file {} failed: {}", filepath, e.what());
+		ALICE_ERROR("Read: file {} failed: {}", filepath, e.what());
 	}
 	
     return content;
@@ -54,7 +54,7 @@ static void Write(const std::string& filepath, const std::string& content)
     }
     catch(const std::exception& e)
     {
-        ALICE_ERROR("Write file {} failed: {}", filepath, e.what());
+        ALICE_ERROR("Write: file {} failed: {}", filepath, e.what());
     }
 }
 
