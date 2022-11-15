@@ -12,7 +12,7 @@ void Sandbox2D::OnAttach()
 {
     std::string img_path = Alice::PathHelper::GeneratePath(
         Alice::FileType::Image,
-        "alice.png"
+        "KFC.jpg"
     );
     m_checkerboard_texture = Alice::Texture2D::Create(img_path);
 }

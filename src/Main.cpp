@@ -35,7 +35,7 @@ public:
 
         std::string img_path = Alice::PathHelper::GeneratePath(
             Alice::FileType::Image,
-            "alice.png"
+            "KFC.jpg"
         );
 
         m_texture = Alice::Texture2D::Create(img_path);
