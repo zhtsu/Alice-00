@@ -11,8 +11,8 @@ namespace Alice
 struct Renderer2DStorage
 {
     Ref<VertexArray> quad_vertex_array;
-    Ref<Shader> flat_color_shader;
     Ref<Shader> texture_shader;
+    Ref<Texture2D> white_texture;
 };
 
 static Renderer2DStorage* s_data;
@@ -40,10 +40,10 @@ void Renderer2D::Init()
     Ref<IndexBuffer> index_buffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
     s_data->quad_vertex_array->SetIndexBuffer(index_buffer);
 
-    // Flat color shader
-    std::string flat_color_shader_path = 
-        PathHelper::GeneratePath(FileType::Shader, "FlatColor.glsl");
-    s_data->flat_color_shader = Shader::Create(flat_color_shader_path);
+    s_data->white_texture = Texture2D::Create(1, 1);
+    uint32_t white_texture_data = 0xffffffff;
+    s_data->white_texture->SetData(&white_texture_data, sizeof(uint32_t));
+
     // Texture shader
     std::string texture_shader_path = 
         PathHelper::GeneratePath(FileType::Shader, "Texture.glsl");
@@ -59,9 +59,6 @@ void Renderer2D::Shutdown()
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
-    s_data->flat_color_shader->Bind();
-    s_data->flat_color_shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-
     s_data->texture_shader->Bind();
     s_data->texture_shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 }
@@ -78,15 +75,16 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
 void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 {
-    s_data->flat_color_shader->Bind();
-    s_data->flat_color_shader->SetFloat4("u_Color", color);
+    s_data->texture_shader->SetFloat4("u_Color", color);
+    s_data->white_texture->Bind();
 
     glm::mat4 transform = glm::translate(glm::mat4(1.0), position) * 
         glm::scale(glm::mat4(1.0), { size.x, size.y, 1.0f });
-    s_data->flat_color_shader->SetMat4("u_Transform", transform);
+    s_data->texture_shader->SetMat4("u_Transform", transform);
 
     s_data->quad_vertex_array->Bind();
     RenderCommand::DrawIndexed(s_data->quad_vertex_array);
+    s_data->white_texture->Unbind();
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
@@ -96,16 +94,16 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
 void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
 {
-    s_data->texture_shader->Bind();
+    s_data->texture_shader->SetFloat4("u_Color", glm::vec4(1.0f));
+    texture->Bind();
 
     glm::mat4 transform = glm::translate(glm::mat4(1.0), position) * 
         glm::scale(glm::mat4(1.0), { size.x, size.y, 1.0f });
     s_data->texture_shader->SetMat4("u_Transform", transform);
 
-    texture->Bind();
-
     s_data->quad_vertex_array->Bind();
     RenderCommand::DrawIndexed(s_data->quad_vertex_array);
+    texture->Unbind();
 }
 
 } // namespace Alice
