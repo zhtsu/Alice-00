@@ -144,7 +144,8 @@ void WindowsWindow::Init(const WindowProps& props)
 
 void WindowsWindow::Shutdown()
 {
-    glfwDestroyWindow(m_window);
+    if (m_window != nullptr)
+        glfwDestroyWindow(m_window);
 }
 
 void WindowsWindow::OnUpdate()

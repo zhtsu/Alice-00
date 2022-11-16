@@ -30,21 +30,23 @@ void Sandbox2D::OnUpdate(Alice::Timestep ts)
     PROFILE_SCOPE("Sandbox2D::OnUpdate");
 
     {
-        PROFILE_SCOPE("Camera::OnUpdate");
+        PROFILE_SCOPE("CameraController::OnUpdate");
         m_camera_controller.OnUpdate(ts);
     }
     
+    {
+        PROFILE_SCOPE("Renderer");
+        Alice::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+        Alice::RenderCommand::Clear();
 
-    Alice::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-    Alice::RenderCommand::Clear();
+        Alice::Renderer2D::BeginScene(m_camera_controller.GetCamera());
 
-    Alice::Renderer2D::BeginScene(m_camera_controller.GetCamera());
+        Alice::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+        Alice::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+        Alice::Renderer2D::DrawQuad({ 0.2f, 0.5f }, { 10.0f, 10.0f }, m_checkerboard_texture);
 
-    Alice::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-    Alice::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-    Alice::Renderer2D::DrawQuad({ 0.2f, 0.5f }, { 10.0f, 10.0f }, m_checkerboard_texture);
-
-    Alice::Renderer2D::EndScene();
+        Alice::Renderer2D::EndScene();
+    }
 }
 
 void Sandbox2D::OnImGuiRender()

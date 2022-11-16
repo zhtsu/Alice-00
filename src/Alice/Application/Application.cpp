@@ -93,7 +93,9 @@ void Application::PushOverlay(Layer* layer)
 bool Application::OnWindowClose(WindowCloseEvent& event)
 {
     m_running = false;
-    
+
+    m_window->Shutdown();
+
     return true;
 }
 
