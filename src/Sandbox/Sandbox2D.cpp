@@ -1,6 +1,7 @@
 #include "Sandbox2D.hpp"
 #include "imgui.h"
 #include "glm/gtc/type_ptr.hpp"
+#include "Alice/Common/Timer.hpp"
 
 Sandbox2D::Sandbox2D()
     :Layer("Sandbox2D"), m_camera_controller(1280.0f / 720.0f)
@@ -22,9 +23,17 @@ void Sandbox2D::OnDetach()
 
 }
 
+#define PROFILE_SCOPE(name) Alice::Timer timer##__LINE__(name, [&](ProfileResult profile_result) { m_profile_results.push_back(profile_result); })
+
 void Sandbox2D::OnUpdate(Alice::Timestep ts)
 {
-    m_camera_controller.OnUpdate(ts);
+    PROFILE_SCOPE("Sandbox2D::OnUpdate");
+
+    {
+        PROFILE_SCOPE("Camera::OnUpdate");
+        m_camera_controller.OnUpdate(ts);
+    }
+    
 
     Alice::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
     Alice::RenderCommand::Clear();
@@ -42,6 +51,16 @@ void Sandbox2D::OnImGuiRender()
 {
     ImGui::Begin("Settings");
     ImGui::ColorEdit4("Square Color", glm::value_ptr(m_square_color));
+
+    for (auto& result : m_profile_results)
+    {
+        char label[50];
+        strcpy(label, "%.3fms ");
+        strcat(label, result.name);
+        ImGui::Text(label, result.time);
+    }
+    m_profile_results.clear();
+
     ImGui::End();
 }
 
