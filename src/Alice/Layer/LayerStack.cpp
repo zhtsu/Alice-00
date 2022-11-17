@@ -5,7 +5,7 @@ namespace Alice
 
 LayerStack::LayerStack()
 {
-    m_layer_insert_index = 0;
+
 }
 
 LayerStack::~LayerStack()

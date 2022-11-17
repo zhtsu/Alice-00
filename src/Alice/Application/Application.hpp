@@ -14,7 +14,7 @@ class Application
 {
 public:
     Application();
-    ~Application();
+    virtual ~Application();
 
     void OnEvent(Event& event);
 
@@ -33,7 +33,8 @@ private:
 private:
 
     std::unique_ptr<Window> m_window;
-    std::unique_ptr<ImGuiLayer> m_imgui_layer;
+    ImGuiLayer* m_imgui_layer;
+
     bool m_running = true;
     bool m_minimized = false;
     LayerStack m_layer_stack;

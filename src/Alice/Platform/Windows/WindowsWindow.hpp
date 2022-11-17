@@ -34,10 +34,9 @@ public:
 
     inline virtual void* GetNativeWindow() const { return m_window; };
 
-    void Shutdown() override;
-
 private:
     virtual void Init(const WindowProps& props);
+    virtual void Shutdown();
 
 private:
     GLFWwindow* m_window;

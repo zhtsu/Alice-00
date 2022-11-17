@@ -32,4 +32,6 @@
 #include "Alice/Platform/OpenGL/OpenGLShader.hpp"
 #include "Alice/Platform/OpenGL/OpenGLTexture.hpp"
 
+#include "Alice/Debug/Instrumentor.hpp"
+
 

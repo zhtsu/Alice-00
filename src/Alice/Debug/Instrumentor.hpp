@@ -4,6 +4,7 @@
 #include <chrono>
 #include <algorithm>
 #include <fstream>
+#include <thread>
 
 namespace Alice
 {
@@ -98,10 +99,42 @@ private:
 class InstrumentationTimer
 {
 public:
+    InstrumentationTimer(const char* name)
+        : m_name(name), m_stopped(false)
+    {
+        m_start_timepoint = std::chrono::high_resolution_clock::now();
+    }
+
+    ~InstrumentationTimer()
+    {
+        if (!m_stopped)
+        {
+            std::cout << "Destruction" << std::endl;
+            Stop();
+        }
+    }
+
+    void Stop()
+    {
+        auto end_timepoint = std::chrono::high_resolution_clock::now();
+
+        long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_start_timepoint).time_since_epoch().count();
+        long long end = std::chrono::time_point_cast<std::chrono::microseconds>(end_timepoint).time_since_epoch().count();
+    
+        uint32_t thread_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        Instrumentor::Get().WriteProfile({ m_name, start, end, thread_id });
+        printf("%p", &Instrumentor::Get());
+    }
 
 private:
-
+    const char* m_name;
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_start_timepoint;
+    bool m_stopped;
 };
 
 } // namespace Alice
 
+#define ALICE_PROFILE_BEGIN_SESSION(name, filepath) ::Alice::Instrumentor::Get().BeginSession(name, filepath)
+#define ALICE_PROFILE_END_SESSION()                 ::Alice::Instrumentor::Get().EndSession()
+#define ALICE_PROFILE_SCOPE(name)                   ::Alice::InstrumentationTimer timer##__LINE__(name)
+#define ALICE_PROFILE_FUNCTION()                    ALICE_PROFILE_SCOPE(__FUNCTION__)

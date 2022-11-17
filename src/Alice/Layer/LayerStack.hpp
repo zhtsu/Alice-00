@@ -22,7 +22,7 @@ public:
 
 private:
     std::vector<Layer*> m_layers;
-    unsigned int m_layer_insert_index;
+    unsigned int m_layer_insert_index = 0;
 };
 
 } // namespace Alice

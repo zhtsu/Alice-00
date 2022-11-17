@@ -11,6 +11,7 @@ namespace Alice
 Application* Application::s_instance = nullptr;
 
 Application::Application()
+    : m_imgui_layer(nullptr)
 {
     ALICE_ASSERT(!s_instance, "Application already exists!");
     s_instance = this;
@@ -22,8 +23,7 @@ Application::Application()
 
     Renderer::Init();    
 
-    m_imgui_layer = std::make_unique<ImGuiLayer>();
-    PushOverlay(m_imgui_layer.get());
+    PushOverlay(new ImGuiLayer());
 }
 
 Application::~Application()
@@ -93,8 +93,6 @@ void Application::PushOverlay(Layer* layer)
 bool Application::OnWindowClose(WindowCloseEvent& event)
 {
     m_running = false;
-
-    m_window->Shutdown();
 
     return true;
 }
