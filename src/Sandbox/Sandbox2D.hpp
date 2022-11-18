@@ -25,12 +25,4 @@ private:
     Alice::Ref<Alice::Texture2D> m_checkerboard_texture;
 
     glm::vec4 m_square_color = { 0.2f, 0.3f, 0.8f, 1.0f };
-
-    struct ProfileResult
-    {
-        const char* name;
-        float time;
-    };
-
-    std::vector<ProfileResult> m_profile_results;
 };

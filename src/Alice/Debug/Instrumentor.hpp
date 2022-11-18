@@ -109,7 +109,6 @@ public:
     {
         if (!m_stopped)
         {
-            std::cout << "Destruction" << std::endl;
             Stop();
         }
     }
@@ -123,7 +122,6 @@ public:
     
         uint32_t thread_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
         Instrumentor::Get().WriteProfile({ m_name, start, end, thread_id });
-        printf("%p", &Instrumentor::Get());
     }
 
 private:
@@ -134,7 +132,15 @@ private:
 
 } // namespace Alice
 
-#define ALICE_PROFILE_BEGIN_SESSION(name, filepath) ::Alice::Instrumentor::Get().BeginSession(name, filepath)
-#define ALICE_PROFILE_END_SESSION()                 ::Alice::Instrumentor::Get().EndSession()
-#define ALICE_PROFILE_SCOPE(name)                   ::Alice::InstrumentationTimer timer##__LINE__(name)
-#define ALICE_PROFILE_FUNCTION()                    ALICE_PROFILE_SCOPE(__FUNCTION__)
+#define ALICE_PROFILE 1
+#if ALICE_PROFILE
+    #define ALICE_PROFILE_BEGIN_SESSION(name, filepath) ::Alice::Instrumentor::Get().BeginSession(name, filepath)
+    #define ALICE_PROFILE_END_SESSION()                 ::Alice::Instrumentor::Get().EndSession()
+    #define ALICE_PROFILE_SCOPE(name)                   ::Alice::InstrumentationTimer timer##__LINE__(name)
+    #define ALICE_PROFILE_FUNCTION()                    ALICE_PROFILE_SCOPE(__FUNCTION__)
+#else
+    #define ALICE_PROFILE_BEGIN_SESSION(name, filepath)
+    #define ALICE_PROFILE_END_SESSION()
+    #define ALICE_PROFILE_SCOPE(name)
+    #define ALICE_PROFILE_FUNCTION()
+#endif

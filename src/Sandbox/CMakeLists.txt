@@ -4,7 +4,7 @@ aux_source_directory(. SRC_LIST)
 
 add_library(
     Sandbox
-    SHARED
+    STATIC
     ${SRC_LIST}
 )
 
