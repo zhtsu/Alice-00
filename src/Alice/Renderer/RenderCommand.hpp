@@ -5,6 +5,10 @@
 namespace Alice
 {
 
+//
+// 平台无关的渲染命令
+// 这是一个静态工具类
+//
 class RenderCommand
 {
 public:

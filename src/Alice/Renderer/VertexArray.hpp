@@ -6,6 +6,9 @@
 namespace Alice
 {
 
+//
+// 平台无关的顶点数组对象 VAO
+//
 class VertexArray
 {
 public:

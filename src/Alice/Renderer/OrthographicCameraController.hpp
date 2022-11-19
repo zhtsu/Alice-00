@@ -9,6 +9,10 @@
 namespace Alice
 {
 
+//
+// 2D 正交摄像机控制器
+// 控制一个 2D 正交摄像机
+//
 class OrthographicCameraController
 {
 public:

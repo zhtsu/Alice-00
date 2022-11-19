@@ -6,6 +6,9 @@
 namespace Alice
 {
 
+//
+// 平台无关的 2D 渲染器
+//
 class Renderer2D
 {
 public:

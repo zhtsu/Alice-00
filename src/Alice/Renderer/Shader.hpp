@@ -7,6 +7,9 @@
 namespace Alice
 {
 
+//
+// 平台无关的着色器
+//
 class Shader
 {
 public:
