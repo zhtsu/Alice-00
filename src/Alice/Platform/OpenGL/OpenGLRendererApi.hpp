@@ -6,6 +6,9 @@
 namespace Alice
 {
 
+//
+// OpenGL 渲染 API
+//
 class OpenGLRendererApi : public RendererApi
 {
 public:
@@ -14,7 +17,7 @@ public:
     void SetClearColor(const glm::vec4& color) override;
     void Clear() override;
 
-    void DrawIndexed(const Ref<VertexArray>& vertex_array) override;
+    void DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count = 0) override;
 };
 
 } // namespace Alice

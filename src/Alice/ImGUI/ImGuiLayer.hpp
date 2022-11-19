@@ -8,16 +8,24 @@
 namespace Alice
 {
 
+//
+// 封装 imgui 的 UI 层
+// 此层用于编写编辑器
+//
 class ImGuiLayer : public Layer
 {
 public:
     ImGuiLayer();
     ~ImGuiLayer();
 
+    // 初始化当前层
     void OnAttach() override;
+    // 清理当前层
     void OnDetach() override;
 
+    // 开始当前层的描述
     void Begin();
+    // 结束描述
     void End();
 
 private:

@@ -7,6 +7,9 @@
 namespace Alice
 {
 
+//
+// Windows 平台窗口
+//
 class WindowsWindow : public Window
 {
 public:
@@ -46,7 +49,7 @@ private:
     {
         std::string title;
         unsigned int width, height;
-        bool Vsync;
+        bool vsync;
         EventCallbackFn event_callback;
     };
 

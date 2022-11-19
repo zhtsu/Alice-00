@@ -6,6 +6,9 @@
 namespace Alice
 {
 
+//
+// OpenGL 顶点数组对象 VAO
+//
 class OpenGLVertexArray : public VertexArray
 {
 public:

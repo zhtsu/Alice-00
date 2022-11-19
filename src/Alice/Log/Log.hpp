@@ -7,7 +7,9 @@
 namespace Alice
 {
 
-// 日志类，用于打印引擎日志信息
+//
+// 日志类，用于打印日志信息
+//
 class Log
 {
 public:

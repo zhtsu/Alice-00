@@ -5,6 +5,9 @@
 namespace Alice
 {
 
+//
+// Windows 平台输入
+//
 class WindowsInput : public Input
 {
 protected:

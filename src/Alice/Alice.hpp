@@ -15,7 +15,7 @@
 #include "Alice/Layer/Layer.hpp"
 #include "Alice/Log/Log.hpp"
 
-#include "Alice/UI/ImGuiLayer.hpp"
+#include "Alice/ImGUI/ImGuiLayer.hpp"
 
 #include "Alice/Renderer/Renderer.hpp"
 #include "Alice/Renderer/Renderer2D.hpp"

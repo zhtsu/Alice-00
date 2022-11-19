@@ -5,7 +5,9 @@
 namespace Alice
 {
 
+//
 // 鼠标移动事件
+//
 class MouseMovedEvent : public Event
 {
 public:
@@ -30,7 +32,9 @@ private:
     float m_mouse_x, m_mouse_y;
 };
 
+//
 // 鼠标滚动事件
+//
 class MouseScrolledEvent : public Event
 {
 public:
@@ -55,7 +59,9 @@ private:
     float m_x_offset, m_y_offset;
 };
 
+//
 // 鼠标按键事件基类
+//
 class MouseButtonEvent : public Event
 {
 public:
@@ -70,7 +76,9 @@ protected:
     int m_button;
 };
 
+//
 // 鼠标按键按压事件
+//
 class MouseButtonPressedEvent : public MouseButtonEvent
 {
 public:
@@ -88,7 +96,9 @@ public:
     EVENT_CLASS_TYPE(MouseButtonPressed)
 };
 
+//
 // 鼠标按键释放事件
+//
 class MouseButtonReleasedEvent : public MouseButtonEvent
 {
 public:

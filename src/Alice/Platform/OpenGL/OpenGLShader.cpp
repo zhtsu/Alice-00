@@ -14,7 +14,7 @@ static GLenum ShaderTypeFromString(const std::string& type)
     if (type == "fragment" || type == "pixel")
         return GL_FRAGMENT_SHADER;
     
-    ALICE_ASSERT(false, "Unknown shader type!");
+    ALICE_ASSERT(false, "ShaderTypeFromString: Unknown shader type!");
 
     return 0;
 }
@@ -154,7 +154,7 @@ std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::stri
 void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shader_sources)
 {
     GLuint program = glCreateProgram();
-    ALICE_ASSERT(shader_sources.size() <= 2, "We only support 2 shaders for now!");
+    ALICE_ASSERT(shader_sources.size() <= 2, "OpenGLShader::Compile: We only support 2 shaders for now!");
     std::array<GLenum, 2> gl_shader_ids;
 
     int gl_shader_id_index = 0;
@@ -183,7 +183,7 @@ void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shader
             glDeleteShader(shader);
 
             ALICE_ERROR("{}", infoLog.data());
-            ALICE_ASSERT(false, "Shader compilation failure!");
+            ALICE_ASSERT(false, "OpenGLShader::Compile: Shader compilation failure!");
             break;
         }
 
@@ -210,7 +210,7 @@ void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shader
         }
         
         ALICE_ERROR("{}", infoLog.data());
-        ALICE_ASSERT(false, "Shader link failure!");
+        ALICE_ASSERT(false, "OpenGLShader::Compile: Shader link failure!");
         return;
     }
 

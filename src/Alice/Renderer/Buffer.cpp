@@ -6,6 +6,28 @@
 namespace Alice
 {
 
+Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+{
+    switch (Renderer::GetApi())
+    {
+        case RendererApi::Api::None:
+        {
+            ALICE_ASSERT(false, "VertexBuffer::Create: RendererApi::None is currently not supported!");
+            break;
+        }
+
+        case RendererApi::Api::OpenGL:
+        {
+            return std::make_shared<OpenGLVertexBuffer>(size);
+            break;
+        }
+    }
+
+    ALICE_ASSERT(false, "VertexBuffer::Create: Unknown RendererApi!");
+
+    return nullptr;
+}
+
 Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 {
     switch (Renderer::GetApi())

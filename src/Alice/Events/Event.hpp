@@ -4,8 +4,9 @@
 
 namespace Alice
 {
-
+//
 // 应用内可能发生的事件类型
+//
 enum class EventType
 {
     None = 0,
@@ -18,8 +19,10 @@ enum class EventType
 // 根据 1 在二进制中的位置区分类别
 #define BIT(x) (1 << x) 
 
+//
 // 事件种类
 // 每一种事件种类中可能包含多种事件类型
+//
 enum EventCategory
 {
     None = 0,
@@ -40,7 +43,9 @@ enum EventCategory
 
 #define EVENT_CLASS_GATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
+//
 // 事件抽象基类
+//
 class Event
 {
     friend class EventDispatcher;
@@ -61,7 +66,9 @@ public:
     bool m_handled;
 };
 
+//
 // 事件分配器
+//
 class EventDispatcher
 {
     template<class T>
@@ -92,7 +99,7 @@ inline std::ostream& operator<<(std::ostream& os, const Event& e)
     return os << e.ToString();
 }
 
-// 函数绑定
+// 函数绑定宏，用于获取一个回调函数的地址
 #define ALICE_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 } // namespace Alice

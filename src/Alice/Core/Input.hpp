@@ -8,6 +8,9 @@ namespace Alice
 class Input
 {
 public:
+    //
+    // 平台无关接口
+    //
     inline static bool IsKeyPressed(int keycode)
     {
         return s_instance->IsKeyPressedImpl(keycode);
@@ -34,6 +37,9 @@ public:
     }
 
 protected:
+    //
+    // 由具体平台负责实现的接口
+    //
     virtual bool IsKeyPressedImpl(int keycode) = 0;
     virtual bool IsMouseButtonPressedImpl(int keycode) = 0;
     virtual std::pair<float, float> GetMousePositionImpl() = 0;

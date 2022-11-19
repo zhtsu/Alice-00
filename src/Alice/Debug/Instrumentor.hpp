@@ -9,6 +9,9 @@
 namespace Alice
 {
 
+//
+// 用于分析性能的数据
+//
 struct ProfileResult
 {
     std::string name;
@@ -16,11 +19,19 @@ struct ProfileResult
     uint32_t thread_id;
 };
 
+//
+// 仪表的一次会话
+// 每一次会话会记录下需要的性能数据
+//
 struct InstrumentationSession
 {
     std::string name;
 };
 
+//
+// 仪表
+// 负责创建和销毁每一次会话
+//
 class Instrumentor
 {
 public:
@@ -30,6 +41,7 @@ public:
 
     }
 
+    // 开启一次会话
     void BeginSession(const std::string& name, const std::string& filepath="results.json")
     {
         m_output_stream.open(filepath);
@@ -37,6 +49,7 @@ public:
         m_current_session = new InstrumentationSession{ name };
     }
 
+    // 结束一次会话
     void EndSession()
     {
         WriteFooter();
@@ -46,6 +59,7 @@ public:
         m_profile_count = 0;
     }
 
+    // 写入一组数据
     void WriteProfile(const ProfileResult& result)
     {
         if (m_profile_count++ > 0)
@@ -83,6 +97,7 @@ public:
         m_output_stream.flush();
     }
 
+    // 获取全局唯一的静态仪表
     static Instrumentor& Get()
     {
         static Instrumentor instance;
@@ -96,6 +111,11 @@ private:
     int m_profile_count;
 };
 
+//
+// 计时器
+// 通过将此计时器放入一段代码的生命周期
+// 可以记录下该段代码的执行用时
+//
 class InstrumentationTimer
 {
 public:

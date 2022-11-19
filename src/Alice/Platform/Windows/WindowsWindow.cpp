@@ -165,12 +165,12 @@ void WindowsWindow::SetVSync(bool enabled)
         glfwSwapInterval(0);
     }
 
-    m_data.Vsync = enabled;
+    m_data.vsync = enabled;
 }
 
 bool WindowsWindow::IsVSync() const
 {
-    return m_data.Vsync;
+    return m_data.vsync;
 }
 
 } // namespace Alice

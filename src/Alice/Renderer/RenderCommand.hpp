@@ -28,9 +28,9 @@ public:
         s_renderer_api->Clear();
     }
 
-    inline static void DrawIndexed(const Ref<VertexArray>& vertex_array)
+    inline static void DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count)
     {
-        s_renderer_api->DrawIndexed(vertex_array);
+        s_renderer_api->DrawIndexed(vertex_array, index_count);
     }
 
 private:

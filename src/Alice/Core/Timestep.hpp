@@ -3,6 +3,10 @@
 namespace Alice
 {
 
+//
+// 一帧的计时步长
+// 仅仅是对 float 类型的简单封装
+//
 class Timestep
 {
 public:
