@@ -19,9 +19,9 @@ struct QuadVertex
 
 struct Renderer2DData
 {
-    const uint32_t kMaxQuads = 10000;
-    const uint32_t kMaxVertices = kMaxQuads * 4;
-    const uint32_t kMaxIndexs = kMaxQuads * 6;
+    static const uint32_t kMaxQuads = 20000;
+    static const uint32_t kMaxVertices = kMaxQuads * 4;
+    static const uint32_t kMaxIndices = kMaxQuads * 6;
     static const uint32_t kMaxTextureSlots = 32;
 
     Ref<VertexArray> quad_vertex_array;
@@ -37,6 +37,8 @@ struct Renderer2DData
     uint32_t Texture_slot_index = 1; // 0 号位使用默认白色纹理
 
     glm::vec4 quad_vertex_positions[4];
+
+    Renderer2D::Statistics stats;
 };
 
 static Renderer2DData s_data;
@@ -57,10 +59,10 @@ void Renderer2D::Init()
 
     s_data.quad_vertex_buffer_base = new QuadVertex[s_data.kMaxVertices];
 
-    uint32_t* indices = new uint32_t[s_data.kMaxIndexs];
+    uint32_t* indices = new uint32_t[s_data.kMaxIndices];
 
     uint32_t offset = 0;
-    for (uint32_t i = 0; i < s_data.kMaxIndexs; i += 6)
+    for (uint32_t i = 0; i < s_data.kMaxIndices; i += 6)
     {
         indices[i + 0] = offset + 0;
         indices[i + 1] = offset + 1;
@@ -73,7 +75,7 @@ void Renderer2D::Init()
         offset += 4;
     }
 
-    Ref<IndexBuffer> quad_index_buffer = IndexBuffer::Create(indices, s_data.kMaxIndexs);
+    Ref<IndexBuffer> quad_index_buffer = IndexBuffer::Create(indices, s_data.kMaxIndices);
     s_data.quad_vertex_array->SetIndexBuffer(quad_index_buffer);
     delete[] indices;
 
@@ -134,6 +136,17 @@ void Renderer2D::Flush()
     }
 
     RenderCommand::DrawIndexed(s_data.quad_vertex_array, s_data.quad_index_count);
+    s_data.stats.draw_calls++;
+}
+
+void Renderer2D::FlushAndReset()
+{
+    EndScene();
+
+    s_data.quad_index_count = 0;
+    s_data.quad_vertex_buffer_ptr = s_data.quad_vertex_buffer_base;
+
+    s_data.Texture_slot_index = 1;
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
@@ -143,6 +156,11 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
 void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 {
+    if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
+    {
+        FlushAndReset();
+    }
+
     // 默认白色纹理
     const float texture_index = 0.0f;
     const float tiling_factor = 1.0f;
@@ -176,6 +194,8 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
     s_data.quad_vertex_buffer_ptr++;
 
     s_data.quad_index_count += 6;
+
+    s_data.stats.quad_count++;
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& tint_color)
@@ -185,6 +205,11 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
 void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& tint_color)
 {
+    if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
+    {
+        FlushAndReset();
+    }
+
     constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
     float texture_index = 0.0f;
@@ -233,6 +258,8 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
     s_data.quad_vertex_buffer_ptr++;
 
     s_data.quad_index_count += 6;
+
+    s_data.stats.quad_count++;
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
@@ -242,6 +269,11 @@ void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& siz
 
 void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 {
+    if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
+    {
+        FlushAndReset();
+    }
+
     // 默认白色纹理
     const float texture_index = 0.0f;
     const float tiling_factor = 1.0f;
@@ -279,6 +311,8 @@ void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
     s_data.quad_vertex_buffer_ptr++;
 
     s_data.quad_index_count += 6;
+
+    s_data.stats.quad_count++;
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& tint_color)
@@ -288,6 +322,11 @@ void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& siz
 
 void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& tint_color)
 {
+    if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
+    {
+        FlushAndReset();
+    }
+
     constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
     float texture_index = 0.0f;
@@ -340,6 +379,18 @@ void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
     s_data.quad_vertex_buffer_ptr++;
 
     s_data.quad_index_count += 6;
+
+    s_data.stats.quad_count++;
+}
+
+void Renderer2D::ResetStats()
+{
+    memset(&s_data.stats, 0, sizeof(Renderer2D::Statistics));
+}
+
+Renderer2D::Statistics Renderer2D::GetStats()
+{
+    return s_data.stats;
 }
 
 } // namespace Alice
