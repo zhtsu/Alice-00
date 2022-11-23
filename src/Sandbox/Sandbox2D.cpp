@@ -4,7 +4,7 @@
 #include "Alice/Debug/Instrumentor.hpp"
 
 Sandbox2D::Sandbox2D()
-    :Layer("Sandbox2D"), m_camera_controller(1280.0f / 720.0f)
+    : Layer("Sandbox2D"), m_camera_controller(1280.0f / 720.0f)
 {
 
 }
