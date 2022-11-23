@@ -9,6 +9,12 @@ namespace Alice
 template<class T>
 using Scope = std::unique_ptr<T>;
 
+template<class T, class... Args>
+constexpr Scope<T> CreateScope(Args&&... args)
+{
+    return std::make_unique<T>(std::forward<Args>(args)...);
+}
+
 // 共享智能指针类型重命名
 template<class T>
 using Ref = std::shared_ptr<T>;
