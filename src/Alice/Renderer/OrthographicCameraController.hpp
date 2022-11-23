@@ -10,6 +10,18 @@ namespace Alice
 {
 
 //
+// 摄像机边界
+//
+struct OrthographicCameraBounds
+{
+    float left, right;
+    float bottom, top;
+
+    float GetWidth() { return right - left; }
+    float GetHeight() { return top - bottom; }
+};
+
+//
 // 2D 正交摄像机控制器
 // 控制一个 2D 正交摄像机
 //
@@ -27,6 +39,8 @@ public:
     float GetZoomLevel() const { return m_zoom_level; }
     void SetZoomLevel(float zoom_level) { m_zoom_level = zoom_level; }
 
+    const OrthographicCameraBounds& GetBounds() const { return m_bounds; }
+
 private:
     bool OnMouseScrolled(MouseScrolledEvent& event);
     bool OnWindowResized(WindowResizeEvent& event);
@@ -34,6 +48,7 @@ private:
 private:
     float m_aspect_ratio;
     float m_zoom_level = 1.0f;
+    OrthographicCameraBounds m_bounds;
     OrthographicCamera m_camera;
 
     bool m_rotation;

@@ -16,6 +16,14 @@ void Sandbox2D::OnAttach()
         "KFC.jpg"
     );
     m_checkerboard_texture = Alice::Texture2D::Create(img_path);
+
+    m_particle.color_begin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
+    m_particle.color_end = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
+    m_particle.size_begin = 0.5f, m_particle.size_end = 0.0f, m_particle.size_variation = 0.3f;
+    m_particle.life_time = 1.0f;
+    m_particle.velocity = { 0.0f, 0.0f };
+    m_particle.velocity_variation = { 3.0f, 1.0f };
+    m_particle.position = { 0.0f, 0.0f };
 }
 
 void Sandbox2D::OnDetach()
@@ -64,6 +72,26 @@ void Sandbox2D::OnUpdate(Alice::Timestep ts)
 
         Alice::Renderer2D::EndScene();
     }
+
+    if (Alice::Input::IsMouseButtonPressed(ALICE_MOUSE_BUTTON_LEFT))
+    {
+        auto [x, y] = Alice::Input::GetMousePosition();
+        auto width = Alice::Application::Get().GetWindow().GetWidth();
+        auto height = Alice::Application::Get().GetWindow().GetHeight();
+
+        auto bounds = m_camera_controller.GetBounds();
+        auto pos = m_camera_controller.GetCamera().GetPosition();
+        x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
+        y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
+        m_particle.position = { x + pos.x, y + pos.y };
+        for (int i = 0; i < 5; i++)
+        {
+            m_particle_system.Emit(m_particle);
+        }
+    }
+
+    m_particle_system.OnUpdate(ts);
+    m_particle_system.OnRender(m_camera_controller.GetCamera());
 }
 
 void Sandbox2D::OnImGuiRender()

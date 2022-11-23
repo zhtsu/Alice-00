@@ -3,16 +3,16 @@ cmake_minimum_required(VERSION 3.16.0)
 aux_source_directory(. SRC_LIST)
 
 add_library(
-    Sandbox
+    Alice_Common
     STATIC
     ${SRC_LIST}
 )
 
 target_link_libraries(
-    Sandbox
-    Alice_Log
-    Alice_Renderer
     Alice_Common
+    glm
+    glad
+    Alice_Renderer
 )
 
-set_target_properties(Sandbox PROPERTIES OUTPUT_NAME "sandbox")
+set_target_properties(Alice_Common PROPERTIES OUTPUT_NAME "alice-common")

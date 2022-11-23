@@ -1,20 +1,20 @@
 #pragma once
 
-namespace Alice
+namespace MOUSE
 {
 
-// From glfw3.h
-#define GLFW_ALICE_BUTTON_1         0
-#define GLFW_ALICE_BUTTON_2         1
-#define GLFW_ALICE_BUTTON_3         2
-#define GLFW_ALICE_BUTTON_4         3
-#define GLFW_ALICE_BUTTON_5         4
-#define GLFW_ALICE_BUTTON_6         5
-#define GLFW_ALICE_BUTTON_7         6
-#define GLFW_ALICE_BUTTON_8         7
-#define GLFW_ALICE_BUTTON_LAST      GLFW_ALICE_BUTTON_8
-#define GLFW_ALICE_BUTTON_LEFT      GLFW_ALICE_BUTTON_1
-#define GLFW_ALICE_BUTTON_RIGHT     GLFW_ALICE_BUTTON_2
-#define GLFW_ALICE_BUTTON_MIDDLE    GLFW_ALICE_BUTTON_3
+// From ALICE3.h
+#define ALICE_MOUSE_BUTTON_1         0
+#define ALICE_MOUSE_BUTTON_2         1
+#define ALICE_MOUSE_BUTTON_3         2
+#define ALICE_MOUSE_BUTTON_4         3
+#define ALICE_MOUSE_BUTTON_5         4
+#define ALICE_MOUSE_BUTTON_6         5
+#define ALICE_MOUSE_BUTTON_7         6
+#define ALICE_MOUSE_BUTTON_8         7
+#define ALICE_MOUSE_BUTTON_LAST      ALICE_MOUSE_BUTTON_8
+#define ALICE_MOUSE_BUTTON_LEFT      ALICE_MOUSE_BUTTON_1
+#define ALICE_MOUSE_BUTTON_RIGHT     ALICE_MOUSE_BUTTON_2
+#define ALICE_MOUSE_BUTTON_MIDDLE    ALICE_MOUSE_BUTTON_3
 
-} // namespace Alice
+} // namespace MOUSE

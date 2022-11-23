@@ -12,6 +12,7 @@
 // Common
 #include "Alice/Common/PathHelper.hpp"
 #include "Alice/Common/FileHelper.hpp"
+#include "Alice/Common/ParticleSystem.hpp"
 
 // Application
 #include "Alice/Application/Application.hpp"

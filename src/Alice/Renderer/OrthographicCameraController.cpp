@@ -7,6 +7,7 @@ namespace Alice
 
 OrthographicCameraController::OrthographicCameraController(float aspect_ratio, bool rotation)
     : m_aspect_ratio(aspect_ratio),
+    m_bounds({ -m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level }),
     m_camera(-m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level),
     m_rotation(rotation)
 {
@@ -50,12 +51,8 @@ bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event)
 {
     m_zoom_level -= event.GetYOffset() * 0.5;
     m_zoom_level = std::max(m_zoom_level, 0.25f);
-    m_camera.SetProjection(
-        -m_aspect_ratio * m_zoom_level,
-        m_aspect_ratio * m_zoom_level,
-        -m_zoom_level,
-        m_zoom_level
-    );
+    m_bounds = { -m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level };
+    m_camera.SetProjection(m_bounds.left, m_bounds.right, m_bounds.bottom, m_bounds.top);
     
     return false;
 }
@@ -63,12 +60,8 @@ bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event)
 bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event)
 {
     m_aspect_ratio = (float)event.GetWidth() / (float)event.GetHeight();
-    m_camera.SetProjection(
-        -m_aspect_ratio * m_zoom_level,
-        m_aspect_ratio * m_zoom_level,
-        -m_zoom_level,
-        m_zoom_level
-    );
+    m_bounds = { -m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level };
+    m_camera.SetProjection(m_bounds.left, m_bounds.right, m_bounds.bottom, m_bounds.top);
 
     return false;
 }
