@@ -11,10 +11,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-    std::string img_path = Alice::PathHelper::GeneratePath(
-        Alice::FileType::Image,
-        "KFC.jpg"
-    );
+    std::string img_path = Alice::PathHelper::GeneratePath(Alice::FileType::Image, "KFC.jpg");
     m_checkerboard_texture = Alice::Texture2D::Create(img_path);
 
     m_particle.color_begin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
