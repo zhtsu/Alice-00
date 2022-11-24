@@ -213,7 +213,6 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
     constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
     float texture_index = 0.0f;
-
     for (int i = 1; i < s_data.Texture_slot_index; i++)
     {
         if (*s_data.texture_slots[i].get() == *texture.get())
@@ -260,6 +259,16 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
     s_data.quad_index_count += 6;
 
     s_data.stats.quad_count++;
+}
+
+void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& tint_color)
+{
+    DrawQuad({ position.x, position.y, 0.0f }, size, subtexture, tiling_factor, tint_color);
+}
+
+void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& tint_color)
+{
+    
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
@@ -381,6 +390,16 @@ void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
     s_data.quad_index_count += 6;
 
     s_data.stats.quad_count++;
+}
+
+void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& tint_color)
+{
+
+}
+
+void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& tint_color)
+{
+
 }
 
 void Renderer2D::ResetStats()

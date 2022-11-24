@@ -11,8 +11,8 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-    std::string img_path = Alice::PathHelper::GeneratePath(Alice::FileType::Image, "KFC.jpg");
-    m_checkerboard_texture = Alice::Texture2D::Create(img_path);
+    m_checkerboard_texture = Alice::Texture2D::Create("assets/images/KFC.jpg");
+    m_sprite_sheet = Alice::Texture2D::Create("assets/images/sheet.png");
 
     m_particle.color_begin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
     m_particle.color_end = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
@@ -34,13 +34,15 @@ void Sandbox2D::OnUpdate(Alice::Timestep ts)
 
     m_camera_controller.OnUpdate(ts);
 
-    Alice::Renderer2D::ResetStats();    
+    Alice::Renderer2D::ResetStats();
+
     {
         ALICE_PROFILE_SCOPE("Renderer Prep");
         Alice::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
         Alice::RenderCommand::Clear();
     }
 
+#if 0
     {
         static float rotation = 0.0f;
         rotation += ts * 20.0f;
@@ -86,6 +88,10 @@ void Sandbox2D::OnUpdate(Alice::Timestep ts)
             m_particle_system.Emit(m_particle);
         }
     }
+#endif
+    Alice::Renderer2D::BeginScene(m_camera_controller.GetCamera());
+    Alice::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_sprite_sheet);
+    Alice::Renderer2D::EndScene();
 
     m_particle_system.OnUpdate(ts);
     m_particle_system.OnRender(m_camera_controller.GetCamera());
