@@ -42,7 +42,7 @@ void Sandbox2D::OnUpdate(Alice::Timestep ts)
         Alice::RenderCommand::Clear();
     }
 
-#if 0
+#if 1
     {
         static float rotation = 0.0f;
         rotation += ts * 20.0f;
