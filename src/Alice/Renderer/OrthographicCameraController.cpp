@@ -22,9 +22,9 @@ void OrthographicCameraController::OnUpdate(Timestep ts)
         m_camera_position.x += m_camera_translation_speed * ts;
 
     if (Input::IsKeyPressed(ALICE_KEY_W))
-        m_camera_position.y += m_camera_translation_speed * ts;
-    else if (Input::IsKeyPressed(ALICE_KEY_S))
         m_camera_position.y -= m_camera_translation_speed * ts;
+    else if (Input::IsKeyPressed(ALICE_KEY_S))
+        m_camera_position.y += m_camera_translation_speed * ts;
 
     if (m_rotation)
     {

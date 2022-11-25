@@ -174,15 +174,17 @@ void Sandbox2D::OnImGuiRender()
         ImGui::EndMenuBar();
     }
 
-    ImGui::Begin("Settings");
-    auto stats = Alice::Renderer2D::GetStats();
-    ImGui::Text("Renderer2D Stats:");
-    ImGui::Text("Draw Calls: %d", stats.draw_calls);
-    ImGui::Text("Quads: %d", stats.quad_count);
-    ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-    ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-    ImGui::ColorEdit4("Square Color", glm::value_ptr(m_square_color));
-    ImGui::Image((void*)m_framebuffer->GetColorAttachmentRendererID(), ImVec2{ 320.0f, 180.0f });
+    ImGui::Begin("View");
+    
+    // auto stats = Alice::Renderer2D::GetStats();
+    // ImGui::Text("Renderer2D Stats:");
+    // ImGui::Text("Draw Calls: %d", stats.draw_calls);
+    // ImGui::Text("Quads: %d", stats.quad_count);
+    // ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+    // ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+    // ImGui::ColorEdit4("Square Color", glm::value_ptr(m_square_color));
+
+    ImGui::Image((void*)m_framebuffer->GetColorAttachmentRendererID(), ImVec2{ 960.0f, 640.0f });
     ImGui::End();
 
     ImGui::End();
