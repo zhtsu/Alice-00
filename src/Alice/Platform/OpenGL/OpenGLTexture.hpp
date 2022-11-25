@@ -19,6 +19,7 @@ public:
 
     uint32_t GetWidth() const override { return m_width; }
     uint32_t GetHeight() const override { return m_height; }
+    uint32_t GetRendererID() const override { return m_renderer_id; }
 
     void SetData(void* data, uint32_t size) override;
 

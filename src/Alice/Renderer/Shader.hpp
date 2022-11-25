@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Alice/PCH.hpp"
-#include "Alice/Core/Core.hpp"
+#include "Alice/Core/Base.hpp"
 #include "glm/glm.hpp"
 
 namespace Alice

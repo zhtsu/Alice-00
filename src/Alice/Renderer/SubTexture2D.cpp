@@ -12,15 +12,15 @@ SubTexture2D::SubTexture2D(const Ref<Texture2D>& texture, const glm::vec2& min, 
     m_texture_coords[3] = { min.x, max.y };
 }
 
-Ref<SubTexture2D> SubTexture2D::CreateFromCoords(const Ref<Texture2D>& texture, const glm::vec2& coord, const glm::vec2& size)
+Ref<SubTexture2D> SubTexture2D::CreateFromCoords(const Ref<Texture2D>& texture, const glm::vec2& coord, const glm::vec2& cell_size, const glm::vec2& sprite_size)
 {
     glm::vec2 min = {
-        (coord.x * size.x) / texture->GetWidth(),
-        (coord.y * size.y) / texture->GetHeight()
+        (coord.x * cell_size.x) / texture->GetWidth(),
+        (coord.y * cell_size.y) / texture->GetHeight()
     };
     glm::vec2 max = {
-        ((coord.x + 1) * size.x) / texture->GetWidth(),
-        ((coord.y + 1) * size.y) / texture->GetHeight()
+        ((coord.x + sprite_size.x) * cell_size.x) / texture->GetWidth(),
+        ((coord.y + sprite_size.y) * cell_size.y) / texture->GetHeight()
     };
 
     return CreateRef<SubTexture2D>(texture, min, max);

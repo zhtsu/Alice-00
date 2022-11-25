@@ -5,7 +5,7 @@
 #include "OrthographicCamera.hpp"
 #include "Shader.hpp"
 #include "glm/glm.hpp"
-#include "Alice/Core/Core.hpp"
+#include "Alice/Core/Base.hpp"
 
 namespace Alice
 {

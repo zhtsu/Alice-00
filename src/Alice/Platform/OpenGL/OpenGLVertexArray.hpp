@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Alice/Renderer/VertexArray.hpp"
-#include "Alice/Core/Core.hpp"
+#include "Alice/Core/Base.hpp"
 
 namespace Alice
 {

@@ -2,7 +2,7 @@
 
 #include "Alice/PCH.hpp"
 #include "Alice/Log/Log.hpp"
-#include "Alice/Core/Core.hpp"
+#include "Alice/Core/Base.hpp"
 
 namespace Alice
 {

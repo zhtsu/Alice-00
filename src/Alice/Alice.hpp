@@ -3,7 +3,7 @@
 #include "Alice/PCH.hpp"
 
 // Core
-#include "Alice/Core/Core.hpp"
+#include "Alice/Core/Base.hpp"
 #include "Alice/Core/Timestep.hpp"
 #include "Alice/Core/Input.hpp"
 #include "Alice/Core/KeyCodes.hpp"
@@ -34,8 +34,10 @@
 #include "Alice/Renderer/Shader.hpp"
 #include "Alice/Renderer/VertexArray.hpp"
 #include "Alice/Renderer/Texture.hpp"
+#include "Alice/Renderer/SubTexture2D.hpp"
 #include "Alice/Renderer/OrthographicCamera.hpp"
 #include "Alice/Renderer/OrthographicCameraController.hpp"
+#include "Alice/Renderer/Framebuffer.hpp"
 
 // Platform/OpenGL
 #include "Alice/Platform/OpenGL/OpenGLShader.hpp"

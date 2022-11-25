@@ -162,21 +162,17 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
     constexpr float texture_index = 0.0f;
     constexpr float tiling_factor = 1.0f;
 
-    const glm::vec3 positions[] = {
-        position,
-        { position.x + size.x, position.y, 0.0f },
-        { position.x + size.x, position.y + size.y, 0.0f },
-        { position.x, position.y + size.y, 0.0f }
-    };
-
     if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
     {
         FlushAndReset();
     }
     
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+        * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
     for (int i = 0; i < quad_vertex_count; i++)
     {
-        s_data.quad_vertex_buffer_ptr->position = positions[i];
+        s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[i];
         s_data.quad_vertex_buffer_ptr->color = color;
         s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
         s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
@@ -198,13 +194,6 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
 {
     constexpr int quad_vertex_count = 4;
     constexpr glm::vec2 texture_coords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
-
-    const glm::vec3 positions[] = {
-        position,
-        { position.x + size.x, position.y, 0.0f },
-        { position.x + size.x, position.y + size.y, 0.0f },
-        { position.x, position.y + size.y, 0.0f }
-    };
 
     if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
     {
@@ -228,9 +217,12 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
         s_data.Texture_slot_index++;
     }
 
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+        * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
     for (int i = 0 ; i < quad_vertex_count; i++)
     {
-        s_data.quad_vertex_buffer_ptr->position = positions[i];
+        s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[i];
         s_data.quad_vertex_buffer_ptr->color = color;
         s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
         s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
@@ -250,7 +242,48 @@ void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
 void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& color)
 {
+    constexpr int quad_vertex_count = 4;
+    const glm::vec2* texture_coords = subtexture->GetTextureCoords();
+    const Ref<Texture2D> texture = subtexture->GetTexture();
 
+    if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
+    {
+        FlushAndReset();
+    }
+
+    float texture_index = 0.0f;
+    for (int i = 1; i < s_data.Texture_slot_index; i++)
+    {
+        if (*s_data.texture_slots[i].get() == *texture.get())
+        {
+            texture_index = (float)i;
+            break;
+        }
+    }
+
+    if (texture_index == 0.0f)
+    {
+        texture_index = (float)s_data.Texture_slot_index;
+        s_data.texture_slots[s_data.Texture_slot_index] = texture;
+        s_data.Texture_slot_index++;
+    }
+
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+        * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+    for (int i = 0 ; i < quad_vertex_count; i++)
+    {
+        s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[i];
+        s_data.quad_vertex_buffer_ptr->color = color;
+        s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
+        s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
+        s_data.quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        s_data.quad_vertex_buffer_ptr++;
+    }
+
+    s_data.quad_index_count += 6;
+
+    s_data.stats.quad_count++;
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
@@ -340,14 +373,56 @@ void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
     s_data.stats.quad_count++;
 }
 
-void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& tint_color)
+void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& color)
 {
-
+    DrawRotatedQuad(position, size, rotation, subtexture, tiling_factor, color);
 }
 
-void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& tint_color)
+void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<SubTexture2D>& subtexture, float tiling_factor, const glm::vec4& color)
 {
+    constexpr int quad_vertex_count = 4;
+    const glm::vec2* texture_coords = subtexture->GetTextureCoords();
+    const Ref<Texture2D> texture = subtexture->GetTexture();
 
+    if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
+    {
+        FlushAndReset();
+    }
+
+    float texture_index = 0.0f;
+    for (int i = 1; i < s_data.Texture_slot_index; i++)
+    {
+        if (*s_data.texture_slots[i].get() == *texture.get())
+        {
+            texture_index = (float)i;
+            break;
+        }
+    }
+
+    if (texture_index == 0.0f)
+    {
+        texture_index = (float)s_data.Texture_slot_index;
+        s_data.texture_slots[s_data.Texture_slot_index] = texture;
+        s_data.Texture_slot_index++;
+    }
+
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+        * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
+        * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+    for (int i = 0; i < quad_vertex_count; i++)
+    {
+        s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[i];
+        s_data.quad_vertex_buffer_ptr->color = color;
+        s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
+        s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
+        s_data.quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        s_data.quad_vertex_buffer_ptr++;
+    }
+
+    s_data.quad_index_count += 6;
+
+    s_data.stats.quad_count++;
 }
 
 void Renderer2D::ResetStats()

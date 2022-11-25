@@ -24,6 +24,8 @@ private:
 
     Alice::Ref<Alice::Texture2D> m_checkerboard_texture;
     Alice::Ref<Alice::Texture2D> m_sprite_sheet;
+    Alice::Ref<Alice::SubTexture2D> m_sprite;
+    Alice::Ref<Alice::Framebuffer> m_framebuffer;
 
     glm::vec4 m_square_color = { 0.2f, 0.3f, 0.8f, 1.0f };
 
