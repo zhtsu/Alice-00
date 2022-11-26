@@ -10,7 +10,7 @@ namespace Alice
 
 Application* Application::s_instance = nullptr;
 
-Application::Application()
+Application::Application(const std::string& name)
     : m_imgui_layer(nullptr)
 {
     ALICE_ASSERT(!s_instance, "Application already exists!");
@@ -18,7 +18,7 @@ Application::Application()
     
     Alice::Log::Init();
 
-    m_window = std::unique_ptr<Window>(Window::Create());
+    m_window = std::unique_ptr<Window>(Window::Create(WindowProps(name)));
     m_window->SetEventCallback(ALICE_BIND_EVENT_FN(Application::OnEvent));
 
     Renderer::Init();    

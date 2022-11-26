@@ -16,7 +16,7 @@ struct WindowProps
     unsigned int height;
 
     WindowProps(
-        const std::string& title_ = "Alice Engine",
+        const std::string& title_ = "Window",
         unsigned int width_ = 960,
         unsigned int height_ = 640
     ) : title(title_), width(width_), height(height_)

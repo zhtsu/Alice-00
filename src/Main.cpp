@@ -4,7 +4,7 @@
 int main(int argc, char* argv[])
 {
     ALICE_PROFILE_BEGIN_SESSION("Startup", "AliceProfile-Start.json");
-    Alice::Application* app = new Alice::Application();
+    Alice::Application* app = new Alice::Application("Alice Editor");
     ALICE_PROFILE_END_SESSION();
 
     app->PushLayer(new Alice::EditorLayer());

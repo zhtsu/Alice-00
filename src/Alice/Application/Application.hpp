@@ -16,7 +16,7 @@ namespace Alice
 class Application
 {
 public:
-    Application();
+    Application(const std::string& name = "Application");
     virtual ~Application();
 
     // 事件回调函数
