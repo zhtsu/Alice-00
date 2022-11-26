@@ -53,7 +53,7 @@ void EditorLayer::OnUpdate(Timestep ts)
         RenderCommand::Clear();
     }
 
-#if 1
+#if 0
     {
         static float rotation = 0.0f;
         rotation += ts * 20.0f;
@@ -187,7 +187,7 @@ void EditorLayer::OnImGuiRender()
     // ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
     // ImGui::ColorEdit4("Square Color", glm::value_ptr(m_square_color));
 
-    ImGui::Image((void*)m_framebuffer->GetColorAttachmentRendererID(), ImVec2{ 960.0f, 640.0f });
+    ImGui::Image((void*)m_framebuffer->GetColorAttachmentRendererID(), ImVec2{ 960.0f, 640.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
 
     ImGui::End();
