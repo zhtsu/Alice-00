@@ -1,5 +1,5 @@
 #include "Alice/Alice.hpp"
-#include "Sandbox/Sandbox2D.hpp"
+#include "Editor/EditorLayer.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
     Alice::Application* app = new Alice::Application();
     ALICE_PROFILE_END_SESSION();
 
-    app->PushLayer(new Sandbox2D());
+    app->PushLayer(new EditorLayer());
      
     ALICE_PROFILE_BEGIN_SESSION("Runtime", "AliceProfile-Runtime.json");
     app->Run();
