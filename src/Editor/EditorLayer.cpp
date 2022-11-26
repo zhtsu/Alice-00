@@ -3,6 +3,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Alice/Debug/Instrumentor.hpp"
 
+namespace Alice
+{
+
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_camera_controller(1280.0f / 720.0f)
 {
@@ -11,10 +14,10 @@ EditorLayer::EditorLayer()
 
 void EditorLayer::OnAttach()
 {
-    m_checkerboard_texture = Alice::Texture2D::Create("assets/images/KFC.jpg");
-    m_sprite_sheet = Alice::Texture2D::Create("assets/images/sheet.png");
+    m_checkerboard_texture = Texture2D::Create("assets/images/KFC.jpg");
+    m_sprite_sheet = Texture2D::Create("assets/images/sheet.png");
 
-    m_sprite = Alice::SubTexture2D::CreateFromCoords(m_sprite_sheet, { 0, 0 }, { 280, 215 });
+    m_sprite = SubTexture2D::CreateFromCoords(m_sprite_sheet, { 0, 0 }, { 280, 215 });
 
     m_particle.color_begin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
     m_particle.color_end = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
@@ -24,10 +27,10 @@ void EditorLayer::OnAttach()
     m_particle.velocity_variation = { 3.0f, 1.0f };
     m_particle.position = { 0.0f, 0.0f };
 
-    Alice::FramebufferSpecification framebuffer_spec;
+    FramebufferSpecification framebuffer_spec;
     framebuffer_spec.width = 960;
     framebuffer_spec.height = 640;
-    m_framebuffer = Alice::Framebuffer::Create(framebuffer_spec);
+    m_framebuffer = Framebuffer::Create(framebuffer_spec);
 }
 
 void EditorLayer::OnDetach()
@@ -35,19 +38,19 @@ void EditorLayer::OnDetach()
 
 }
 
-void EditorLayer::OnUpdate(Alice::Timestep ts)
+void EditorLayer::OnUpdate(Timestep ts)
 {
     ALICE_PROFILE_FUNCTION();
 
     m_camera_controller.OnUpdate(ts);
 
-    Alice::Renderer2D::ResetStats();
+    Renderer2D::ResetStats();
 
     {
         ALICE_PROFILE_SCOPE("Renderer Prep");
         m_framebuffer->Bind();
-        Alice::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-        Alice::RenderCommand::Clear();
+        RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+        RenderCommand::Clear();
     }
 
 #if 0
@@ -57,34 +60,34 @@ void EditorLayer::OnUpdate(Alice::Timestep ts)
 
         ALICE_PROFILE_SCOPE("Renderer Draw");
         // Scene 1
-        Alice::Renderer2D::BeginScene(m_camera_controller.GetCamera());
+        Renderer2D::BeginScene(m_camera_controller.GetCamera());
 
-        Alice::Renderer2D::DrawRotatedQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, 45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
-        Alice::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-        Alice::Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, rotation, m_checkerboard_texture);
+        Renderer2D::DrawRotatedQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, 45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
+        Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+        Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, rotation, m_checkerboard_texture);
 
-        Alice::Renderer2D::EndScene();
+        Renderer2D::EndScene();
 
         // Scene 2
-        Alice::Renderer2D::BeginScene(m_camera_controller.GetCamera());
+        Renderer2D::BeginScene(m_camera_controller.GetCamera());
 
         for (float y = -5.0f; y < 5.0f; y += 0.5f)
         {
             for (float x = -5.0f; x < 5.0f; x += 0.5f)
             {
                 glm::vec4 color = { (x + 0.5f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-                Alice::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color);
+                Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color);
             }
         }
 
-        Alice::Renderer2D::EndScene();
+        Renderer2D::EndScene();
     }
 
-    if (Alice::Input::IsMouseButtonPressed(ALICE_MOUSE_BUTTON_LEFT))
+    if (Input::IsMouseButtonPressed(ALICE_MOUSE_BUTTON_LEFT))
     {
-        auto [x, y] = Alice::Input::GetMousePosition();
-        auto width = Alice::Application::Get().GetWindow().GetWidth();
-        auto height = Alice::Application::Get().GetWindow().GetHeight();
+        auto [x, y] = Input::GetMousePosition();
+        auto width = Application::Get().GetWindow().GetWidth();
+        auto height = Application::Get().GetWindow().GetHeight();
 
         auto bounds = m_camera_controller.GetBounds();
         auto pos = m_camera_controller.GetCamera().GetPosition();
@@ -97,9 +100,9 @@ void EditorLayer::OnUpdate(Alice::Timestep ts)
         }
     }
 #endif
-    Alice::Renderer2D::BeginScene(m_camera_controller.GetCamera());
-    Alice::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_sprite);
-    Alice::Renderer2D::EndScene();
+    Renderer2D::BeginScene(m_camera_controller.GetCamera());
+    Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_sprite);
+    Renderer2D::EndScene();
     m_framebuffer->Unbind();
 
     m_particle_system.OnUpdate(ts);
@@ -166,7 +169,7 @@ void EditorLayer::OnImGuiRender()
         if (ImGui::BeginMenu("File"))
         {
             if (ImGui::MenuItem("Exit"))
-                Alice::Application::Get().Close();
+                Application::Get().Close();
 
             ImGui::EndMenu();
         }
@@ -176,7 +179,7 @@ void EditorLayer::OnImGuiRender()
 
     ImGui::Begin("View");
     
-    // auto stats = Alice::Renderer2D::GetStats();
+    // auto stats = Renderer2D::GetStats();
     // ImGui::Text("Renderer2D Stats:");
     // ImGui::Text("Draw Calls: %d", stats.draw_calls);
     // ImGui::Text("Quads: %d", stats.quad_count);
@@ -190,7 +193,9 @@ void EditorLayer::OnImGuiRender()
     ImGui::End();
 }
 
-void EditorLayer::OnEvent(Alice::Event& event)
+void EditorLayer::OnEvent(Event& event)
 {
     m_camera_controller.OnEvent(event);
 }
+
+} // namespace Alice

@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
     Alice::Application* app = new Alice::Application();
     ALICE_PROFILE_END_SESSION();
 
-    app->PushLayer(new EditorLayer());
+    app->PushLayer(new Alice::EditorLayer());
      
     ALICE_PROFILE_BEGIN_SESSION("Runtime", "AliceProfile-Runtime.json");
     app->Run();
