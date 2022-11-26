@@ -27,7 +27,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glm)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/stb)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice)
-# add_subdirectory(${PROJECT_SOURCE_DIR}/src/Sandbox)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/Sandbox)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Editor)
 
 add_executable(
@@ -40,6 +40,7 @@ target_precompile_headers(Alice PUBLIC ${PROJECT_SOURCE_DIR}/src/Alice/PCH.hpp)
 target_link_libraries(
     Alice
     Editor
+    Sandbox
 )
 
 # @TODO: 在拷贝现有资源前移除旧资源

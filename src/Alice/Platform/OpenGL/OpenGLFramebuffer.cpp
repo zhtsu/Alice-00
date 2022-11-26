@@ -21,6 +21,7 @@ void OpenGLFramebuffer::Invalidate()
     glCreateFramebuffers(1, &m_renderer_id);
     glBindFramebuffer(GL_FRAMEBUFFER, m_renderer_id);
 
+    //
     glCreateTextures(GL_TEXTURE_2D, 1, &m_color_attachment);
     glBindTexture(GL_TEXTURE_2D, m_color_attachment);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_specification.width, m_specification.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
