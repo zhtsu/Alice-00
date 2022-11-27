@@ -1,1 +1,0 @@
-{"otherData": {},"traceEvents":[{"cat":"function","dur":0,"name":"Renderer Prep","ph":"X","pid":0,"tid":2850328247,"ts":1669552069539394},{"cat":"function","dur":1993,"name":"OnUpdate","ph":"X","pid":0,"tid":2850328247,"ts":1669552069539394}
