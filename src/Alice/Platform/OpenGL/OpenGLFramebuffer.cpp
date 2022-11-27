@@ -14,10 +14,19 @@ OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
 OpenGLFramebuffer::~OpenGLFramebuffer()
 {
     glDeleteFramebuffers(1, &m_renderer_id);
+    glDeleteTextures(1, &m_color_attachment);
+    glDeleteTextures(1, &m_depth_attachment);
 }
 
 void OpenGLFramebuffer::Invalidate()
 {
+    if (m_renderer_id)
+    {
+        glDeleteFramebuffers(1, &m_renderer_id);
+        glDeleteTextures(1, &m_color_attachment);
+        glDeleteTextures(1, &m_depth_attachment);
+    }
+
     glCreateFramebuffers(1, &m_renderer_id);
     glBindFramebuffer(GL_FRAMEBUFFER, m_renderer_id);
 
@@ -43,11 +52,20 @@ void OpenGLFramebuffer::Invalidate()
 void OpenGLFramebuffer::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_renderer_id);
+    glViewport(0, 0, m_specification.width, m_specification.height);
 }
 
 void OpenGLFramebuffer::Unbind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height)
+{
+    m_specification.width = width;
+    m_specification.height = height;
+
+    Invalidate();
 }
 
 } // namespace Alice

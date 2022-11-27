@@ -23,6 +23,8 @@ public:
     // 清理当前层
     void OnDetach() override;
 
+    void OnEvent(Event& event);
+
     // 开始当前层的描述
     void Begin();
     // 结束描述

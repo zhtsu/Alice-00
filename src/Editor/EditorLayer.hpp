@@ -31,6 +31,8 @@ private:
     Ref<Framebuffer> m_framebuffer;
 
     glm::vec4 m_square_color = { 0.2f, 0.3f, 0.8f, 1.0f };
+    
+    glm::vec2 m_viewport_size = { 0.0f, 0.0f };
 
     ParticleSystem m_particle_system;
     ParticleProps m_particle;

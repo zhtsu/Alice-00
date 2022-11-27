@@ -176,19 +176,36 @@ void EditorLayer::OnImGuiRender()
 
         ImGui::EndMenuBar();
     }
-
-    ImGui::Begin("View");
     
-    // auto stats = Renderer2D::GetStats();
-    // ImGui::Text("Renderer2D Stats:");
-    // ImGui::Text("Draw Calls: %d", stats.draw_calls);
-    // ImGui::Text("Quads: %d", stats.quad_count);
-    // ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-    // ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-    // ImGui::ColorEdit4("Square Color", glm::value_ptr(m_square_color));
+    ImGui::Begin("Profile");
+    
+    auto stats = Renderer2D::GetStats();
+    ImGui::Text("Renderer2D Stats:");
+    ImGui::Text("Draw Calls: %d", stats.draw_calls);
+    ImGui::Text("Quads: %d", stats.quad_count);
+    ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+    ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+    ImGui::ColorEdit4("Square Color", glm::value_ptr(m_square_color));
 
-    ImGui::Image((void*)m_framebuffer->GetColorAttachmentRendererID(), ImVec2{ 960.0f, 640.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     ImGui::End();
+
+    // Viewport
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
+    ImGui::Begin("Viewport");
+
+    ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
+    if (m_viewport_size != *(glm::vec2*)&viewport_panel_size)
+    {
+        m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
+        m_framebuffer->Resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+
+        m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
+    }
+    uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
+    ImGui::Image((void*)frame_buffer_texture, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    
+    ImGui::End();
+    ImGui::PopStyleVar();
 
     ImGui::End();
 }

@@ -47,6 +47,13 @@ void OrthographicCameraController::OnEvent(Event& event)
     dispatcher.Dispatch<WindowResizeEvent>(ALICE_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 }
 
+void OrthographicCameraController::OnResize(float width, float height)
+{
+    m_aspect_ratio = width / height;
+    m_bounds = { -m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level };
+    m_camera.SetProjection(m_bounds.left, m_bounds.right, m_bounds.bottom, m_bounds.top);
+}
+
 void OrthographicCameraController::CalculateView()
 {
     m_bounds = { -m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level };
@@ -57,6 +64,7 @@ bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event)
 {
     m_zoom_level -= event.GetYOffset() * 0.5;
     m_zoom_level = std::max(m_zoom_level, 0.25f);
+    
     CalculateView();
     
     return false;
@@ -65,7 +73,8 @@ bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event)
 bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event)
 {
     m_aspect_ratio = (float)event.GetWidth() / (float)event.GetHeight();
-    CalculateView();
+    
+    OnResize((float)event.GetWidth(), (float)event.GetHeight());
 
     return false;
 }
