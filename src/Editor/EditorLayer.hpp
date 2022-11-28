@@ -32,6 +32,7 @@ private:
 
     glm::vec4 m_square_color = { 0.2f, 0.3f, 0.8f, 1.0f };
     
+    bool m_viewport_focused = false, m_viewport_hovered = false;;
     glm::vec2 m_viewport_size = { 0.0f, 0.0f };
 
     ParticleSystem m_particle_system;

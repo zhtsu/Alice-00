@@ -30,7 +30,11 @@ public:
     // 结束描述
     void End();
 
+    // 设置事件拦截
+    void BlockEvents(bool block) { m_block_events = block; }
+
 private:
+    bool m_block_events = true;
     float m_time;
 };
 

@@ -23,7 +23,8 @@ Application::Application(const std::string& name)
 
     Renderer::Init();    
 
-    PushOverlay(new ImGuiLayer());
+    m_imgui_layer = new ImGuiLayer();
+    PushOverlay(m_imgui_layer);
 }
 
 Application::~Application()

@@ -31,6 +31,8 @@ public:
     // 在最上层添加一个层
     void PushOverlay(Layer* layer);
 
+    ImGuiLayer* GetImGuiLayer() { return m_imgui_layer; }
+
     void Close();
 
     inline static Application& Get() { return *s_instance; }

@@ -42,7 +42,8 @@ void EditorLayer::OnUpdate(Timestep ts)
 {
     ALICE_PROFILE_FUNCTION();
 
-    m_camera_controller.OnUpdate(ts);
+    if (m_viewport_focused)
+        m_camera_controller.OnUpdate(ts);
 
     Renderer2D::ResetStats();
 
@@ -192,6 +193,10 @@ void EditorLayer::OnImGuiRender()
     // Viewport
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
     ImGui::Begin("Viewport");
+
+    m_viewport_focused = ImGui::IsWindowFocused();
+    m_viewport_hovered = ImGui::IsWindowHovered();
+    Application::Get().GetImGuiLayer()->BlockEvents(m_viewport_focused || m_viewport_hovered);
 
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     if (m_viewport_size != *(glm::vec2*)&viewport_panel_size)
