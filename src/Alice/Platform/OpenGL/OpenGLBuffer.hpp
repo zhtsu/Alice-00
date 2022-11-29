@@ -5,9 +5,9 @@
 namespace Alice
 {
 
-//
-// OpenGL 顶点缓冲对象 VBO
-//
+///
+/// OpenGL VBO
+///
 class OpenGLVertexBuffer : public VertexBuffer
 {
 public:
@@ -20,7 +20,6 @@ public:
 
     virtual void SetData(const void* data, uint32_t size) override;
 
-    // 设置顶点数据的描述信息
     virtual void SetLayout(const BufferLayout& layout) { m_layout = layout; }
     virtual const BufferLayout& GetLayout() const { return m_layout; }
 
@@ -30,9 +29,9 @@ private:
 
 };
 
-//
-// OpenGL 索引缓冲对象 EBO
-//
+///
+/// OpenGL EBO
+///
 class OpenGLIndexBuffer : public IndexBuffer
 {
 public:

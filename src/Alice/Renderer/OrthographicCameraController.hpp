@@ -9,9 +9,6 @@
 namespace Alice
 {
 
-//
-// 摄像机边界
-//
 struct OrthographicCameraBounds
 {
     float left, right;
@@ -21,10 +18,6 @@ struct OrthographicCameraBounds
     float GetHeight() { return top - bottom; }
 };
 
-//
-// 2D 正交摄像机控制器
-// 控制一个 2D 正交摄像机
-//
 class OrthographicCameraController
 {
 public:

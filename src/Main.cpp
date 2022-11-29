@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
     ALICE_PROFILE_BEGIN_SESSION("Startup", "AliceProfile-Start.json");
     
     Alice::Application* app = new EditorApp();
-    // 测试程序
+    // Test Sandbox
     // Alice::Application* app = new SandboxApp();
 
     ALICE_PROFILE_END_SESSION();

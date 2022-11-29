@@ -7,9 +7,6 @@
 namespace Alice
 {
 
-//
-// Windows 平台窗口
-//
 class WindowsWindow : public Window
 {
 public:

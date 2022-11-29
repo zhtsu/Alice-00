@@ -208,7 +208,7 @@ void EditorLayer::OnImGuiRender()
         m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
     }
     // @TODO:
-    // 最小化后再次打开窗口时会导致帧缓冲消失
+    // Framebuffer disappear after window was minimized.
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
     ImGui::Image((void*)frame_buffer_texture, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     

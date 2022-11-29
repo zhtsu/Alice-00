@@ -5,10 +5,6 @@
 namespace Alice
 {
 
-//
-// 用于 2D 的正交摄像机
-// 平台无关
-//
 class OrthographicCamera
 {
 public:
@@ -34,7 +30,6 @@ public:
     const glm::mat4& GetViewProjectionMatrix() const { return m_view_projection_matrix; }
 
 private:
-    // 在每一次摄像机状态更新后重新计算 View 矩阵和 Projection 矩阵
     void RecalculateViewMatrix();
 
 private:

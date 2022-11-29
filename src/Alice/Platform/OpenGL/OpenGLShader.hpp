@@ -7,9 +7,6 @@
 namespace Alice
 {
 
-//
-// OpenGL 着色器
-//
 class OpenGLShader : public Shader
 {
 public:
@@ -21,7 +18,7 @@ public:
     void Unbind() const override;
     
     //
-    // 设置 uniform 变量
+    // Set uniform variable in shader
     //
     void SetInt(const std::string& name, int value) override;
     void SetIntArray(const std::string& name, int* values, uint32_t count) override;

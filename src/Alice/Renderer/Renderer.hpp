@@ -10,10 +10,6 @@
 namespace Alice
 {
 
-//
-// 平台无关的渲染器
-// 使用被实现的平台 API 渲染数据
-//
 class Renderer
 {
 public:

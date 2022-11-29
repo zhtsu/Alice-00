@@ -7,9 +7,6 @@
 namespace Alice
 {
 
-//
-// 顶点数组对象的数据类型
-//
 enum class ShaderDataType
 {
     None = 0,
@@ -19,7 +16,6 @@ enum class ShaderDataType
     Bool
 };
 
-// 根据类型获取单位数据尺寸
 static uint32_t ShaderDataTypeSize(ShaderDataType type)
 {
     switch (type)
@@ -42,10 +38,6 @@ static uint32_t ShaderDataTypeSize(ShaderDataType type)
     return 0;
 }
 
-//
-// 顶点数组对象的一组数据
-// 用于描述顶点数组对象中的一组数据
-//
 struct BufferElement
 {
     ShaderDataType type;
@@ -86,10 +78,6 @@ struct BufferElement
     }
 };
 
-//
-// 顶点数组对象的描述信息
-// 包含多组不同描述的数据
-//
 class BufferLayout
 {
 public:
@@ -132,7 +120,7 @@ private:
 };
 
 //
-// 平台无关的顶点缓冲对象 VBO
+// VBO
 //
 class VertexBuffer
 {
@@ -152,7 +140,7 @@ public:
 };
 
 //
-// 平台无关的索引缓冲对象 EBO
+// EBO
 //
 class IndexBuffer
 {

@@ -6,10 +6,10 @@
 namespace Alice
 {
 
-// 文件种类
-// 用来决定文件夹路径
-// 确保 Alice 的文件夹结构从未被改变过
-// 否则此枚举类型将失效
+///
+/// File type for Alice
+/// Used to select file's father path
+///
 enum class FileType
 {
     Shader,
@@ -18,13 +18,10 @@ enum class FileType
     Music
 };
 
-// 路径类
-// 这是一个静态工具类
-// 用来获取资源路径
+
 class PathHelper
 {
 public:
-// 获取当前工作路径
 static std::string GetCurrentPath()
 {
     const int length = 512;
@@ -42,7 +39,9 @@ static std::string GetCurrentPath()
     return current_path; 
 }
 
-// 获取 Alice 资源的相对路径
+///
+/// Generate local file path by file type for Alice
+///
 static std::string GeneratePath(FileType filetype, const std::string& filename)
 {
     std::string filepath = GetCurrentPath();

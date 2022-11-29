@@ -6,21 +6,15 @@
 namespace Alice
 {
 
-//
-// 应用层容器
-// 此容器并非一个严格的栈
-// 添加新层时可以不单向添加
-// 遍历时则仅允许单向遍历
-//
 class LayerStack
 {
 public:
     LayerStack();
     ~LayerStack();
 
-    // 添加普通层，普通层被按照次序添加
+    // Add a layer in sequence
     void PushLayer(Layer* layer);
-    // 添加覆盖层，覆盖层会直接被添加到最上层
+    // Add a layer in uppest
     void PushOverlay(Layer* overlay);
 
     void PopLayer(Layer* layer);

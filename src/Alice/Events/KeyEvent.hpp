@@ -5,15 +5,12 @@
 namespace Alice
 {
 
-//
-// 键盘按键事件基类
-//
+
 class KeyEvent : public Event
 {
 public:
     inline int GetKeyCode() const { return m_key_code; }
 
-    // 使用宏设置事件的类别
     EVENT_CLASS_GATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
 protected:
@@ -23,9 +20,6 @@ protected:
     int m_key_code;
 };
 
-//
-// 键盘按键重复事件
-//
 class KeyPressedEvent : public KeyEvent
 {
 public:
@@ -48,9 +42,6 @@ private:
     int m_repeat_count;
 };
 
-//
-// 键盘按键释放事件
-//
 class KeyReleasedEvent : public KeyEvent
 {
 public:
@@ -67,9 +58,6 @@ public:
     EVENT_CLASS_TYPE(KeyReleased)
 };
 
-//
-// 键盘按键输入事件
-//
 class KeyTypedEvent : public KeyEvent
 {
 public:

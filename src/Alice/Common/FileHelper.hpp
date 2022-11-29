@@ -8,13 +8,12 @@
 namespace Alice
 {
 
-// 文件类
-// 这是一个工具类
-// 用来从文件中读取字符串
+///
+/// Read data from local file
+///
 class FileHelper
 {
 public:
-// 读取文件中的内容并以字符串形式返回
 static std::string Read(const std::string& filepath)
 {
     std::string content;
@@ -38,9 +37,6 @@ static std::string Read(const std::string& filepath)
     return content;
 }
 
-// 向文件中写入内容
-// \param filepath 文件路径
-// \param content  需要写入的内容
 static void Write(const std::string& filepath, const std::string& content)
 {
     std::ofstream file;

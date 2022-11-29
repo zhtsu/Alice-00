@@ -6,9 +6,9 @@ set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build/bin)
 set(CMAKE_CXX_STANDARD 17)
 
-# 设置 spdlog 的参数
+# set spdlog
 set(SPDLOG_BUILD_SHARED ON)
-# 设置 GLFW 的参数
+# set GLFW
 set(GLFW_BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_TESTS OFF)
 set(GLFW_BUILD_DOCS OFF)
@@ -43,7 +43,8 @@ target_link_libraries(
     Sandbox
 )
 
-# @TODO: 在拷贝现有资源前移除旧资源
+# @TODO:
+# Remove old assets before copy current assets
 # add_custom_command(
 #     TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
 #     COMMAND ${CMAKE_COMMAND} -E remove_directory

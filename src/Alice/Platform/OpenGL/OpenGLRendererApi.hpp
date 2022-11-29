@@ -6,9 +6,6 @@
 namespace Alice
 {
 
-//
-// OpenGL 渲染 API
-//
 class OpenGLRendererApi : public RendererApi
 {
 public:

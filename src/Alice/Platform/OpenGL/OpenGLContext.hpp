@@ -7,9 +7,6 @@ struct GLFWwindow;
 namespace Alice
 {
 
-//
-// OpenGL 渲染上下文
-//
 class OpenGLContext : public GraphicsContext
 {
 public:

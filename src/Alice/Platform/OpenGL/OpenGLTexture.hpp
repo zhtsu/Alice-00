@@ -7,9 +7,6 @@
 namespace Alice
 {
 
-//
-// OpenGL 2D 纹理
-//
 class OpenGLTexture2D : public Texture2D
 {
 public:

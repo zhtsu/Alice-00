@@ -18,19 +18,18 @@ public:
     ImGuiLayer();
     ~ImGuiLayer();
 
-    // 初始化当前层
+    // Initialize
     void OnAttach() override;
-    // 清理当前层
+    // Destroy
     void OnDetach() override;
 
     void OnEvent(Event& event);
 
-    // 开始当前层的描述
+    // Begin a new frame
     void Begin();
-    // 结束描述
+    // End a frame
     void End();
 
-    // 设置事件拦截
     void BlockEvents(bool block) { m_block_events = block; }
 
 private:

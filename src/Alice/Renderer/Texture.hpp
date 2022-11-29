@@ -6,9 +6,6 @@
 namespace Alice
 {
 
-//
-// 平台无关的纹理
-//
 class Texture
 {
 public:
