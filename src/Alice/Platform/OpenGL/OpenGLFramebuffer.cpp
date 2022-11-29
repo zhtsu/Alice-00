@@ -5,6 +5,8 @@
 namespace Alice
 {
 
+static const uint32_t s_max_framebuffer_size = 8192;
+
 OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
     : m_specification(spec)
 {
@@ -62,6 +64,12 @@ void OpenGLFramebuffer::Unbind()
 
 void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height)
 {
+    if (width == 0 || height == 0 || width > s_max_framebuffer_size || height > s_max_framebuffer_size)
+    {
+        ALICE_WARN("Attempted to resize framebuffer to ({}, {})", width, height);
+        return;
+    }
+
     m_specification.width = width;
     m_specification.height = height;
 

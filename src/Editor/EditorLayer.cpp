@@ -199,13 +199,16 @@ void EditorLayer::OnImGuiRender()
     Application::Get().GetImGuiLayer()->BlockEvents(m_viewport_focused || m_viewport_hovered);
 
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
-    if (m_viewport_size != *(glm::vec2*)&viewport_panel_size)
+    if (m_viewport_size != *(glm::vec2*)&viewport_panel_size && viewport_panel_size.x > 0 && viewport_panel_size.y > 0)
     {
         m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
+        ALICE_INFO("Viewport X: {} Viewport Y: {}", m_viewport_size.x, m_viewport_size.y);
         m_framebuffer->Resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
 
         m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
     }
+    // @TODO:
+    // 最小化后再次打开窗口时会导致帧缓冲消失
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
     ImGui::Image((void*)frame_buffer_texture, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     
