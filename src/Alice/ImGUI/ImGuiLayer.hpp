@@ -9,8 +9,7 @@ namespace Alice
 {
 
 //
-// 封装 imgui 的 UI 层
-// 此层用于编写编辑器
+// Used to debug or code Editor
 //
 class ImGuiLayer : public Layer
 {
