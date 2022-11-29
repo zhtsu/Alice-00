@@ -202,7 +202,6 @@ void EditorLayer::OnImGuiRender()
     if (m_viewport_size != *(glm::vec2*)&viewport_panel_size && viewport_panel_size.x > 0 && viewport_panel_size.y > 0)
     {
         m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
-        ALICE_INFO("Viewport X: {} Viewport Y: {}", m_viewport_size.x, m_viewport_size.y);
         m_framebuffer->Resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
 
         m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
