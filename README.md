@@ -18,7 +18,7 @@ Video link: [Game Engine Series](https://www.youtube.com/watch?v=JxIZbV_XjAs&lis
 - CMake
 ### Download
 ```bash
-git clone https://github.com/zhtsu/Alice
+git clone https://github.com/zhtsu/Alice-00.git
 cd Alice
 git submodule init
 git submodule update
