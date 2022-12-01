@@ -25,6 +25,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/imgui)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/spdlog)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glm)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/stb)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/entt)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Sandbox)

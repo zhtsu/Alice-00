@@ -16,3 +16,6 @@
 [submodule "3rdparty/stb"]
 	path = 3rdparty/stb
 	url = https://github.com/zhtsu/stb.git
+[submodule "3rdparty/entt"]
+	path = 3rdparty/entt
+	url = https://github.com/zhtsu/entt.git
