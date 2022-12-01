@@ -1,5 +1,5 @@
 # Alice-00
-[![license](https://img.shields.io/github/license/zhtsu/TinyECS)](LICENSE)
+[![license](https://img.shields.io/github/license/zhtsu/Alice-00)](LICENSE)
 
 C++ 2D Game Engine with OpenGL.
 
