@@ -1,4 +1,6 @@
 # Alice-00
+[![license](https://img.shields.io/github/license/zhtsu/TinyECS)](LICENSE)
+
 C++ 2D Game Engine with OpenGL.
 
 Follow youtube video of TheCherno's Game Engine Series to finish.
