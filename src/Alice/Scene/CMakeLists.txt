@@ -4,13 +4,16 @@ aux_source_directory(. SRC_LIST)
 
 add_library(
     Alice_Scene
-    SHARED
+    STATIC
     ${SRC_LIST}
 )
 
 target_link_libraries(
     Alice_Scene
+    Alice_Log
+    Alice_Renderer
     entt
+    glm
 )
 
 set_target_properties(Alice_Scene PROPERTIES OUTPUT_NAME "alice-scene")

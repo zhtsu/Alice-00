@@ -226,7 +226,7 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
     s_data.stats.quad_count++;
 }
 
-void Renderer2D::DrawQuad(const glm::mat4 transform, const glm::vec4& color)
+void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 {
     constexpr int quad_vertex_count = 4;
     constexpr glm::vec2 texture_coords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
@@ -253,7 +253,7 @@ void Renderer2D::DrawQuad(const glm::mat4 transform, const glm::vec4& color)
     s_data.stats.quad_count++;
 }
 
-void Renderer2D::DrawQuad(const glm::mat4 transform, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& color)
+void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& color)
 {
     constexpr int quad_vertex_count = 4;
     constexpr glm::vec2 texture_coords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };

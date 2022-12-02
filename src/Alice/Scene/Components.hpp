@@ -1,9 +1,19 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "Alice/PCH.hpp"
 
 namespace Alice
 {
+
+struct TagComponent
+{
+    std::string tag;
+
+    TagComponent() = default;
+    TagComponent(const TagComponent&) = default;
+    TagComponent(const std::string& _tag) : tag(_tag) {}
+};
 
 struct TransformComponent
 {

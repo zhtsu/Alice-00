@@ -49,3 +49,4 @@
 // Scene
 #include "Alice/Scene/Scene.hpp"
 #include "Alice/Scene/Components.hpp"
+#include "Alice/Scene/Entity.hpp"

@@ -14,17 +14,15 @@ EditorLayer::EditorLayer()
 
 void EditorLayer::OnAttach()
 {
-    m_checkerboard_texture = Texture2D::Create("assets/images/KFC.jpg");
-    m_sprite_sheet = Texture2D::Create("assets/images/sheet.png");
-
-    m_sprite = SubTexture2D::CreateFromCoords(m_sprite_sheet, { 0, 0 }, { 280, 215 });
-
     FramebufferSpecification framebuffer_spec;
     framebuffer_spec.width = 960;
     framebuffer_spec.height = 640;
     m_framebuffer = Framebuffer::Create(framebuffer_spec);
 
     m_active_scene = CreateRef<Scene>();
+
+    m_square_entity = m_active_scene->CreateEntity("Square");
+    m_square_entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 }
 
 void EditorLayer::OnDetach()
@@ -46,10 +44,10 @@ void EditorLayer::OnUpdate(Timestep ts)
     RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
     RenderCommand::Clear();
 
+    Renderer2D::BeginScene(m_camera_controller.GetCamera());
+
     // Update Scene
     m_active_scene->OnUpdate(ts);
-
-    Renderer2D::BeginScene(m_camera_controller.GetCamera());
 
     Renderer2D::EndScene();
 
@@ -132,7 +130,16 @@ void EditorLayer::OnImGuiRender()
     ImGui::Text("Quads: %d", stats.quad_count);
     ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
     ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-    ImGui::ColorEdit4("Square Color", glm::value_ptr(m_square_color));
+
+    if (m_square_entity)
+    {
+        ImGui::Separator();
+        auto& tag = m_square_entity.GetComponent<TagComponent>().tag;
+        ImGui::Text("%s", tag.c_str());
+        auto& square_color = m_square_entity.GetComponent<SpriteRendererComponent>().color;
+        ImGui::ColorEdit4("Square Color", glm::value_ptr(square_color));
+        ImGui::Separator();
+    }
 
     ImGui::End();
 

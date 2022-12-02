@@ -13,6 +13,7 @@ target_link_libraries(
     Alice_Log
     Alice_Renderer
     Alice_Common
+    Alice_Scene
 )
 
 set_target_properties(Editor PROPERTIES OUTPUT_NAME "editor")

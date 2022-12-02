@@ -13,6 +13,7 @@ target_link_libraries(
     Alice_Log
     Alice_Renderer
     Alice_Common
+    entt
 )
 
 set_target_properties(Sandbox PROPERTIES OUTPUT_NAME "sandbox")

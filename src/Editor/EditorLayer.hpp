@@ -19,19 +19,12 @@ public:
     void OnEvent(Event& event) override;
 
 private:
+    Entity m_square_entity;
+
     OrthographicCameraController m_camera_controller;
-
-    // Temp
-    Ref<VertexArray> m_square_vao;
-    Ref<Shader> m_flat_color_shader;
-
-    Ref<Texture2D> m_checkerboard_texture;
-    Ref<Texture2D> m_sprite_sheet;
-    Ref<SubTexture2D> m_sprite;
+    
     Ref<Framebuffer> m_framebuffer;
 
-    glm::vec4 m_square_color = { 0.2f, 0.3f, 0.8f, 1.0f };
-    
     bool m_viewport_focused = false, m_viewport_hovered = false;;
     glm::vec2 m_viewport_size = { 0.0f, 0.0f };
 
