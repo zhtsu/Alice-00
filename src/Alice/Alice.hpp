@@ -46,4 +46,6 @@
 // Debug
 #include "Alice/Debug/Instrumentor.hpp"
 
-
+// Scene
+#include "Alice/Scene/Scene.hpp"
+#include "Alice/Scene/Components.hpp"

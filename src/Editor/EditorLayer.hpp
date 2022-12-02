@@ -35,8 +35,7 @@ private:
     bool m_viewport_focused = false, m_viewport_hovered = false;;
     glm::vec2 m_viewport_size = { 0.0f, 0.0f };
 
-    ParticleSystem m_particle_system;
-    ParticleProps m_particle;
+    Ref<Scene> m_active_scene;
 };
 
 } // namespace Alice
