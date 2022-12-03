@@ -23,6 +23,13 @@ void EditorLayer::OnAttach()
 
     m_square_entity = m_active_scene->CreateEntity("Square");
     m_square_entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+
+    m_camera_entity = m_active_scene->CreateEntity("Camera");
+    m_camera_entity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
+    m_second_camera = m_active_scene->CreateEntity("Clip-Space");
+    auto& sc = m_second_camera.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+    sc.is_primary = false;
 }
 
 void EditorLayer::OnDetach()
@@ -44,12 +51,8 @@ void EditorLayer::OnUpdate(Timestep ts)
     RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
     RenderCommand::Clear();
 
-    Renderer2D::BeginScene(m_camera_controller.GetCamera());
-
     // Update Scene
     m_active_scene->OnUpdate(ts);
-
-    Renderer2D::EndScene();
 
     m_framebuffer->Unbind();
 }
@@ -63,8 +66,6 @@ void EditorLayer::OnImGuiRender()
     static bool opt_padding = false;
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-    // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-    // because it would be confusing to have two docking targets within each others.
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
     if (opt_fullscreen)
     {
@@ -82,16 +83,9 @@ void EditorLayer::OnImGuiRender()
         dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
     }
 
-    // When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
-    // and handle the pass-thru hole, so we ask Begin() to not render a background.
     if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
         window_flags |= ImGuiWindowFlags_NoBackground;
 
-    // Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-    // This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
-    // all active windows docked into it will lose their parent and become undocked.
-    // We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
-    // any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
     if (!opt_padding)
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::Begin("DockSpace Demo", &is_dockspace_open, window_flags);
@@ -101,7 +95,6 @@ void EditorLayer::OnImGuiRender()
     if (opt_fullscreen)
         ImGui::PopStyleVar(2);
 
-    // Submit the DockSpace
     ImGuiIO& io = ImGui::GetIO();
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
     {
@@ -139,6 +132,17 @@ void EditorLayer::OnImGuiRender()
         auto& square_color = m_square_entity.GetComponent<SpriteRendererComponent>().color;
         ImGui::ColorEdit4("Square Color", glm::value_ptr(square_color));
         ImGui::Separator();
+    }
+
+    ImGui::DragFloat3(
+        "Camera Transform",
+        glm::value_ptr(m_camera_entity.GetComponent<TransformComponent>().transform[3])
+    );
+    
+    if (ImGui::Checkbox("Camera A", &m_primary_camera))
+    {
+        m_camera_entity.GetComponent<CameraComponent>().is_primary = m_primary_camera;
+        m_second_camera.GetComponent<CameraComponent>().is_primary = !m_primary_camera;
     }
 
     ImGui::End();

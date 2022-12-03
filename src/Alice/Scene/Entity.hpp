@@ -42,10 +42,10 @@ public:
         m_scene->m_registry.remove<T>(m_entity_handle);
     }
 
-    operator bool() const { return m_scene->m_registry.valid(m_entity_handle); }
+    operator bool() const { return m_entity_handle != entt::null; }
 
 private:
-    entt::entity m_entity_handle{ 0 };
+    entt::entity m_entity_handle{ entt::null };
     Scene* m_scene = nullptr;
 };
 

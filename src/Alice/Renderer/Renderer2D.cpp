@@ -109,6 +109,19 @@ void Renderer2D::Shutdown()
     
 }
 
+void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
+{
+    glm::mat4 view_proj = camera.GetProjection() * glm::inverse(transform);
+
+    s_data.texture_shader->Bind();
+    s_data.texture_shader->SetMat4("u_ViewProjection", view_proj);
+
+    s_data.quad_index_count = 0;
+    s_data.quad_vertex_buffer_ptr = s_data.quad_vertex_buffer_base;
+
+    s_data.Texture_slot_index = 1;
+}
+
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
     s_data.texture_shader->Bind();

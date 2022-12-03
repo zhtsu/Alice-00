@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include "Alice/PCH.hpp"
+#include "Alice/Renderer/Camera.hpp"
 
 namespace Alice
 {
@@ -33,6 +34,16 @@ struct SpriteRendererComponent
     SpriteRendererComponent() = default;
     SpriteRendererComponent(const SpriteRendererComponent&) = default;
     SpriteRendererComponent(const glm::vec4& _color) : color(_color) {}
+};
+
+struct CameraComponent
+{
+    Alice::Camera camera;
+    bool is_primary = true;
+
+    CameraComponent() = default;
+    CameraComponent(const CameraComponent&) = default;
+    CameraComponent(const glm::mat4& project) : camera(project) {}
 };
 
 } // namespace Alice;

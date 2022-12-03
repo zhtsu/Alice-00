@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Camera.hpp"
 #include "OrthographicCamera.hpp"
 #include "Texture.hpp"
 #include "SubTexture2D.hpp"
@@ -13,6 +14,7 @@ public:
     static void Init();
     static void Shutdown();
 
+    static void BeginScene(const Camera& camera, const glm::mat4& transform);
     static void BeginScene(const OrthographicCamera& camera);
     static void EndScene();
     static void Flush();
