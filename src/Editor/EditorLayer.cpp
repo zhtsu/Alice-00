@@ -41,6 +41,15 @@ void EditorLayer::OnUpdate(Timestep ts)
 {
     ALICE_PROFILE_FUNCTION();
 
+    // Resize
+    FramebufferSpecification spec = m_framebuffer->GetSpecification();
+    if (m_viewport_size.x > 0.0f && m_viewport_size.y > 0.0f &&
+        (spec.width != m_viewport_size.x || spec.height != m_viewport_size.y))
+    {
+        m_framebuffer->Resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+        m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
+    }
+
     // Update Camera
     if (m_viewport_focused)
         m_camera_controller.OnUpdate(ts);
@@ -156,15 +165,8 @@ void EditorLayer::OnImGuiRender()
     Application::Get().GetImGuiLayer()->BlockEvents(m_viewport_focused || m_viewport_hovered);
 
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
-    if (m_viewport_size != *(glm::vec2*)&viewport_panel_size && viewport_panel_size.x > 0 && viewport_panel_size.y > 0)
-    {
-        m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
-        // @TODO:
-        // Framebuffer disappear when resizing viewport panel
-        m_framebuffer->Resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+    m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
 
-        m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
-    }
     // @TODO:
     // Framebuffer disappear after window was minimized.
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
