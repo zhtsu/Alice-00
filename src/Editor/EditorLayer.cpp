@@ -25,10 +25,10 @@ void EditorLayer::OnAttach()
     m_square_entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 
     m_camera_entity = m_active_scene->CreateEntity("Camera");
-    m_camera_entity.AddComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+    m_camera_entity.AddComponent<CameraComponent>();
 
     m_second_camera = m_active_scene->CreateEntity("Clip-Space");
-    auto& sc = m_second_camera.AddComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+    auto& sc = m_second_camera.AddComponent<CameraComponent>();
     sc.is_primary = false;
 }
 
@@ -48,6 +48,8 @@ void EditorLayer::OnUpdate(Timestep ts)
     {
         m_framebuffer->Resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
         m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
+
+        m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
     }
 
     // Update Camera
@@ -152,6 +154,13 @@ void EditorLayer::OnImGuiRender()
     {
         m_camera_entity.GetComponent<CameraComponent>().is_primary = m_primary_camera;
         m_second_camera.GetComponent<CameraComponent>().is_primary = !m_primary_camera;
+    }
+
+    {
+        auto& camera = m_second_camera.GetComponent<CameraComponent>().camera;
+        float ortho_size = camera.GetOrthographicSize();
+        if (ImGui::DragFloat("Sceond Camera Otrho Size", &ortho_size))
+            camera.SetOrthographicSize(ortho_size);
     }
 
     ImGui::End();

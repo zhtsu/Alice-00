@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 #include "Alice/PCH.hpp"
-#include "Alice/Renderer/Camera.hpp"
+#include "SceneCamera.hpp"
 
 namespace Alice
 {
@@ -38,12 +38,12 @@ struct SpriteRendererComponent
 
 struct CameraComponent
 {
-    Alice::Camera camera;
+    Alice::SceneCamera camera;
     bool is_primary = true;
+    bool is_fixed_aspect_ratio = false;
 
     CameraComponent() = default;
     CameraComponent(const CameraComponent&) = default;
-    CameraComponent(const glm::mat4& project) : camera(project) {}
 };
 
 } // namespace Alice;

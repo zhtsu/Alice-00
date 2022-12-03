@@ -21,10 +21,10 @@ void Scene::OnUpdate(Timestep ts)
     Camera* main_camera_ptr = nullptr;
     glm::mat4* main_camera_transform_ptr = nullptr;
     {
-        auto group = m_registry.view<TransformComponent, CameraComponent>();
-        for (auto entity : group)
+        auto&& view = m_registry.view<TransformComponent, CameraComponent>();
+        for (auto& entity : view)
         {
-            auto&& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+            auto&& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
             if (camera.is_primary)
             {
                 main_camera_ptr = &camera.camera;
@@ -46,6 +46,20 @@ void Scene::OnUpdate(Timestep ts)
         }
 
         Renderer2D::EndScene();
+    }
+}
+
+void Scene::OnViewportResize(uint32_t width, uint32_t height)
+{
+    m_viewport_width = width;
+    m_viewport_height = height;
+
+    auto&& view = m_registry.view<CameraComponent>();    
+    for (const auto& entity : view)
+    {
+        auto& camera_component = view.get<CameraComponent>(entity);
+        if (!camera_component.is_fixed_aspect_ratio)
+            camera_component.camera.SetViewportSize(width, height);
     }
 }
 
