@@ -60,6 +60,7 @@ void EditorLayer::OnAttach()
         }
     };
 
+    m_camera_entity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
     m_second_camera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 }
 

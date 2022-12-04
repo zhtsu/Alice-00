@@ -24,12 +24,12 @@ void Scene::OnUpdate(Timestep ts)
         {
             if (nsc.instance == nullptr)
             {
-                nsc.InstantiateFunction();
+                nsc.instance = nsc.InstantiateScript();
                 nsc.instance->m_entity = Entity{ entity, this };
-                nsc.OnCreateFunction(nsc.instance);
+                nsc.instance->OnCreate();
             }
 
-            nsc.OnUpdateFunction(nsc.instance, ts);
+            nsc.instance->OnUpdate(ts);
         });
     }
 
