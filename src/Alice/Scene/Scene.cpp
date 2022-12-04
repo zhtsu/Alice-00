@@ -18,6 +18,22 @@ Scene::~Scene()
 
 void Scene::OnUpdate(Timestep ts)
 {
+    // Update scripts
+    {
+        m_registry.view<NativeScriptComponent>().each([=](auto entity, NativeScriptComponent& nsc)
+        {
+            if (nsc.instance == nullptr)
+            {
+                nsc.InstantiateFunction();
+                nsc.instance->m_entity = Entity{ entity, this };
+                nsc.OnCreateFunction(nsc.instance);
+            }
+
+            nsc.OnUpdateFunction(nsc.instance, ts);
+        });
+    }
+
+    // Render
     Camera* main_camera_ptr = nullptr;
     glm::mat4* main_camera_transform_ptr = nullptr;
     {

@@ -30,6 +30,37 @@ void EditorLayer::OnAttach()
     m_second_camera = m_active_scene->CreateEntity("Clip-Space");
     auto& sc = m_second_camera.AddComponent<CameraComponent>();
     sc.is_primary = false;
+
+    class CameraController : public ScriptableEntity
+    {
+    public:
+        void OnCreate()
+        {
+            
+        }
+
+        void OnDestroy()
+        {
+            
+        }
+
+        void OnUpdate(Timestep ts)
+        {
+            auto& transform = GetComponent<TransformComponent>().transform;
+            float speed = 5.0f;
+
+            if (Input::IsKeyPressed(ALICE_KEY_A))
+                transform[3][0] -= speed * ts;
+            if (Input::IsKeyPressed(ALICE_KEY_D))
+                transform[3][0] += speed * ts;
+            if (Input::IsKeyPressed(ALICE_KEY_W))
+                transform[3][1] += speed * ts;
+            if (Input::IsKeyPressed(ALICE_KEY_S))
+                transform[3][1] -= speed * ts;
+        }
+    };
+
+    m_second_camera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 }
 
 void EditorLayer::OnDetach()
