@@ -62,6 +62,8 @@ void EditorLayer::OnAttach()
 
     m_camera_entity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
     m_second_camera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+    m_scene_hierarchy_panel.SetContext(m_active_scene);
 }
 
 void EditorLayer::OnDetach()
@@ -158,6 +160,8 @@ void EditorLayer::OnImGuiRender()
         ImGui::EndMenuBar();
     }
     
+    m_scene_hierarchy_panel.OnImGuiRender();
+
     ImGui::Begin("Profile");
     
     auto stats = Renderer2D::GetStats();

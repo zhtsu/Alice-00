@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Alice/Alice.hpp"
+#include "Panel/SceneHierarchyPanel.hpp"
 
 namespace Alice
 {
@@ -33,6 +34,9 @@ private:
     glm::vec2 m_viewport_size = { 0.0f, 0.0f };
 
     Ref<Scene> m_active_scene;
+
+    // Panels
+    SceneHierarchyPanel m_scene_hierarchy_panel;
 };
 
 } // namespace Alice

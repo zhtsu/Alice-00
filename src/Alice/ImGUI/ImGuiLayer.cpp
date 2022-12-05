@@ -1,9 +1,10 @@
+#include <GLFW/glfw3.h>
+#include <imgui.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_glfw.h>
+
 #include "ImGuiLayer.hpp"
 #include "Alice/Application/Application.hpp"
-#include "GLFW/glfw3.h"
-#include "imgui.h"
-#include "backends/imgui_impl_opengl3.h"
-#include "backends/imgui_impl_glfw.h"
 
 namespace Alice
 {

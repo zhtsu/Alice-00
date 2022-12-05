@@ -7,10 +7,12 @@ namespace Alice
 {
 
 class Entity;
+class SceneHierarchyPanel;
 
 class Scene
 {
     friend class Entity;
+    friend class SceneHierarchyPanel;
 
 public:
     Scene();
