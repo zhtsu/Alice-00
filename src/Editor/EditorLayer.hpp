@@ -20,11 +20,7 @@ public:
     void OnEvent(Event& event) override;
 
 private:
-    Entity m_square_entity;
     Entity m_camera_entity;
-    Entity m_second_camera;
-
-    bool m_primary_camera = true;
 
     OrthographicCameraController m_camera_controller;
     

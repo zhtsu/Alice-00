@@ -21,15 +21,14 @@ void EditorLayer::OnAttach()
 
     m_active_scene = CreateRef<Scene>();
 
-    m_square_entity = m_active_scene->CreateEntity("Square");
-    m_square_entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+    auto red_square = m_active_scene->CreateEntity("Red");
+    red_square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+
+    auto green_square = m_active_scene->CreateEntity("Green");
+    green_square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 
     m_camera_entity = m_active_scene->CreateEntity("Camera");
     m_camera_entity.AddComponent<CameraComponent>();
-
-    m_second_camera = m_active_scene->CreateEntity("Clip-Space");
-    auto& sc = m_second_camera.AddComponent<CameraComponent>();
-    sc.is_primary = false;
 
     class CameraController : public ScriptableEntity
     {
@@ -61,7 +60,6 @@ void EditorLayer::OnAttach()
     };
 
     m_camera_entity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-    m_second_camera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
     m_scene_hierarchy_panel.SetContext(m_active_scene);
 }
@@ -162,6 +160,7 @@ void EditorLayer::OnImGuiRender()
     
     m_scene_hierarchy_panel.OnImGuiRender();
 
+    // Profile
     ImGui::Begin("Profile");
     
     auto stats = Renderer2D::GetStats();
@@ -170,34 +169,6 @@ void EditorLayer::OnImGuiRender()
     ImGui::Text("Quads: %d", stats.quad_count);
     ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
     ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-
-    if (m_square_entity)
-    {
-        ImGui::Separator();
-        auto& tag = m_square_entity.GetComponent<TagComponent>().tag;
-        ImGui::Text("%s", tag.c_str());
-        auto& square_color = m_square_entity.GetComponent<SpriteRendererComponent>().color;
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(square_color));
-        ImGui::Separator();
-    }
-
-    ImGui::DragFloat3(
-        "Camera Transform",
-        glm::value_ptr(m_camera_entity.GetComponent<TransformComponent>().transform[3])
-    );
-    
-    if (ImGui::Checkbox("Camera A", &m_primary_camera))
-    {
-        m_camera_entity.GetComponent<CameraComponent>().is_primary = m_primary_camera;
-        m_second_camera.GetComponent<CameraComponent>().is_primary = !m_primary_camera;
-    }
-
-    {
-        auto& camera = m_second_camera.GetComponent<CameraComponent>().camera;
-        float ortho_size = camera.GetOrthographicSize();
-        if (ImGui::DragFloat("Sceond Camera Otrho Size", &ortho_size))
-            camera.SetOrthographicSize(ortho_size);
-    }
 
     ImGui::End();
 
