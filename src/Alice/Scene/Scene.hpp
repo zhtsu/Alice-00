@@ -7,7 +7,6 @@ namespace Alice
 {
 
 class Entity;
-class SceneHierarchyPanel;
 
 class Scene
 {

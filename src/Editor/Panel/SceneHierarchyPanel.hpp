@@ -2,6 +2,7 @@
 
 #include "Alice/Core/Base.hpp"
 #include "Alice/Scene/Scene.hpp"
+#include "Alice/Scene/Entity.hpp"
 
 namespace Alice
 {
@@ -18,6 +19,7 @@ public:
 
 private:
     void DrawEntityNode(Entity entity);
+    void DrawComponents(Entity entity);
 
 private:
     Ref<Scene> m_context;
