@@ -160,8 +160,8 @@ void EditorLayer::OnImGuiRender()
     
     m_scene_hierarchy_panel.OnImGuiRender();
 
-    // Profile
-    ImGui::Begin("Profile");
+    // Stats
+    ImGui::Begin("Stats");
     
     auto stats = Renderer2D::GetStats();
     ImGui::Text("Renderer2D Stats:");
