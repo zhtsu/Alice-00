@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "Alice/PCH.hpp"
 #include "SceneCamera.hpp"
 #include "ScriptableEntity.hpp"
@@ -19,13 +20,24 @@ struct TagComponent
 
 struct TransformComponent
 {
-    glm::mat4 transform{ 1.0f };
+    glm::vec3 translation = { 0.0f, 0.0f, 0.0f };
+    glm::vec3 rotation = { 0.0f, 0.0f, 0.0f };
+    glm::vec3 scale = { 1.0f, 1.0f, 1.0f };
 
     TransformComponent() = default;
     TransformComponent(const TransformComponent&) = default;
-    TransformComponent(const glm::mat4& _transform) : transform(_transform) {}
-    operator glm::mat4&() { return transform; }
-    operator const glm::mat4&() const { return transform; }
+    TransformComponent(const glm::vec3& _translation) : translation(_translation) {}
+    
+    glm::mat4 GetTransform() const
+    {
+        glm::mat4 translation_matrix = glm::translate(glm::mat4(1.0f), translation);
+        glm::mat4 rotation_matrix = glm::rotate(glm::mat4(1.0f), rotation.x, { 1, 0, 0 })
+            * glm::rotate(glm::mat4(1.0f), rotation.y, { 0, 1, 0 })
+            * glm::rotate(glm::mat4(1.0f), rotation.z, { 0, 0, 1 });
+        glm::mat4 scale_matrix = glm::scale(glm::mat4(1.0f), scale);
+
+        return translation_matrix * rotation_matrix * scale_matrix;
+    }
 };
 
 struct SpriteRendererComponent

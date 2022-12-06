@@ -45,17 +45,17 @@ void EditorLayer::OnAttach()
 
         void OnUpdate(Timestep ts)
         {
-            auto& transform = GetComponent<TransformComponent>().transform;
+            auto& translation = GetComponent<TransformComponent>().translation;
             float speed = 5.0f;
 
             if (Input::IsKeyPressed(ALICE_KEY_A))
-                transform[3][0] -= speed * ts;
+                translation.x -= speed * ts;
             if (Input::IsKeyPressed(ALICE_KEY_D))
-                transform[3][0] += speed * ts;
+                translation.x += speed * ts;
             if (Input::IsKeyPressed(ALICE_KEY_W))
-                transform[3][1] += speed * ts;
+                translation.y += speed * ts;
             if (Input::IsKeyPressed(ALICE_KEY_S))
-                transform[3][1] -= speed * ts;
+                translation.y -= speed * ts;
         }
     };
 

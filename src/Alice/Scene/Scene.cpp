@@ -35,7 +35,7 @@ void Scene::OnUpdate(Timestep ts)
 
     // Render
     Camera* main_camera_ptr = nullptr;
-    glm::mat4* main_camera_transform_ptr = nullptr;
+    glm::mat4 main_camera_transform;
     {
         auto&& view = m_registry.view<TransformComponent, CameraComponent>();
         for (auto& entity : view)
@@ -44,7 +44,7 @@ void Scene::OnUpdate(Timestep ts)
             if (camera.is_primary)
             {
                 main_camera_ptr = &camera.camera;
-                main_camera_transform_ptr = &transform.transform;
+                main_camera_transform = transform.GetTransform();
                 break;
             }
         }
@@ -52,13 +52,13 @@ void Scene::OnUpdate(Timestep ts)
 
     if (main_camera_ptr != nullptr)
     {
-        Renderer2D::BeginScene(main_camera_ptr->GetProjection(), *main_camera_transform_ptr);
+        Renderer2D::BeginScene(main_camera_ptr->GetProjection(), main_camera_transform);
 
         auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
         for (auto& entity : group)
         {
             auto&& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::DrawQuad(transform, sprite.color);
+            Renderer2D::DrawQuad(transform.GetTransform(), sprite.color);
         }
 
         Renderer2D::EndScene();
