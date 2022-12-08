@@ -20,47 +20,7 @@ void EditorLayer::OnAttach()
     m_framebuffer = Framebuffer::Create(framebuffer_spec);
 
     m_active_scene = CreateRef<Scene>();
-
-    auto red_square = m_active_scene->CreateEntity("Red");
-    red_square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
-
-    auto green_square = m_active_scene->CreateEntity("Green");
-    green_square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-
-    m_camera_entity = m_active_scene->CreateEntity("Camera");
-    m_camera_entity.AddComponent<CameraComponent>();
-
-    class CameraController : public ScriptableEntity
-    {
-    public:
-        void OnCreate()
-        {
-            
-        }
-
-        void OnDestroy()
-        {
-            
-        }
-
-        void OnUpdate(Timestep ts)
-        {
-            auto& translation = GetComponent<TransformComponent>().translation;
-            float speed = 5.0f;
-
-            if (Input::IsKeyPressed(ALICE_KEY_A))
-                translation.x -= speed * ts;
-            if (Input::IsKeyPressed(ALICE_KEY_D))
-                translation.x += speed * ts;
-            if (Input::IsKeyPressed(ALICE_KEY_W))
-                translation.y += speed * ts;
-            if (Input::IsKeyPressed(ALICE_KEY_S))
-                translation.y -= speed * ts;
-        }
-    };
-
-    m_camera_entity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-
+    
     m_scene_hierarchy_panel.SetContext(m_active_scene);
 }
 

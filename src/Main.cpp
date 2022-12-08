@@ -5,27 +5,22 @@
 int main(int argc, char* argv[])
 {
     //
-    ALICE_PROFILE_BEGIN_SESSION("Startup", "AliceProfile-Start.json");
-    
+    // ALICE_PROFILE_BEGIN_SESSION("Startup", "AliceProfile-Start.json");
     Alice::Application* app = new EditorApp();
     // Test Sandbox
     // Alice::Application* app = new SandboxApp();
-
-    ALICE_PROFILE_END_SESSION();
+    //
+    // ALICE_PROFILE_END_SESSION();
 
     //
-    ALICE_PROFILE_BEGIN_SESSION("Runtime", "AliceProfile-Runtime.json");
-    
+    // ALICE_PROFILE_BEGIN_SESSION("Runtime", "AliceProfile-Runtime.json");
     app->Run();
-    
-    ALICE_PROFILE_END_SESSION();
+    // ALICE_PROFILE_END_SESSION();
 
     //
-    ALICE_PROFILE_BEGIN_SESSION("Shutdown", "AliceProfile-Shutdown.json");
-    
+    // ALICE_PROFILE_BEGIN_SESSION("Shutdown", "AliceProfile-Shutdown.json");
     delete app;
-    
-    ALICE_PROFILE_END_SESSION();
+    // ALICE_PROFILE_END_SESSION();
 
     return 0;
 }
