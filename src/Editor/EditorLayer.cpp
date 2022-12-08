@@ -123,12 +123,24 @@ void EditorLayer::OnImGuiRender()
     // Stats
     ImGui::Begin("Stats");
     
+    // Renderer2D Stats
     auto stats = Renderer2D::GetStats();
-    ImGui::Text("Renderer2D Stats:");
+    ImGui::Separator();
+    ImGui::Text("Renderer2D Stats");
+    ImGui::Separator();
     ImGui::Text("Draw Calls: %d", stats.draw_calls);
     ImGui::Text("Quads: %d", stats.quad_count);
     ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
     ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+    ImGui::NewLine();
+
+    // ECS Stats
+    ImGui::Separator();
+    ImGui::Text("ECS Stats");
+    ImGui::Separator();
+    ImGui::Text("Entity Capacity: %d", m_active_scene->GetEntityCapacity());
+    ImGui::Text("Alive Entities: %d", m_active_scene->GetAliveEntityCount());
+    ImGui::NewLine();
 
     ImGui::End();
 

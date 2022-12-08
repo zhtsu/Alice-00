@@ -23,6 +23,9 @@ public:
     void OnUpdate(Timestep ts);
     void OnViewportResize(uint32_t width, uint32_t height);
 
+    inline uint32_t GetAliveEntityCount() { return m_registry.alive(); }
+    inline uint32_t GetEntityCapacity() { return m_registry.capacity(); }
+
 private:
     template<class T>
     void OnComponentAdded(Entity entity, T& component);

@@ -28,6 +28,22 @@ void SceneHierarchyPanel::OnImGuiRender()
         DrawEntityNode(entity);
     });
 
+    // Click blank to cancel focus
+    // if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+    //     m_selected_context = {};
+
+    // Right-click on blank space to create Entity
+    if (ImGui::BeginPopupContextWindow(0, ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight))
+    {
+        if (ImGui::MenuItem("Create Empty Entity"))
+            m_context->CreateEntity("Empty Entity");
+
+        ImGui::EndPopup();
+    }
+
+    // End Scene Hierarchy
+    ImGui::End();
+
     // Properties
     ImGui::Begin("Properties");
 
@@ -57,21 +73,7 @@ void SceneHierarchyPanel::OnImGuiRender()
         }
     }
 
-    ImGui::End();
-
-    // Click blank to cancel focus
-    // if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-    //     m_selected_context = {};
-
-    // Right-click on blank space to create Entity
-    if (ImGui::BeginPopupContextWindow(0, ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight))
-    {
-        if (ImGui::MenuItem("Create Empty Entity"))
-            m_context->CreateEntity("Empty Entity");
-
-        ImGui::EndPopup();
-    }
-
+    // End Properties
     ImGui::End();
 }
 
@@ -99,13 +101,21 @@ void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 
     if (is_opened)
     {
+        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow;
+        bool is_opened = ImGui::TreeNodeEx((void*)9876543, flags, tag.c_str());
+        if (is_opened)
+            ImGui::TreePop();
+
         ImGui::TreePop();
     }
 
     if (entity_deleted)
     {
+        // @TODO:
+        // Entities that deleted first are still rendered until a new SpriteRendererComponent is added to a new Entity.
         m_context->DestroyEntity(entity);
-        m_selected_context = {};
+        if (m_selected_context == entity)
+            m_selected_context = {};
     }
 }
 

@@ -10,7 +10,8 @@ namespace Alice
 class Entity
 {
 public:
-    Entity() = default;
+    Entity()
+        : m_entity_handle(entt::null), m_scene(nullptr) {}
     Entity(entt::entity handle, Scene* scene)
         : m_entity_handle(handle), m_scene(scene) {}
     Entity(const Entity& other) = default;
