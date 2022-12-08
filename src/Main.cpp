@@ -4,7 +4,6 @@
 
 int main(int argc, char* argv[])
 {
-    //
     // ALICE_PROFILE_BEGIN_SESSION("Startup", "AliceProfile-Start.json");
     Alice::Application* app = new EditorApp();
     // Test Sandbox
@@ -12,12 +11,10 @@ int main(int argc, char* argv[])
     //
     // ALICE_PROFILE_END_SESSION();
 
-    //
     // ALICE_PROFILE_BEGIN_SESSION("Runtime", "AliceProfile-Runtime.json");
     app->Run();
     // ALICE_PROFILE_END_SESSION();
 
-    //
     // ALICE_PROFILE_BEGIN_SESSION("Shutdown", "AliceProfile-Shutdown.json");
     delete app;
     // ALICE_PROFILE_END_SESSION();
