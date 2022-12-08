@@ -88,4 +88,39 @@ Entity Scene::CreateEntity(const std::string& name)
     return entity;
 }
 
+void Scene::DestroyEntity(Entity entity)
+{
+    m_registry.destroy(entity);
+}
+
+template<>
+void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
+{
+    
+}
+
+template<>
+void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
+{
+    component.camera.SetViewportSize(m_viewport_width, m_viewport_height);
+}
+
+template<>
+void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
+{
+    
+}
+
+template<>
+void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+{
+
+}
+
+template<>
+void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
+{
+
+}
+
 } // namespace Alice

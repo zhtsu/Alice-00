@@ -19,7 +19,9 @@ public:
     T& AddComponent(Args&&... args)
     {
         ALICE_ASSERT(!HasComponent<T>(), "Entity already has component!");
-        return m_scene->m_registry.emplace<T>(m_entity_handle, std::forward<Args>(args)...);
+        T& component = m_scene->m_registry.emplace<T>(m_entity_handle, std::forward<Args>(args)...);
+        m_scene->OnComponentAdded<T>(*this, component);
+        return component;
     }
 
     template<class T>
@@ -42,9 +44,6 @@ public:
         m_scene->m_registry.remove<T>(m_entity_handle);
     }
 
-    operator bool() const { return m_entity_handle != entt::null; }
-    operator uint32_t() const { return (uint32_t)m_entity_handle; }
-
     bool operator==(const Entity& other) const
     {
         return m_entity_handle == other.m_entity_handle && m_scene == other.m_scene;
@@ -53,6 +52,10 @@ public:
     {
         return !(*this == other);
     }
+
+    operator bool() const { return m_entity_handle != entt::null; }
+    operator uint32_t() const { return (uint32_t)m_entity_handle; }
+    operator entt::entity() const { return m_entity_handle; }
 
 private:
     entt::entity m_entity_handle{ entt::null };
