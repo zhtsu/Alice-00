@@ -24,6 +24,9 @@ private:
 private:
     Ref<Scene> m_context;
     Entity m_selected_context;
+
+    // Count of Entity was created, used to name new entity.
+    int m_entity_created_count = 0;
 };
 
 } // namespace Alice

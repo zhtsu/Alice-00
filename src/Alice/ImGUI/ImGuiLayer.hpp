@@ -31,6 +31,8 @@ public:
 
     void BlockEvents(bool block) { m_block_events = block; }
 
+    void SetDarkThemeColors();
+
 private:
     bool m_block_events = true;
     float m_time;
