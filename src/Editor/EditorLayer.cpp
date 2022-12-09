@@ -102,7 +102,7 @@ void EditorLayer::OnImGuiRender()
     ImGuiIO& io = ImGui::GetIO();
     ImGuiStyle& style = ImGui::GetStyle();
     float min_window_size_x = style.WindowMinSize.x;
-    style.WindowMinSize.x = 300.0f;
+    style.WindowMinSize.x = 360.0f;
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
     {
         ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
@@ -124,7 +124,7 @@ void EditorLayer::OnImGuiRender()
 
         ImGui::EndMenuBar();
     }
-    
+
     m_scene_hierarchy_panel.OnImGuiRender();
 
     // Stats
@@ -147,6 +147,7 @@ void EditorLayer::OnImGuiRender()
     ImGui::Separator();
     ImGui::Text("Entity Capacity: %d", m_active_scene->GetEntityCapacity());
     ImGui::Text("Alive Entities: %d", m_active_scene->GetAliveEntityCount());
+    ImGui::Text("Rendered Entities: %d", m_active_scene->GetRenderedEntitiesCount());
     ImGui::NewLine();
 
     ImGui::End();
@@ -162,8 +163,6 @@ void EditorLayer::OnImGuiRender()
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
 
-    // @TODO:
-    // Framebuffer disappear after window was minimized.
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
     ImGui::Image((void*)frame_buffer_texture, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     

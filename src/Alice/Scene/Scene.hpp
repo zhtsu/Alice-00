@@ -25,6 +25,7 @@ public:
 
     inline uint32_t GetAliveEntityCount() { return m_registry.alive(); }
     inline uint32_t GetEntityCapacity() { return m_registry.capacity(); }
+    inline uint32_t GetRenderedEntitiesCount() { return m_rendered_entities_count; }
 
 private:
     template<class T>
@@ -33,6 +34,8 @@ private:
 private:
     entt::registry m_registry;
     uint32_t m_viewport_width = 0, m_viewport_height = 0;
+
+    uint32_t m_rendered_entities_count = 0;
 };
 
 } // namespace Alice

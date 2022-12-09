@@ -35,7 +35,7 @@ void Scene::OnUpdate(Timestep ts)
 
     // Render
     Camera* main_camera_ptr = nullptr;
-    glm::mat4 main_camera_transform;
+    glm::mat4 main_camera_transform(1.0f);
     {
         auto&& view = m_registry.view<TransformComponent, CameraComponent>();
         for (auto& entity : view)
@@ -50,15 +50,17 @@ void Scene::OnUpdate(Timestep ts)
         }
     }
 
+    m_rendered_entities_count = 0;
     if (main_camera_ptr != nullptr)
     {
         Renderer2D::BeginScene(main_camera_ptr->GetProjection(), main_camera_transform);
 
-        auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+        auto&& group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
         for (auto& entity : group)
         {
             auto&& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
             Renderer2D::DrawQuad(transform.GetTransform(), sprite.color);
+            m_rendered_entities_count++;
         }
 
         Renderer2D::EndScene();

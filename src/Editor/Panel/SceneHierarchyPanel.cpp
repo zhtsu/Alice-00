@@ -242,7 +242,7 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
                 ImGui::CloseCurrentPopup();
             }
 
-            if (!m_selected_context.HasComponent<SpriteRendererComponent>() && ImGui::MenuItem("Sprite Renderer"))
+            if (!m_selected_context.HasComponent<SpriteRendererComponent>() && ImGui::MenuItem("SpriteRenderer"))
             {
                 m_selected_context.AddComponent<SpriteRendererComponent>();
                 ImGui::CloseCurrentPopup();
@@ -318,7 +318,6 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
         }
 
         ImGui::Checkbox("Fixed Aspect Ratio", &component.is_fixed_aspect_ratio);
-        ImGui::TreePop();
     });
 
     DrawComponent<SpriteRendererComponent>("SpriteRenderer", entity, [](auto& component)
