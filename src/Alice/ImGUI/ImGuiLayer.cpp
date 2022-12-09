@@ -33,6 +33,9 @@ void ImGuiLayer::OnAttach()
     //io.ConfigViewportsNoAutoMerge = true;
     //io.ConfigViewportsNoTaskBarIcon = true;
 
+    io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu/Ubuntu-Bold.ttf", 16.0f);
+    io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/Ubuntu/Ubuntu-Regular.ttf", 16.0f);
+
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
