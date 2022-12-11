@@ -2,7 +2,7 @@
 #include "Alice/Log/Log.hpp"
 #include "glad/glad.h"
 #include "glm/gtc/type_ptr.hpp"
-#include "Alice/Common/FileHelper.hpp"
+#include "Alice/Utils/FileHelper.hpp"
 
 namespace Alice
 {

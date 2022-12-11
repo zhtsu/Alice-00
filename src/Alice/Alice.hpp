@@ -10,9 +10,9 @@
 #include "Alice/Core/MouseButtonCodes.hpp"
 
 // Common
-#include "Alice/Common/PathHelper.hpp"
-#include "Alice/Common/FileHelper.hpp"
-#include "Alice/Common/ParticleSystem.hpp"
+#include "Alice/Utils/PathHelper.hpp"
+#include "Alice/Utils/FileHelper.hpp"
+#include "Alice/Utils/ParticleSystem.hpp"
 
 // Application
 #include "Alice/Application/Application.hpp"

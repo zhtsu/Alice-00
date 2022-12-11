@@ -12,7 +12,7 @@ target_link_libraries(
     Sandbox
     Alice_Log
     Alice_Renderer
-    Alice_Common
+    Alice_Utils
     entt
 )
 

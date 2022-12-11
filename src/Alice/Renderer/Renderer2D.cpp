@@ -1,7 +1,7 @@
 #include "Renderer2D.hpp"
 #include "VertexArray.hpp"
 #include "Shader.hpp"
-#include "Alice/Common/PathHelper.hpp"
+#include "Alice/Utils/PathHelper.hpp"
 #include "Alice/Renderer/RenderCommand.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 

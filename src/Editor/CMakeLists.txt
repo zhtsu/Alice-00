@@ -14,7 +14,7 @@ target_link_libraries(
     Editor
     Alice_Log
     Alice_Renderer
-    Alice_Common
+    Alice_Utils
     Alice_Scene
 )
 
