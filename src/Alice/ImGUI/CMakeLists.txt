@@ -14,6 +14,7 @@ target_link_libraries(
     imgui
     OpenGL::GL
     Alice_Application
+    ImGuizmo
 )
 
 set_target_properties(Alice_ImGUI PROPERTIES OUTPUT_NAME "alice-imgui")
