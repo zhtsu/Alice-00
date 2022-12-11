@@ -20,6 +20,13 @@ public:
     void OnEvent(Event& event) override;
 
 private:
+    bool OnKeyPressed(KeyPressedEvent& event);
+
+    void NewScene();
+    void OpenScene();
+    void SaveSceneAs();
+
+private:
     Entity m_camera_entity;
 
     OrthographicCameraController m_camera_controller;

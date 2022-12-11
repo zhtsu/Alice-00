@@ -13,6 +13,7 @@ target_link_libraries(
     glm
     glad
     Alice_Renderer
+    nativefiledialog
 )
 
 set_target_properties(Alice_Utils PROPERTIES OUTPUT_NAME "alice-utils")

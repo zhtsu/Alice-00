@@ -3,6 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Alice/Debug/Instrumentor.hpp"
 #include "Alice/Scene/SceneSerializer.hpp"
+#include "Alice/Utils/FileDialogs.hpp"
 
 namespace Alice
 {
@@ -117,17 +118,14 @@ void EditorLayer::OnImGuiRender()
     {
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::MenuItem("Serialize"))
-            {
-                SceneSerializer serializer(m_active_scene);
-                serializer.Serialize("assets/scenes/Example.alice");
-            }
+            if (ImGui::MenuItem("New", "Ctrl + N"))
+                NewScene();
 
-            if (ImGui::MenuItem("Deserialize"))
-            {
-                SceneSerializer serializer(m_active_scene);
-                serializer.Deserialize("assets/scenes/Example.alice");
-            }
+            if (ImGui::MenuItem("Open", "Ctrl + O"))
+                OpenScene();
+
+            if (ImGui::MenuItem("Save As", "Ctrl + Shift + S"))
+                SaveSceneAs();
 
             if (ImGui::MenuItem("Exit"))
                 Application::Get().Close();
@@ -177,7 +175,7 @@ void EditorLayer::OnImGuiRender()
     m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
 
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
-    ImGui::Image((void*)frame_buffer_texture, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture), ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     
     ImGui::End();
     ImGui::PopStyleVar();
@@ -188,6 +186,76 @@ void EditorLayer::OnImGuiRender()
 void EditorLayer::OnEvent(Event& event)
 {
     m_camera_controller.OnEvent(event);
+
+    EventDispatcher dispatcher(event);
+    dispatcher.Dispatch<KeyPressedEvent>(ALICE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+}
+
+bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
+{
+    if (event.GetRepeatCount() > 0)
+        return false;
+
+    bool control = Input::IsKeyPressed(ALICE_KEY_LEFT_CONTROL) || Input::IsKeyPressed(ALICE_KEY_RIGHT_CONTROL);
+    bool shift = Input::IsKeyPressed(ALICE_KEY_LEFT_SHIFT) || Input::IsKeyPressed(ALICE_KEY_RIGHT_SHIFT);
+    switch (event.GetKeyCode())
+    {
+        case ALICE_KEY_N:
+        {
+            if (control)
+                NewScene();
+            break;
+        }
+        case ALICE_KEY_O:
+        {
+            if (control)
+                OpenScene();
+            break;
+        }
+        case ALICE_KEY_S:
+        {
+            if (control && shift)
+                SaveSceneAs();
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+
+    return true;
+}
+    
+void EditorLayer::NewScene()
+{
+    m_active_scene = CreateRef<Scene>();
+    m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+    m_scene_hierarchy_panel.SetContext(m_active_scene);
+}
+
+void EditorLayer::OpenScene()
+{
+    std::string filepath = FileDialogs::OpenFile("ascene");
+    if (!filepath.empty())
+    {
+        m_active_scene = CreateRef<Scene>();
+        m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+        m_scene_hierarchy_panel.SetContext(m_active_scene);
+
+        SceneSerializer serializer(m_active_scene);
+        serializer.Deserialize(filepath);
+    }
+}
+
+void EditorLayer::SaveSceneAs()
+{
+    std::string filepath = FileDialogs::SaveFile("ascene");
+    if (!filepath.empty())
+    {
+        SceneSerializer serializer(m_active_scene);
+        serializer.Serialize(filepath);
+    }
 }
 
 } // namespace Alice
