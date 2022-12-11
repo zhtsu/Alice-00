@@ -5,6 +5,7 @@ project(Alice)
 set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build/bin)
 set(CMAKE_CXX_STANDARD 17)
+set(BUILD_SHARED_LIBS ON)
 
 # set spdlog
 set(SPDLOG_BUILD_SHARED ON)
@@ -13,7 +14,9 @@ set(GLFW_BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_TESTS OFF)
 set(GLFW_BUILD_DOCS OFF)
 set(GLFW_INSTALL OFF)
-set(BUILD_SHARED_LIBS ON)
+# set yaml-cpp
+set(YAML_CPP_BUILD_CONTRIB OFF)
+set(YAML_CPP_BUILD_TOOLS OFF)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 
@@ -26,6 +29,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/spdlog)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/glm)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/stb)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/entt)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/yaml-cpp)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Sandbox)
