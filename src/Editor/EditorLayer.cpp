@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Alice/Debug/Instrumentor.hpp"
+#include "Alice/Scene/SceneSerializer.hpp"
 
 namespace Alice
 {
@@ -116,6 +117,18 @@ void EditorLayer::OnImGuiRender()
     {
         if (ImGui::BeginMenu("File"))
         {
+            if (ImGui::MenuItem("Serialize"))
+            {
+                SceneSerializer serializer(m_active_scene);
+                serializer.Serialize("assets/scenes/Example.alice");
+            }
+
+            if (ImGui::MenuItem("Deserialize"))
+            {
+                SceneSerializer serializer(m_active_scene);
+                serializer.Deserialize("assets/scenes/Example.alice");
+            }
+
             if (ImGui::MenuItem("Exit"))
                 Application::Get().Close();
 

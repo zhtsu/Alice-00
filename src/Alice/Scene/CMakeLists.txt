@@ -14,6 +14,7 @@ target_link_libraries(
     Alice_Renderer
     entt
     glm
+    yaml-cpp
 )
 
 set_target_properties(Alice_Scene PROPERTIES OUTPUT_NAME "alice-scene")

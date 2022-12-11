@@ -39,7 +39,7 @@ void SceneHierarchyPanel::OnImGuiRender()
         {
             m_entity_created_count++;
             std::string new_entity_num = std::to_string(m_entity_created_count);
-            m_selected_context = m_context->CreateEntity("Notitled Entity " + new_entity_num);
+            m_selected_context = m_context->CreateEntity("Untitled Entity " + new_entity_num);
         }
 
         ImGui::EndPopup();
