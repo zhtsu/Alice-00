@@ -22,3 +22,6 @@
 [submodule "3rdparty/yaml-cpp"]
 	path = 3rdparty/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "3rdparty/nativefiledialog"]
+	path = 3rdparty/nativefiledialog
+	url = https://github.com/zhtsu/nativefiledialog.git
