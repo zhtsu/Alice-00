@@ -41,6 +41,7 @@ void SceneHierarchyPanel::OnImGuiRender()
             m_entity_created_count++;
             std::string new_entity_num = std::to_string(m_entity_created_count);
             m_selected_context = m_context->CreateEntity("Untitled Entity " + new_entity_num);
+            ALICE_TRACE("Create Entity: {}", m_selected_context.GetComponent<TagComponent>().tag);
         }
 
         ImGui::EndPopup();
@@ -72,12 +73,13 @@ void SceneHierarchyPanel::DrawEntityNode(Entity entity)
     if (ImGui::IsItemClicked())
     {
         m_selected_context = entity;
+        ALICE_TRACE("Select Entity: {}", entity.GetComponent<TagComponent>().tag);
     }
 
     bool entity_deleted = false;
     if (ImGui::BeginPopupContextItem())
     {
-        if (ImGui::MenuItem("Delete Entity"))
+        if (ImGui::MenuItem("Destroy Entity"))
             entity_deleted = true;
 
         ImGui::EndPopup();
@@ -98,9 +100,12 @@ void SceneHierarchyPanel::DrawEntityNode(Entity entity)
         // @TODO: 
         // !!!!! BUG !!!!!
         // Entities that removed first are still rendered until a new SpriteRendererComponent is added to a new Entity.
+        ALICE_TRACE("Destroy Entity: {}", entity.GetComponent<TagComponent>().tag);
         m_context->DestroyEntity(entity);
         if (m_selected_context == entity)
+        {
             m_selected_context = {};
+        }
     }
 }
 
