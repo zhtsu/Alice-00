@@ -24,11 +24,9 @@ public:
     void OnUpdate(Timestep ts);
     void OnViewportResize(uint32_t width, uint32_t height);
 
-    inline uint32_t GetAliveEntityCount() const { return m_registry.alive(); }
-    inline uint32_t GetEntityCapacity() const { return m_registry.capacity(); }
-    inline uint32_t GetRenderedEntitiesCount() const { return m_rendered_entities_count; }
-
-    Entity GetPrimaryCameraEntity();
+    inline uint32_t GetAliveEntityCount() { return m_registry.alive(); }
+    inline uint32_t GetEntityCapacity() { return m_registry.capacity(); }
+    inline uint32_t GetRenderedEntitiesCount() { return m_rendered_entities_count; }
 
 private:
     template<class T>

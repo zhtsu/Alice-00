@@ -1,6 +1,5 @@
 #include "EditorLayer.hpp"
 #include <imgui.h>
-#include <ImGuizmo.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Alice/Debug/Instrumentor.hpp"
 #include "Alice/Scene/SceneSerializer.hpp"
@@ -84,7 +83,7 @@ void EditorLayer::OnImGuiRender()
         window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
         window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
     }
-    else 
+    else
     {
         dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
     }
@@ -179,41 +178,7 @@ void EditorLayer::OnImGuiRender()
     ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture), ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     
     // Gizmos
-    Entity selected_entity = m_scene_hierarchy_panel.GetSelectedEntity();
-    if (selected_entity)
-    {
-        ImGuizmo::SetOrthographic(false);
-        ImGuizmo::SetDrawlist();
 
-        float window_width = (float)ImGui::GetWindowWidth();
-        float window_height = (float)ImGui::GetWindowHeight();
-        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_width, window_height);
-
-        // Camera
-        auto camera_entity = m_active_scene->GetPrimaryCameraEntity();
-        glm::mat4 camera_proj(1.0f), camera_view(1.0f);
-        if (camera_entity)
-        {
-            const auto& camera = camera_entity.GetComponent<CameraComponent>().camera;
-            camera_proj = camera.GetProjection();
-            camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
-        }
-
-        // Entity Transform
-        auto& transform_component = selected_entity.GetComponent<TransformComponent>();
-        glm::mat4 transform = transform_component.GetTransform();
-
-        ImGuizmo::Manipulate(
-            glm::value_ptr(camera_view), glm::value_ptr(camera_proj),
-            ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL,
-            glm::value_ptr(transform)
-        );
-
-        if (ImGuizmo::IsUsing())
-        {
-            transform_component.translation = glm::vec3(transform[3]);
-        }
-    }
 
     ImGui::End();
     ImGui::PopStyleVar();
