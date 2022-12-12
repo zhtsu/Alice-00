@@ -95,6 +95,18 @@ void Scene::DestroyEntity(Entity entity)
     m_registry.destroy(entity);
 }
 
+Entity Scene::GetPrimaryCameraEntity()
+{
+    auto view = m_registry.view<CameraComponent>();
+    for (auto entity : view)
+    {
+        const auto& camera = view.get<CameraComponent>(entity);
+        if (camera.is_primary)
+            return Entity{ entity, this };
+    }
+    return {};
+}
+
 template<>
 void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
 {
