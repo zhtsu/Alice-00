@@ -178,7 +178,7 @@ void EditorLayer::OnImGuiRender()
     ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture), ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     
     // Gizmos
-
+    
 
     ImGui::End();
     ImGui::PopStyleVar();
