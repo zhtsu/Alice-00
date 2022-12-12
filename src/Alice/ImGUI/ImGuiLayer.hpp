@@ -32,6 +32,7 @@ public:
     void BlockEvents(bool block) { m_block_events = block; }
 
     void SetDarkThemeColors();
+    void SetDarkGreenThemeColors();
 
 private:
     bool m_block_events = true;

@@ -259,22 +259,26 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
         // Gizmos
         case ALICE_KEY_Q:
         {
-            m_gizmo_type = -1;
+            if (!ImGuizmo::IsUsing())
+                m_gizmo_type = -1;
             break;
         }
         case ALICE_KEY_W:
         {
-            m_gizmo_type = ImGuizmo::OPERATION::TRANSLATE;
+            if (!ImGuizmo::IsUsing())
+                m_gizmo_type = ImGuizmo::OPERATION::TRANSLATE;
             break;
         }
         case ALICE_KEY_E:
         {
-            m_gizmo_type = ImGuizmo::OPERATION::ROTATE;
+            if (!ImGuizmo::IsUsing())
+                m_gizmo_type = ImGuizmo::OPERATION::ROTATE;
             break;
         }
         case ALICE_KEY_R:
         {
-            m_gizmo_type = ImGuizmo::OPERATION::SCALE;
+            if (!ImGuizmo::IsUsing())
+                m_gizmo_type = ImGuizmo::OPERATION::SCALE;
             break;
         }
         default:
