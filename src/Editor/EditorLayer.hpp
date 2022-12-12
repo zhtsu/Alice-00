@@ -38,6 +38,8 @@ private:
 
     Ref<Scene> m_active_scene;
 
+    int m_gizmo_type = -1;
+
     // Panels
     SceneHierarchyPanel m_scene_hierarchy_panel;
 };

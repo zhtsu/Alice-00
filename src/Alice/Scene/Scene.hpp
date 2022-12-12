@@ -28,6 +28,8 @@ public:
     inline uint32_t GetEntityCapacity() { return m_registry.capacity(); }
     inline uint32_t GetRenderedEntitiesCount() { return m_rendered_entities_count; }
 
+    Entity GetPrimaryCameraEntity();
+
 private:
     template<class T>
     void OnComponentAdded(Entity entity, T& component);

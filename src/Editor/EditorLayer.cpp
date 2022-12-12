@@ -1,9 +1,11 @@
 #include "EditorLayer.hpp"
 #include <imgui.h>
+#include <ImGuizmo.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Alice/Debug/Instrumentor.hpp"
 #include "Alice/Scene/SceneSerializer.hpp"
 #include "Alice/Utils/FileDialogs.hpp"
+#include "Alice/Math/Math.hpp"
 
 namespace Alice
 {
@@ -178,7 +180,40 @@ void EditorLayer::OnImGuiRender()
     ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture), ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
     
     // Gizmos
-    
+    Entity selected_entity = m_scene_hierarchy_panel.GetSelectedEntity();
+    if (selected_entity && m_gizmo_type != -1)
+    {
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist();
+
+        float window_width = (float)ImGui::GetWindowWidth();
+        float window_height = (float)ImGui::GetWindowHeight();
+        ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_width, window_height);
+        
+        // Camera
+        auto camera_entity = m_active_scene->GetPrimaryCameraEntity();
+        const auto& camera = camera_entity.GetComponent<CameraComponent>().camera;
+        const glm::mat4& camera_proj = camera.GetProjection();
+        glm::mat4 camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
+
+        // Entity
+        auto& transform_comp = selected_entity.GetComponent<TransformComponent>();
+        glm::mat4 transform = transform_comp.GetTransform();
+
+        ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_proj),
+            (ImGuizmo::OPERATION)m_gizmo_type, ImGuizmo::LOCAL, glm::value_ptr(transform));
+
+        if (ImGuizmo::IsUsing())
+        {
+            glm::vec3 translation, rotation, scale;
+            Math::DecomposeTransform(transform, translation, rotation, scale);
+
+            glm::vec3 delta_rotation = rotation - transform_comp.rotation;
+            transform_comp.translation = translation;
+            transform_comp.rotation += delta_rotation;
+            transform_comp.scale = scale;
+        }
+    }
 
     ImGui::End();
     ImGui::PopStyleVar();
@@ -219,6 +254,27 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
         {
             if (control && shift)
                 SaveSceneAs();
+            break;
+        }
+        // Gizmos
+        case ALICE_KEY_Q:
+        {
+            m_gizmo_type = -1;
+            break;
+        }
+        case ALICE_KEY_W:
+        {
+            m_gizmo_type = ImGuizmo::OPERATION::TRANSLATE;
+            break;
+        }
+        case ALICE_KEY_E:
+        {
+            m_gizmo_type = ImGuizmo::OPERATION::ROTATE;
+            break;
+        }
+        case ALICE_KEY_R:
+        {
+            m_gizmo_type = ImGuizmo::OPERATION::SCALE;
             break;
         }
         default:
