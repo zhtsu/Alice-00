@@ -8,7 +8,7 @@ namespace Alice
 namespace Math
 {
 
-bool DecomposeTransform(const Mat4& transform, Vec3& out_translation, Vec3& out_ratation, Vec3& out_scale);
+bool DecomposeTransform(const glm::mat4& transform, glm::vec3& out_translation, glm::vec3& out_rotation, glm::vec3& out_scale);
 
 } // namespace Math
 
