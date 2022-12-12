@@ -191,12 +191,17 @@ void EditorLayer::OnImGuiRender()
 
         // Camera
         auto camera_entity = m_active_scene->GetPrimaryCameraEntity();
-        const auto& camera = camera_entity.GetComponent<CameraComponent>().camera;
-        const glm::mat4 camera_proj = camera.GetProjection();
-        glm::mat4 camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
+        glm::mat4 camera_proj(1.0f), camera_view(1.0f);
+        if (camera_entity)
+        {
+            const auto& camera = camera_entity.GetComponent<CameraComponent>().camera;
+            camera_proj = camera.GetProjection();
+            camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
+        }
 
         // Entity Transform
-        glm::mat4 transform = selected_entity.GetComponent<TransformComponent>().GetTransform();
+        auto& transform_component = selected_entity.GetComponent<TransformComponent>();
+        glm::mat4 transform = transform_component.GetTransform();
 
         ImGuizmo::Manipulate(
             glm::value_ptr(camera_view), glm::value_ptr(camera_proj),
@@ -204,7 +209,10 @@ void EditorLayer::OnImGuiRender()
             glm::value_ptr(transform)
         );
 
-        
+        if (ImGuizmo::IsUsing())
+        {
+            transform_component.translation = glm::vec3(transform[3]);
+        }
     }
 
     ImGui::End();

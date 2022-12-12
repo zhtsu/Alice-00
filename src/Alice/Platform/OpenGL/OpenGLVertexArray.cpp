@@ -20,6 +20,8 @@ static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
         case ShaderDataType::Mat4:      return GL_FLOAT;
         case ShaderDataType::Bool:      return GL_BOOL;
     }
+
+    return 0;
 }
 
 OpenGLVertexArray::OpenGLVertexArray()
@@ -59,7 +61,7 @@ void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertex_buffer)
             ShaderDataTypeToOpenGLBaseType(element.type),
             element.normalized ? GL_TRUE : GL_FALSE,
             layout.GetStride(),
-            (const void*)element.offset
+            reinterpret_cast<const void*>(element.offset)
         );
         index++;
     }
