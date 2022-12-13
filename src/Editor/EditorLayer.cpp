@@ -5,7 +5,7 @@
 #include "Alice/Debug/Instrumentor.hpp"
 #include "Alice/Scene/SceneSerializer.hpp"
 #include "Alice/Utils/FileDialogs.hpp"
-#include "Alice/Math/Math.hpp"
+// #include "Alice/Math/Math.hpp"
 
 namespace Alice
 {
