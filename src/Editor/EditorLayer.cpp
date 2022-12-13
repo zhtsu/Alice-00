@@ -221,10 +221,10 @@ void EditorLayer::OnImGuiRender()
         // {
         //     glm::vec3 translation, rotation, scale;
         //     Math::DecomposeTransform(transform, translation, rotation, scale);
-        //     // glm::vec3 delta_rotation = rotation - transform_comp.rotation;
-        //     // transform_comp.translation = translation;
-        //     // transform_comp.rotation += delta_rotation;
-        //     // transform_comp.scale = scale;
+        //     glm::vec3 delta_rotation = rotation - transform_comp.rotation;
+        //     transform_comp.translation = translation;
+        //     transform_comp.rotation += delta_rotation;
+        //     transform_comp.scale = scale;
         // }
     }
 
