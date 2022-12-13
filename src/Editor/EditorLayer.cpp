@@ -171,7 +171,7 @@ void EditorLayer::OnImGuiRender()
 
     m_viewport_focused = ImGui::IsWindowFocused();
     m_viewport_hovered = ImGui::IsWindowHovered();
-    Application::Get().GetImGuiLayer()->BlockEvents(m_viewport_focused || m_viewport_hovered);
+    Application::Get().GetImGuiLayer()->BlockEvents(m_viewport_focused && m_viewport_hovered);
 
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
@@ -200,17 +200,29 @@ void EditorLayer::OnImGuiRender()
         auto& transform_comp = selected_entity.GetComponent<TransformComponent>();
         glm::mat4 transform = transform_comp.GetTransform();
 
-        ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_proj),
-            (ImGuizmo::OPERATION)m_gizmo_type, ImGuizmo::LOCAL, glm::value_ptr(transform));
+        // Snapping
+        bool snap = Input::IsKeyPressed(ALICE_KEY_LEFT_CONTROL);
+        
+        float snap_value = 0.5f;
+        if (m_gizmo_type == ImGuizmo::OPERATION::ROTATE)
+            snap_value = 45.0f;
 
+        float snap_values[3] = { snap_value, snap_value, snap_value };
+
+        bool maipulate_res = ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_proj),
+            (ImGuizmo::OPERATION)m_gizmo_type, ImGuizmo::LOCAL, glm::value_ptr(transform),
+            nullptr, snap ? snap_values : nullptr);
+
+        ALICE_WARN("Out: {}", transform[0][0]);
         if (ImGuizmo::IsUsing())
         {
-            glm::vec3 translation, rotation, scale;
-            Math::DecomposeTransform(transform, translation, rotation, scale);
-            glm::vec3 delta_rotation = rotation - transform_comp.rotation;
-            transform_comp.translation = translation;
-            transform_comp.rotation += delta_rotation;
-            transform_comp.scale = scale;
+            ALICE_ERROR("In: {}", transform[0][0]);
+            // glm::vec3 translation, rotation, scale;
+            // Math::DecomposeTransform(transform, translation, rotation, scale);
+            // glm::vec3 delta_rotation = rotation - transform_comp.rotation;
+            // transform_comp.translation = translation;
+            // transform_comp.rotation += delta_rotation;
+            // transform_comp.scale = scale;
         }
     }
 

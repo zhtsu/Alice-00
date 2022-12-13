@@ -5,7 +5,7 @@ C++ 2D Game Engine with OpenGL.
 
 Follow youtube video of TheCherno's Game Engine Series to finish.
 
-Video link: [Game Engine Series](https://www.youtube.com/watch?v=JxIZbV_XjAs&list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT)
+Video link: [Game Engine Series](https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT)
 
 ## Feature
 - Only supported on Windows platform
