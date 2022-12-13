@@ -209,20 +209,21 @@ void EditorLayer::OnImGuiRender()
 
         float snap_values[3] = { snap_value, snap_value, snap_value };
 
-        bool maipulate_res = ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_proj),
+        bool is_maipulated = ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_proj),
             (ImGuizmo::OPERATION)m_gizmo_type, ImGuizmo::LOCAL, glm::value_ptr(transform),
             nullptr, snap ? snap_values : nullptr);
 
-        ALICE_WARN("Out: {}", transform[0][0]);
-        if (ImGuizmo::IsUsing())
+        // @TODO:
+        // !!!!! BUG !!!!!
+        // Manipulate make transfrom to NaN when try to changed translation or rotation by gizmos. 
+        if (is_maipulated && ImGuizmo::IsUsing())
         {
-            ALICE_ERROR("In: {}", transform[0][0]);
-            // glm::vec3 translation, rotation, scale;
-            // Math::DecomposeTransform(transform, translation, rotation, scale);
-            // glm::vec3 delta_rotation = rotation - transform_comp.rotation;
-            // transform_comp.translation = translation;
-            // transform_comp.rotation += delta_rotation;
-            // transform_comp.scale = scale;
+            glm::vec3 translation, rotation, scale;
+            Math::DecomposeTransform(transform, translation, rotation, scale);
+            glm::vec3 delta_rotation = rotation - transform_comp.rotation;
+            transform_comp.translation = translation;
+            transform_comp.rotation += delta_rotation;
+            transform_comp.scale = scale;
         }
     }
 
