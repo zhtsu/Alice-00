@@ -216,15 +216,16 @@ void EditorLayer::OnImGuiRender()
         // @TODO:
         // !!!!! BUG !!!!!
         // Manipulate make transfrom to NaN when try to changed translation or rotation by gizmos. 
-        if (is_maipulated && ImGuizmo::IsUsing())
-        {
-            glm::vec3 translation, rotation, scale;
-            Math::DecomposeTransform(transform, translation, rotation, scale);
-            glm::vec3 delta_rotation = rotation - transform_comp.rotation;
-            transform_comp.translation = translation;
-            transform_comp.rotation += delta_rotation;
-            transform_comp.scale = scale;
-        }
+        //
+        // if (is_maipulated && ImGuizmo::IsUsing())
+        // {
+        //     glm::vec3 translation, rotation, scale;
+        //     Math::DecomposeTransform(transform, translation, rotation, scale);
+        //     // glm::vec3 delta_rotation = rotation - transform_comp.rotation;
+        //     // transform_comp.translation = translation;
+        //     // transform_comp.rotation += delta_rotation;
+        //     // transform_comp.scale = scale;
+        // }
     }
 
     ImGui::End();
