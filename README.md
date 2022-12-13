@@ -1,9 +1,11 @@
 # Alice-00
 [![license](https://img.shields.io/github/license/zhtsu/Alice-00)](LICENSE)
 
+[中文](README.zhCN.md)
+
 C++ 2D Game Engine with OpenGL.
 
-This is a learning project made by following TheCherno's Game Engine Series.
+This is a learning project that made by following TheCherno's Game Engine Series.
 
 Series Playlist: [Game Engine Series](https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT)
 
@@ -18,6 +20,7 @@ Series Playlist: [Game Engine Series](https://www.youtube.com/playlist?list=PLlr
 ### Environment
 - MinGW-W64
 - CMake
+
 ### Download
 ```bash
 git clone https://github.com/zhtsu/Alice-00.git
@@ -30,5 +33,6 @@ If an error occurs when running following the command.
 git submodule update
 ```
 You may need to manually download third-party by links that included in .gitmodules file.
+
 ### Build
 Double-click to run scripts/Build.bat
