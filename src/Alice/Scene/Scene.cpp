@@ -16,7 +16,12 @@ Scene::~Scene()
     
 }
 
-void Scene::OnUpdate(Timestep ts)
+void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
+{
+    
+}
+
+void Scene::OnUpdateRuntime(Timestep ts)
 {
     // Update scripts
     {

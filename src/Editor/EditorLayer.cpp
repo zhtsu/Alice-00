@@ -59,7 +59,7 @@ void EditorLayer::OnUpdate(Timestep ts)
     RenderCommand::Clear();
 
     // Update Scene
-    m_active_scene->OnUpdate(ts);
+    m_active_scene->OnUpdateRuntime(ts);
 
     m_framebuffer->Unbind();
 }
