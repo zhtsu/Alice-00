@@ -1,7 +1,7 @@
 # Alice-00
 [![license](https://img.shields.io/github/license/zhtsu/Alice-00)](LICENSE)
 
-[中文](README.zhCN.md)
+[[中文]](README.zhCN.md)
 
 C++ 2D Game Engine with OpenGL.
 
@@ -18,8 +18,8 @@ Series Playlist: [Game Engine Series](https://www.youtube.com/playlist?list=PLlr
 
 ## Get Start
 ### Environment
-- MinGW-W64
-- CMake
+- MinGW-W64 (posix)
+- CMake (3.16 or later)
 
 ### Download
 ```bash

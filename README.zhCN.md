@@ -1,11 +1,11 @@
 # Alice-00
 [![license](https://img.shields.io/github/license/zhtsu/Alice-00)](LICENSE)
 
-[English](README.md)
+[[English]](README.md)
 
 使用 C++ 和 OpenGL 实现的 2D 游戏引擎
 
-这是一个学习项目，跟随 TheCherno's Game Engine Series 系列视频完成开发
+这是一个学习项目，跟随 TheCherno 的 Game Engine Series 系列视频完成开发
 
 视频地址: [Game Engine Series](https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT)
 
@@ -18,8 +18,8 @@
 
 ## 安装
 ### 环境准备
-- MinGW-W64
-- CMake
+- MinGW-W64 (使用 posix 线程的版本)
+- CMake (3.16 以及以上版本)
 
 ### 下载源代码
 ```bash
