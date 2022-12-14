@@ -218,7 +218,10 @@ int OpenGLFramebuffer::ReadPixel(uint32_t attachment_index, int x, int y) const
     ALICE_ASSERT(attachment_index < m_color_attachments.size(), "Index is invalid!");
     
     glReadBuffer(GL_COLOR_ATTACHMENT0 + attachment_index);
-    int pixel_data;
+    int pixel_data = -1;
+    // @TODO:
+    // !!! BUG !!!
+    // The glReadPixels return a incorrect value when mouse hover a entity
     glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
     return pixel_data;
 }

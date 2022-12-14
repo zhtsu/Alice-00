@@ -78,11 +78,7 @@ void EditorLayer::OnUpdate(Timestep ts)
     if (mouse_x >= 0 && mouse_y >= 0 && mouse_x < (int)viewport_size.x && mouse_y < (int)viewport_size.y)
     {
         int pixel_data = m_framebuffer->ReadPixel(1, mouse_x, mouse_y);
-        // @TODO:
-        // !!! BUG !!!
-        // The attachment is a incorrect value when mouse move to the top of viewport
-        // Some possible values: 32758, 32759
-        if (pixel_data == 32758 || pixel_data == 32759 || pixel_data == -1)
+        if (pixel_data == -1)
             m_hovered_entity = {};
         else
             m_hovered_entity = { (entt::entity)pixel_data, m_active_scene.get() };
