@@ -81,7 +81,7 @@ namespace Utils
     {
         switch (format)
         {
-            case FramebufferTextureFormat::RGB8:
+            case FramebufferTextureFormat::RGBA8:
                 return GL_RGBA8;
             case FramebufferTextureFormat::RED_INTEGER:
                 return GL_RED_INTEGER;
@@ -95,12 +95,12 @@ namespace Utils
 OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
     : m_specification(spec)
 {
-    for (auto format : m_specification.attachments.attachments)
+    for (auto& spec : m_specification.attachments.attachments)
     {
-        if (!Utils::IsDepthFormat(format.texture_format))
-            m_color_attachment_specs.emplace_back(format);
+        if (!Utils::IsDepthFormat(spec.texture_format))
+            m_color_attachment_specs.emplace_back(spec);
         else
-            m_depth_attachment_spec = format;
+            m_depth_attachment_spec = spec;
     }
 
     Invalidate();
@@ -147,7 +147,7 @@ void OpenGLFramebuffer::Invalidate()
             Utils::BindTexture(multisampled, m_color_attachments[i]);
             switch (m_color_attachment_specs[i].texture_format)
             {
-                case FramebufferTextureFormat::RGB8:
+                case FramebufferTextureFormat::RGBA8:
                     Utils::AttachColorTexture(m_color_attachments[i], m_specification.samples,
                         GL_RGBA8, GL_RGBA, m_specification.width, m_specification.height, i);
                     break;
@@ -167,7 +167,7 @@ void OpenGLFramebuffer::Invalidate()
         {
             case FramebufferTextureFormat::DEPTH24_STENCIL8:
                 Utils::AttachDepthTexture(m_depth_attachment, m_specification.samples,
-                    GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL, m_specification.width, m_specification.height);
+                    GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, m_specification.width, m_specification.height);
                 break;
         }
     }

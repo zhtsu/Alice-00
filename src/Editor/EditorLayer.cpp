@@ -19,7 +19,7 @@ EditorLayer::EditorLayer()
 void EditorLayer::OnAttach()
 {
     FramebufferSpecification framebuffer_spec;
-    framebuffer_spec.attachments = { FramebufferTextureFormat::RGB8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
+    framebuffer_spec.attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
     framebuffer_spec.width = 1280;
     framebuffer_spec.height = 720;
     m_framebuffer = Framebuffer::Create(framebuffer_spec);

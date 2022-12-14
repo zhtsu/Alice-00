@@ -69,7 +69,7 @@ void SceneHierarchyPanel::DrawEntityNode(Entity entity)
     
     bool is_opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
     
-    if (ImGui::IsItemClicked())
+    if (ImGui::IsItemClicked() && m_selected_context != entity)
     {
         m_selected_context = entity;
         ALICE_TRACE("Select Entity: {}", entity.GetComponent<TagComponent>().tag);
