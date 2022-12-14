@@ -14,7 +14,7 @@ out vec2 v_TexCoord;
 out vec4 v_Color;
 out float v_TexIndex;
 out float v_TilingFactor;
-out int v_EntityID;
+flat out int v_EntityID;
 
 void main()
 {
@@ -36,7 +36,7 @@ in vec4 v_Color;
 in vec2 v_TexCoord;
 in float v_TexIndex;
 in float v_TilingFactor;
-in int v_EntityID;
+flat in int v_EntityID;
 
 uniform sampler2D u_Textures[32];
 

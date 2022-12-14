@@ -61,7 +61,6 @@ void Sandbox2D::OnUpdate(Timestep ts)
 
         Renderer2D::DrawRotatedQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, 45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
         Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-        Renderer2D::DrawRotatedQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, rotation, m_checkerboard_texture);
 
         Renderer2D::EndScene();
 
@@ -96,10 +95,6 @@ void Sandbox2D::OnUpdate(Timestep ts)
             m_particle_system.Emit(m_particle);
         }
     }
-
-    Renderer2D::BeginScene(m_camera_controller.GetCamera());
-    Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_sprite);
-    Renderer2D::EndScene();
 
     m_particle_system.OnUpdate(ts);
     m_particle_system.OnRender(m_camera_controller.GetCamera());

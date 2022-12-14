@@ -18,7 +18,12 @@ public:
     template<class T, class... Args>
     T& AddComponent(Args&&... args)
     {
-        ALICE_ASSERT(!HasComponent<T>(), "Entity already has component!");
+        if (HasComponent<T>())
+        {
+            const char* type_name = typeid(T).name();
+            ALICE_TRACE("Entity ({}) already has component ({}) !", (int32_t)m_entity_handle, type_name);
+            ALICE_ASSERT(false, "");
+        }
         T& component = m_scene->m_registry.emplace<T>(m_entity_handle, std::forward<Args>(args)...);
         m_scene->OnComponentAdded<T>(*this, component);
         return component;
@@ -27,7 +32,12 @@ public:
     template<class T>
     T& GetComponent()
     {
-        ALICE_ASSERT(HasComponent<T>(), "Entity does not have component!");
+        if (!HasComponent<T>())
+        {
+            const char* type_name = typeid(T).name();
+            ALICE_ERROR("Entity ({}) does not have component ({}) !", (int32_t)m_entity_handle, type_name);
+            ALICE_ASSERT(false, "");
+        }
         return m_scene->m_registry.get<T>(m_entity_handle);
     }
 
@@ -40,7 +50,13 @@ public:
     template<class T>
     void RemoveComponent()
     {
-        ALICE_ASSERT(HasComponent<T>(), "Entity does not have component!");
+        if (!HasComponent<T>())
+        {
+            const char* type_name = typeid(T).name();
+            ALICE_ERROR("Entity ({}) does not have component ({}) !", (int32_t)m_entity_handle, type_name);
+            ALICE_ASSERT(false, "");
+        }
+        
         m_scene->m_registry.remove<T>(m_entity_handle);
     }
 
@@ -58,6 +74,9 @@ public:
     operator entt::entity() const { return m_entity_handle; }
 
 private:
+    // @TODO:
+    // !!! BUG !!!
+    // Cannot convert a entt::entity to a integer currectly when runtime
     entt::entity m_entity_handle{ entt::null };
     Scene* m_scene = nullptr;
 };

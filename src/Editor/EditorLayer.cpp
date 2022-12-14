@@ -78,7 +78,14 @@ void EditorLayer::OnUpdate(Timestep ts)
     if (mouse_x >= 0 && mouse_y >= 0 && mouse_x < (int)viewport_size.x && mouse_y < (int)viewport_size.y)
     {
         int pixel_data = m_framebuffer->ReadPixel(1, mouse_x, mouse_y);
-        ALICE_TRACE("Pixel data: {}", pixel_data);
+        // @TODO:
+        // !!! BUG !!!
+        // The attachment is a incorrect value when mouse move to the top of viewport
+        // Some possible values: 32758, 32759
+        if (pixel_data == 32758 || pixel_data == 32759 || pixel_data == -1)
+            m_hovered_entity = {};
+        else
+            m_hovered_entity = { (entt::entity)pixel_data, m_active_scene.get() };
     }
 
     m_framebuffer->Unbind();
@@ -181,6 +188,10 @@ void EditorLayer::OnImGuiRender()
     ImGui::Text("Entity Capacity: %d", m_active_scene->GetEntityCapacity());
     ImGui::Text("Alive Entities: %d", m_active_scene->GetAliveEntityCount());
     ImGui::Text("Rendered Entities: %d", m_active_scene->GetRenderedEntitiesCount());
+    std::string hovered_entity_name = "None";
+    if (m_hovered_entity)
+        hovered_entity_name = m_hovered_entity.GetComponent<TagComponent>().tag;
+    ImGui::Text("Hovered Entities: %s", hovered_entity_name.c_str());
     ImGui::NewLine();
 
     ImGui::End();
@@ -250,7 +261,7 @@ void EditorLayer::OnImGuiRender()
             nullptr, snap ? snap_values : nullptr);
 
         // @TODO:
-        // !!!!! BUG !!!!!
+        // !!! BUG !!!
         // Manipulate make transfrom to NaN when try to changed translation or rotation by gizmos. 
         //
         // if (is_maipulated && ImGuizmo::IsUsing())

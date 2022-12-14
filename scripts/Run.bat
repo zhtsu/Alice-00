@@ -3,3 +3,4 @@ cd ..
 cd build
 cd bin
 Alice
+pause
