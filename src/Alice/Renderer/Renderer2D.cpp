@@ -4,6 +4,7 @@
 #include "Alice/Utils/PathHelper.hpp"
 #include "Alice/Renderer/RenderCommand.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "Alice/Scene/Components.hpp"
 
 namespace Alice
 {
@@ -15,6 +16,8 @@ struct QuadVertex
     glm::vec2 texture_coord;
     float texture_index;
     float tiling_factor;
+
+    int entity_id;
 };
 
 struct Renderer2DData
@@ -53,7 +56,8 @@ void Renderer2D::Init()
         { ShaderDataType::Float4, "a_Color" },
         { ShaderDataType::Float2, "a_TexCoord" },
         { ShaderDataType::Float, "a_TexIndex" },
-        { ShaderDataType::Float, "a_TilingFactor" }
+        { ShaderDataType::Float, "a_TilingFactor" },
+        { ShaderDataType::Int, "a_EntityID" }
     });
     s_data.quad_vertex_array->AddVertexBuffer(s_data.quad_vertex_buffer);
 
@@ -252,7 +256,7 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
     s_data.stats.quad_count++;
 }
 
-void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entity_id)
 {
     constexpr int quad_vertex_count = 4;
     constexpr glm::vec2 texture_coords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
@@ -271,6 +275,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
         s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
         s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
         s_data.quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        s_data.quad_vertex_buffer_ptr->entity_id = entity_id;
         s_data.quad_vertex_buffer_ptr++;
     }
 
@@ -279,7 +284,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
     s_data.stats.quad_count++;
 }
 
-void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& color)
+void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tiling_factor, const glm::vec4& color, int entity_id)
 {
     constexpr int quad_vertex_count = 4;
     constexpr glm::vec2 texture_coords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
@@ -313,6 +318,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& text
         s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
         s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
         s_data.quad_vertex_buffer_ptr->tiling_factor = tiling_factor;
+        s_data.quad_vertex_buffer_ptr->entity_id = entity_id;
         s_data.quad_vertex_buffer_ptr++;
     }
 
@@ -458,6 +464,11 @@ void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
     s_data.quad_index_count += 6;
 
     s_data.stats.quad_count++;
+}
+
+void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entity_id)
+{
+    DrawQuad(transform, sprite.color, entity_id);
 }
 
 void Renderer2D::ResetStats()
