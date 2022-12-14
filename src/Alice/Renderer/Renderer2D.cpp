@@ -165,23 +165,17 @@ void Renderer2D::EndScene()
 
 void Renderer2D::Flush()
 {
-    for (int i = 0; i < s_data.Texture_slot_index; i++)
+    if (s_data.quad_index_count)
     {
+        uint32_t data_size = (uint32_t)((uint8_t*)s_data.quad_vertex_buffer_ptr - (uint8_t*)s_data.quad_vertex_buffer_base);
+		s_data.quad_vertex_buffer->SetData(s_data.quad_vertex_buffer_base, data_size);
+
+        for (int i = 0; i < s_data.Texture_slot_index; i++)
         s_data.texture_slots[i]->Bind(i);
+
+        RenderCommand::DrawIndexed(s_data.quad_vertex_array, s_data.quad_index_count);
+        s_data.stats.draw_calls++;
     }
-
-    RenderCommand::DrawIndexed(s_data.quad_vertex_array, s_data.quad_index_count);
-    s_data.stats.draw_calls++;
-}
-
-void Renderer2D::FlushAndReset()
-{
-    EndScene();
-
-    s_data.quad_index_count = 0;
-    s_data.quad_vertex_buffer_ptr = s_data.quad_vertex_buffer_base;
-
-    s_data.Texture_slot_index = 1;
 }
 
 void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entity_id)
@@ -192,9 +186,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, in
     constexpr float tiling_factor = 1.0f;
 
     if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
-    {
-        FlushAndReset();
-    }
+        NextBatch();
 
     for (int i = 0; i < quad_vertex_count; i++)
     {
@@ -218,9 +210,7 @@ void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& text
     constexpr glm::vec2 texture_coords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 
     if (s_data.quad_index_count >= Renderer2DData::kMaxIndices)
-    {
-        FlushAndReset();
-    }
+        NextBatch();
 
     float texture_index = 0.0f;
     for (int i = 1; i < s_data.Texture_slot_index; i++)
