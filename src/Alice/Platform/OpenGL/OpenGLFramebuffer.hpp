@@ -18,14 +18,19 @@ public:
 
     void Resize(uint32_t width, uint32_t height) override;
 
-    uint32_t GetColorAttachmentRendererID() const override { return m_color_attachment; }
+    uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override;
 
     void Invalidate();
 
 private:
     uint32_t m_renderer_id = 0;
-    uint32_t m_color_attachment = 0, m_depth_attachment = 0;
+
     FramebufferSpecification m_specification;
+    std::vector<FramebufferTextureSpecification> m_color_attachment_specs;
+    FramebufferTextureSpecification m_depth_attachment_spec;
+
+    std::vector<uint32_t> m_color_attachments;
+    uint32_t m_depth_attachment = 0;
 };
 
 } // namespace Alice
