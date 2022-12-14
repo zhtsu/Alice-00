@@ -20,6 +20,8 @@ public:
 
     int ReadPixel(uint32_t attachment_index, int x, int y) const override;
 
+    void ClearAttachment(uint32_t attachment_index, int value) override;
+
     uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override;
 
     void Invalidate();

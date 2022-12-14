@@ -76,6 +76,20 @@ namespace Utils
 
         return false;
     }
+
+    static GLenum ToGLFormat(FramebufferTextureFormat format)
+    {
+        switch (format)
+        {
+            case FramebufferTextureFormat::RGB8:
+                return GL_RGBA8;
+            case FramebufferTextureFormat::RED_INTEGER:
+                return GL_RED_INTEGER;
+        }
+
+        ALICE_ASSERT(false, "Format invalid!");
+        return 0;
+    }
 }
 
 OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
@@ -207,6 +221,15 @@ int OpenGLFramebuffer::ReadPixel(uint32_t attachment_index, int x, int y) const
     int pixel_data;
     glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
     return pixel_data;
+}
+
+void OpenGLFramebuffer::ClearAttachment(uint32_t attachment_index, int value)
+{
+    ALICE_ASSERT(attachment_index < m_color_attachments.size(), "Index is invalid!");
+
+    auto& spec = m_color_attachment_specs[attachment_index];
+    glClearTexImage(m_color_attachments[attachment_index], 0, 
+        Utils::ToGLFormat(spec.texture_format), GL_INT, &value);
 }
 
 } // namespace Alice

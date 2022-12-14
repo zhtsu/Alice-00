@@ -61,6 +61,9 @@ void EditorLayer::OnUpdate(Timestep ts)
     RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
     RenderCommand::Clear();
 
+    // Clear framebuffer attachment by empty entity ID
+    m_framebuffer->ClearAttachment(1, -1);
+
     // Update Scene
     m_active_scene->OnUpdateEditor(ts, m_editor_camera);
 
