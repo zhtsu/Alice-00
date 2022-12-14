@@ -30,6 +30,7 @@ private:
     Entity m_camera_entity;
 
     OrthographicCameraController m_camera_controller;
+    EditorCamera m_editor_camera;
     
     Ref<Framebuffer> m_framebuffer;
 

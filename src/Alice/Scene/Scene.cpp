@@ -11,14 +11,18 @@ Scene::Scene()
 
 }
 
-Scene::~Scene()
-{
-    
-}
-
 void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 {
-    
+    Renderer2D::BeginScene(camera);
+
+    auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+    for (auto entity : group)
+    {
+        auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+        Renderer2D::DrawQuad(transform.GetTransform(), sprite.color);
+    }
+
+    Renderer2D::EndScene();
 }
 
 void Scene::OnUpdateRuntime(Timestep ts)

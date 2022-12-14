@@ -17,7 +17,7 @@ class Scene
 
 public:
     Scene();
-    ~Scene();
+    ~Scene() = default;
 
     Entity CreateEntity(const std::string& name = std::string());
     void DestroyEntity(Entity entity);

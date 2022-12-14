@@ -38,6 +38,7 @@
 #include "Alice/Renderer/OrthographicCamera.hpp"
 #include "Alice/Renderer/OrthographicCameraController.hpp"
 #include "Alice/Renderer/Framebuffer.hpp"
+#include "Alice/Renderer/EditorCamera.hpp"
 
 // Platform/OpenGL
 #include "Alice/Platform/OpenGL/OpenGLShader.hpp"

@@ -22,15 +22,11 @@ public:
     glm::vec3 GetRightDirection() const;
     glm::vec3 GetForwardDirection() const;
     glm::quat GetOrientation() const;
+    
+    void SetViewportSize(float width, float height);
 
     inline float GetDistance() const { return m_distance; }
     inline void SetDistance(float distance) { m_distance = distance;}
-
-    inline void SetViewportSize(float width, float height)
-    { 
-        m_viewport_width = width;
-        m_viewport_height = height; 
-    }
 
     const glm::mat4& GetViewMatrix() const { return m_view_matrix; }
     glm::mat4 GetViewProjection() const { return m_projection * m_view_matrix; }
@@ -44,7 +40,7 @@ private:
     void UpdateProjection();
     void UpdateView();
 
-    bool MouseScroll(MouseScrolledEvent& event);
+    bool OnMouseScroll(MouseScrolledEvent& event);
 
     void MousePan(const glm::vec2& delta);
     void MouseRotate(const glm::vec2& delta);

@@ -27,8 +27,8 @@ void Sandbox2D::OnAttach()
     m_particle.position = { 0.0f, 0.0f };
 
     FramebufferSpecification framebuffer_spec;
-    framebuffer_spec.width = 960;
-    framebuffer_spec.height = 640;
+    framebuffer_spec.width = 1280;
+    framebuffer_spec.height = 720;
     m_framebuffer = Framebuffer::Create(framebuffer_spec);
 }
 
