@@ -55,15 +55,61 @@ void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertex_buffer)
     const auto& layout = vertex_buffer->GetLayout();
     for (const auto& element : layout)
     {
-        glEnableVertexAttribArray(index);
-        glVertexAttribPointer(
-            index, element.GetElementCount(),
-            ShaderDataTypeToOpenGLBaseType(element.type),
-            element.normalized ? GL_TRUE : GL_FALSE,
-            layout.GetStride(),
-            reinterpret_cast<const void*>(element.offset)
-        );
-        index++;
+        switch (element.type)
+        {
+            case ShaderDataType::Float:
+            case ShaderDataType::Float2:
+            case ShaderDataType::Float3:
+            case ShaderDataType::Float4:
+            {
+                glEnableVertexAttribArray(index);
+                glVertexAttribPointer(
+                    index, element.GetElementCount(),
+                    ShaderDataTypeToOpenGLBaseType(element.type),
+                    element.normalized ? GL_TRUE : GL_FALSE,
+                    layout.GetStride(),
+                    reinterpret_cast<const void*>(element.offset));
+                index++;
+                break;
+            }
+            case ShaderDataType::Int:
+            case ShaderDataType::Int2:
+            case ShaderDataType::Int3:
+            case ShaderDataType::Int4:
+            {
+                glEnableVertexAttribArray(index);
+                glVertexAttribIPointer(
+                    index, element.GetElementCount(),
+                    ShaderDataTypeToOpenGLBaseType(element.type),
+                    layout.GetStride(),
+                    reinterpret_cast<const void*>(element.offset));
+                index++;
+                break;
+            }
+            case ShaderDataType::Mat3:
+            case ShaderDataType::Mat4:
+            {
+                int count = element.GetElementCount();
+                for (int i = 0; i < count; i++)
+                {
+                    glEnableVertexAttribArray(index);
+                    glVertexAttribPointer(
+                        index, count,
+                        ShaderDataTypeToOpenGLBaseType(element.type),
+                        element.normalized ? GL_TRUE : GL_FALSE,
+                        layout.GetStride(),
+                        reinterpret_cast<const void*>(element.offset + sizeof(float) * count * i));
+                    glVertexAttribDivisor(index, 1);
+                    index++;
+                }
+                break;
+            }
+            default:
+            {
+                ALICE_ASSERT(false, "Invalid ShaderDataType!");
+            }
+        }
+        
     }
 
     m_vertex_buffers.push_back(vertex_buffer);

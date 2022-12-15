@@ -79,11 +79,10 @@ void EditorLayer::OnUpdate(Timestep ts)
     if (mouse_x >= 0 && mouse_y >= 0 && mouse_x < (int)viewport_size.x && mouse_y < (int)viewport_size.y)
     {
         int pixel_data = m_framebuffer->ReadPixel(1, mouse_x, mouse_y);
-        ALICE_INFO("Pixel Data: {}", pixel_data);
-        // if (pixel_data == -1)
-        //     m_hovered_entity = {};
-        // else
-        //     m_hovered_entity = { (entt::entity)pixel_data, m_active_scene.get() };
+        if (pixel_data == -1)
+            m_hovered_entity = {};
+        else
+            m_hovered_entity = { (entt::entity)pixel_data, m_active_scene.get() };
     }
 
     m_framebuffer->Unbind();
@@ -189,7 +188,7 @@ void EditorLayer::OnImGuiRender()
     std::string hovered_entity_name = "None";
     if (m_hovered_entity)
         hovered_entity_name = m_hovered_entity.GetComponent<TagComponent>().tag;
-    ImGui::Text("Hovered Entities: %s", hovered_entity_name.c_str());
+    ImGui::Text("Hovered Entities: %s (%d)", hovered_entity_name.c_str(), (uint32_t)m_hovered_entity);
     ImGui::NewLine();
 
     ImGui::End();
