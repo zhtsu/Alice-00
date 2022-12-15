@@ -221,6 +221,9 @@ void EditorLayer::OnImGuiRender()
     // Open Scene from Content Browser
     if (ImGui::BeginDragDropTarget())
     {
+        // @TODO:
+        // No hightlight effect when drag the file to the viewport panel
+        // An unreasonable solution is to set the ImGuiStyleVar_WindowPadding more than 0
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
         {
             const wchar_t* path = (const wchar_t*)payload->Data;
