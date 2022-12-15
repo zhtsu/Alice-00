@@ -19,9 +19,6 @@ void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
     for (auto& entity : group)
     {
         auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-        // @TODO:
-        // !!! BUG !!!
-        // Rendered entities has a bit upward offset compared with the actual transform data
         Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
     }
 
