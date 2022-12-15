@@ -18,6 +18,11 @@ void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
     m_selected_context = {};
 }
 
+void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
+{
+    m_selected_context = entity;
+}
+
 void SceneHierarchyPanel::OnImGuiRender()
 {
     // Scene Hierarchy

@@ -18,6 +18,7 @@ public:
     void OnImGuiRender();
 
     inline Entity GetSelectedEntity() const { return m_selected_context; }
+    void SetSelectedEntity(Entity entity);
 
 private:
     void DrawEntityNode(Entity entity);

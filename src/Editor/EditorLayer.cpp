@@ -170,7 +170,7 @@ void EditorLayer::OnImGuiRender()
     // Renderer2D Stats
     auto stats = Renderer2D::GetStats();
     ImGui::Separator();
-    ImGui::Text("Renderer2D Stats");
+    ImGui::Text("Renderer2D");
     ImGui::Separator();
     ImGui::Text("Draw Calls: %d", stats.draw_calls);
     ImGui::Text("Quads: %d", stats.quad_count);
@@ -180,7 +180,7 @@ void EditorLayer::OnImGuiRender()
 
     // ECS Stats
     ImGui::Separator();
-    ImGui::Text("ECS Stats");
+    ImGui::Text("ECS");
     ImGui::Separator();
     ImGui::Text("Entity Capacity: %d", m_active_scene->GetEntityCapacity());
     ImGui::Text("Alive Entities: %d", m_active_scene->GetAliveEntityCount());
@@ -270,6 +270,7 @@ void EditorLayer::OnEvent(Event& event)
 
     EventDispatcher dispatcher(event);
     dispatcher.Dispatch<KeyPressedEvent>(ALICE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+    dispatcher.Dispatch<MouseButtonPressedEvent>(ALICE_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 }
 
 bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
@@ -332,7 +333,17 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
 
     return true;
 }
-    
+
+bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& event)
+{
+    if (event.GetMouseButton() == ALICE_MOUSE_BUTTON_LEFT)
+    {
+        if (m_viewport_hovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(ALICE_KEY_LEFT_ALT))
+            m_scene_hierarchy_panel.SetSelectedEntity(m_hovered_entity);
+    }
+    return true;
+}
+
 void EditorLayer::NewScene()
 {
     m_active_scene = CreateRef<Scene>();
