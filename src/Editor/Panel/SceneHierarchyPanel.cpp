@@ -3,9 +3,13 @@
 #include <imgui_internal.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Alice/Scene/Components.hpp"
+#include "Alice/Renderer/Texture.hpp"
 
 namespace Alice
 {
+
+// Defined in EditorLayer.cpp
+extern const std::filesystem::path g_assets_path;
 
 SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
 {
@@ -330,6 +334,19 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
     DrawComponent<SpriteRendererComponent>("SpriteRenderer", entity, [](auto& component)
     {
         ImGui::ColorEdit4("Color", glm::value_ptr(component.color));
+        // Texture
+        ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
+        if (ImGui::BeginDragDropTarget())
+        {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+            {
+                const wchar_t* path = reinterpret_cast<const wchar_t*>(payload->Data);
+                std::filesystem::path texture_path = std::filesystem::path(g_assets_path) / path;
+                component.texture = Texture2D::Create(texture_path.string());
+            }
+            ImGui::EndDragDropTarget();
+        }
+        ImGui::DragFloat("Tiling Factor", &component.tiling_factor, 0.1f, 0.0f, 100.0f);
     });
 }
 

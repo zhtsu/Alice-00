@@ -5,6 +5,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include "Alice/PCH.hpp"
+#include "Alice/Core/Base.hpp"
+#include "Alice/Renderer/Texture.hpp"
 #include "SceneCamera.hpp"
 #include "ScriptableEntity.hpp"
 
@@ -43,6 +45,8 @@ struct TransformComponent
 struct SpriteRendererComponent
 {
     glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+    Ref<Texture2D> texture;
+    float tiling_factor = 1.0f;
 
     SpriteRendererComponent() = default;
     SpriteRendererComponent(const SpriteRendererComponent&) = default;

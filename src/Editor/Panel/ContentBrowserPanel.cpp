@@ -6,10 +6,10 @@
 namespace Alice
 {
 
-extern const std::filesystem::path k_assets_path = "assets";
+extern const std::filesystem::path g_assets_path = "assets";
 
 ContentBrowserPanel::ContentBrowserPanel()
-    : m_current_directory(k_assets_path)
+    : m_current_directory(g_assets_path)
 {
     m_folder_icon = Texture2D::Create("resources/icons/folder.png");
     m_txt_icon = Texture2D::Create("resources/icons/txt.png");
@@ -20,7 +20,7 @@ void ContentBrowserPanel::OnImGuiRender()
 {
     ImGui::Begin("Content Browser");
 
-    if (m_current_directory != std::filesystem::path(k_assets_path))
+    if (m_current_directory != std::filesystem::path(g_assets_path))
     {
         bool is_back = ImGui::ImageButton(
             reinterpret_cast<ImTextureID>(m_back_icon->GetRendererID()),
@@ -53,7 +53,7 @@ void ContentBrowserPanel::OnImGuiRender()
     for (auto& iter : std::filesystem::directory_iterator(m_current_directory))
     {
         const auto& path = iter.path();
-        auto relative_path = std::filesystem::relative(path, k_assets_path);
+        auto relative_path = std::filesystem::relative(path, g_assets_path);
         std::string filename_string = relative_path.filename().string();
 
         ImGui::PushID(filename_string.c_str());

@@ -11,7 +11,7 @@ namespace Alice
 {
 
 // Defined in EditorLayer.cpp
-extern const std::filesystem::path k_assets_path;
+extern const std::filesystem::path g_assets_path;
 
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_camera_controller(1280.0f / 720.0f)
@@ -224,7 +224,7 @@ void EditorLayer::OnImGuiRender()
         if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
         {
             const wchar_t* path = (const wchar_t*)payload->Data;
-            OpenScene(std::filesystem::path(k_assets_path) / path);
+            OpenScene(std::filesystem::path(g_assets_path) / path);
         }
         ImGui::EndDragDropTarget();
     }
