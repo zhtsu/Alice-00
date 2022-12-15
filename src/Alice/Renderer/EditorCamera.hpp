@@ -44,6 +44,8 @@ private:
 
     void MousePan(const glm::vec2& delta);
     void MouseRotate(const glm::vec2& delta);
+    // @TODO:
+    // Too large zoom will cause the viewport to disappear
     void MouseZoom(float delta);
 
     glm::vec3 CalculatePosition() const;
