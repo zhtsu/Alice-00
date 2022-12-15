@@ -22,7 +22,7 @@ struct QuadVertex
 
 struct Renderer2DData
 {
-    static const uint32_t kMaxQuads = 20000;
+    static const uint32_t kMaxQuads = 10000;
     static const uint32_t kMaxVertices = kMaxQuads * 4;
     static const uint32_t kMaxIndices = kMaxQuads * 6;
     static const uint32_t kMaxTextureSlots = 32;
@@ -89,9 +89,7 @@ void Renderer2D::Init()
 
     int32_t samplers[s_data.kMaxTextureSlots];
     for (int i = 0; i < s_data.kMaxTextureSlots; i++)
-    {
         samplers[i] = i;
-    }
 
     // Texture shader
     std::string texture_shader_path = 
@@ -157,9 +155,6 @@ void Renderer2D::BeginScene(const OrthographicCamera& camera)
 
 void Renderer2D::EndScene()
 {
-    uint32_t data_size = (uint8_t*)s_data.quad_vertex_buffer_ptr - (uint8_t*)s_data.quad_vertex_buffer_base;
-    s_data.quad_vertex_buffer->SetData(s_data.quad_vertex_buffer_base, data_size);
-
     Flush();
 }
 
@@ -171,7 +166,7 @@ void Renderer2D::Flush()
 		s_data.quad_vertex_buffer->SetData(s_data.quad_vertex_buffer_base, data_size);
 
         for (int i = 0; i < s_data.Texture_slot_index; i++)
-        s_data.texture_slots[i]->Bind(i);
+            s_data.texture_slots[i]->Bind(i);
 
         RenderCommand::DrawIndexed(s_data.quad_vertex_array, s_data.quad_index_count);
         s_data.stats.draw_calls++;

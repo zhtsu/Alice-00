@@ -78,7 +78,7 @@ void SceneHierarchyPanel::DrawEntityNode(Entity entity)
     bool entity_deleted = false;
     if (ImGui::BeginPopupContextItem())
     {
-        if (ImGui::MenuItem("Destroy Entity"))
+        if (ImGui::MenuItem("Remove Entity"))
             entity_deleted = true;
 
         ImGui::EndPopup();

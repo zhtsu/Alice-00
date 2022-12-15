@@ -15,6 +15,7 @@ Series Playlist: [Game Engine Series](https://www.youtube.com/playlist?list=PLlr
 - Entity Component System architecture
 - Include a scene editor
 - Using C# as scripting language
+- Exporting performance data
 
 ## Get Start
 ### Environment
