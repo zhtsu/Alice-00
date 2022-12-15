@@ -201,7 +201,6 @@ void EditorLayer::OnImGuiRender()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
     ImGui::Begin("Viewport");
 
-
     auto viewport_min_region = ImGui::GetWindowContentRegionMin();
     auto viewport_max_region = ImGui::GetWindowContentRegionMax();
     auto viewport_offset = ImGui::GetWindowPos();
@@ -216,7 +215,8 @@ void EditorLayer::OnImGuiRender()
     m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
 
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
-    ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture), ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+    ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture),
+        ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
     // Open Scene from Content Browser
     if (ImGui::BeginDragDropTarget())
