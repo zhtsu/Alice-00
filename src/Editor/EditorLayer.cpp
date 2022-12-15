@@ -10,6 +10,9 @@
 namespace Alice
 {
 
+// Defined in EditorLayer.cpp
+extern const std::filesystem::path k_assets_path;
+
 EditorLayer::EditorLayer()
     : Layer("EditorLayer"), m_camera_controller(1280.0f / 720.0f)
 {
@@ -215,6 +218,17 @@ void EditorLayer::OnImGuiRender()
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
     ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture), ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
+    // Open Scene from Content Browser
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+        {
+            const wchar_t* path = (const wchar_t*)payload->Data;
+            OpenScene(std::filesystem::path(k_assets_path) / path);
+        }
+        ImGui::EndDragDropTarget();
+    }
+
     // Gizmos
     Entity selected_entity = m_scene_hierarchy_panel.GetSelectedEntity();
     if (selected_entity && m_gizmo_type != -1)
@@ -356,14 +370,17 @@ void EditorLayer::OpenScene()
 {
     std::string filepath = FileDialogs::OpenFile("ascene");
     if (!filepath.empty())
-    {
-        m_active_scene = CreateRef<Scene>();
-        m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
-        m_scene_hierarchy_panel.SetContext(m_active_scene);
+        OpenScene(filepath);
+}
 
-        SceneSerializer serializer(m_active_scene);
-        serializer.Deserialize(filepath);
-    }
+void EditorLayer::OpenScene(const std::filesystem::path& path)
+{
+    m_active_scene = CreateRef<Scene>();
+    m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+    m_scene_hierarchy_panel.SetContext(m_active_scene);
+
+    SceneSerializer serializer(m_active_scene);
+    serializer.Deserialize(path.string());
 }
 
 void EditorLayer::SaveSceneAs()

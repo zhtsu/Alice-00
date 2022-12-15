@@ -6,7 +6,7 @@
 namespace Alice
 {
 
-static const std::filesystem::path k_assets_path = "assets";
+extern const std::filesystem::path k_assets_path = "assets";
 
 ContentBrowserPanel::ContentBrowserPanel()
     : m_current_directory(k_assets_path)
@@ -56,11 +56,20 @@ void ContentBrowserPanel::OnImGuiRender()
         auto relative_path = std::filesystem::relative(path, k_assets_path);
         std::string filename_string = relative_path.filename().string();
 
+        ImGui::PushID(filename_string.c_str());
+
         Ref<Texture2D> icon = iter.is_directory() ? m_folder_icon : m_txt_icon;
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
         ImGui::ImageButton(reinterpret_cast<ImTextureID>(icon->GetRendererID()),
             { thumbnail_size, thumbnail_size }, { 0, 1 }, { 1, 0 });
         ImGui::PopStyleColor();
+
+        if (ImGui::BeginDragDropSource())
+        {
+            const wchar_t* item_path = relative_path.c_str();
+            ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", item_path, (wcslen(item_path) + 1) * sizeof(wchar_t));
+            ImGui::EndDragDropSource();
+        }
 
         if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
         {
@@ -71,6 +80,7 @@ void ContentBrowserPanel::OnImGuiRender()
         ImGui::TextWrapped(filename_string.c_str());
 
         ImGui::NextColumn();
+        ImGui::PopID();
     }
 
     ImGui::End();
