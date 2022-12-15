@@ -85,7 +85,7 @@ void EditorCamera::UpdateView()
 
 bool EditorCamera::OnMouseScroll(MouseScrolledEvent& event)
 {
-    float delta = event.GetYOffset();
+    float delta = event.GetYOffset() * 0.1;
     MouseZoom(delta);
     UpdateView();
     return false;
