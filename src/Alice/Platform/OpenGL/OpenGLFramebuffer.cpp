@@ -219,9 +219,6 @@ int OpenGLFramebuffer::ReadPixel(uint32_t attachment_index, int x, int y) const
     
     glReadBuffer(GL_COLOR_ATTACHMENT0 + attachment_index);
     int pixel_data;
-    // @TODO:
-    // !!! BUG !!!
-    // The glReadPixels return a incorrect value when mouse hover a entity
     glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
     return pixel_data;
 }

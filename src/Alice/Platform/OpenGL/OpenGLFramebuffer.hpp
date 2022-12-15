@@ -31,7 +31,7 @@ private:
 
     FramebufferSpecification m_specification;
     std::vector<FramebufferTextureSpecification> m_color_attachment_specs;
-    FramebufferTextureSpecification m_depth_attachment_spec;
+    FramebufferTextureSpecification m_depth_attachment_spec = FramebufferTextureFormat::None;
 
     std::vector<uint32_t> m_color_attachments;
     uint32_t m_depth_attachment = 0;

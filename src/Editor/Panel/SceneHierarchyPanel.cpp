@@ -261,7 +261,7 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
         glm::vec3 rotation = glm::degrees(component.rotation);
         DrawVec3Control("Rotation", rotation);
         component.rotation = glm::radians(rotation);
-        DrawVec3Control("Scale", component.scale);
+        DrawVec3Control("Scale", component.scale, 1.0f);
     });
 
     DrawComponent<CameraComponent>("Camera", entity, [](auto& component)

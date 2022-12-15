@@ -48,6 +48,8 @@ struct FramebufferSpecification
 class Framebuffer
 {
 public:
+    virtual ~Framebuffer() = default;
+
     virtual const FramebufferSpecification& GetSpecification() const = 0;
 
     virtual void Bind() = 0;
