@@ -175,7 +175,7 @@ void ImGuiLayer::OnDetach()
 
 void ImGuiLayer::OnEvent(Event& event)
 {
-    if (!m_block_events)
+    if (m_block_events)
     {
         ImGuiIO& io = ImGui::GetIO();
         event.m_handled |= event.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;

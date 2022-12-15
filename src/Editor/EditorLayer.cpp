@@ -38,6 +38,8 @@ void EditorLayer::OnUpdate(Timestep ts)
 {
     ALICE_PROFILE_FUNCTION();
 
+    m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+
     // Resize
     FramebufferSpecification spec = m_framebuffer->GetSpecification();
     if (m_viewport_size.x > 0.0f && m_viewport_size.y > 0.0f &&
@@ -46,7 +48,6 @@ void EditorLayer::OnUpdate(Timestep ts)
         m_framebuffer->Resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
         m_camera_controller.OnResize(m_viewport_size.x, m_viewport_size.y);
         m_editor_camera.SetViewportSize(m_viewport_size.x, m_viewport_size.y);
-        m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
     }
 
     // Update Camera
@@ -78,10 +79,11 @@ void EditorLayer::OnUpdate(Timestep ts)
     if (mouse_x >= 0 && mouse_y >= 0 && mouse_x < (int)viewport_size.x && mouse_y < (int)viewport_size.y)
     {
         int pixel_data = m_framebuffer->ReadPixel(1, mouse_x, mouse_y);
-        if (pixel_data == -1)
-            m_hovered_entity = {};
-        else
-            m_hovered_entity = { (entt::entity)pixel_data, m_active_scene.get() };
+        ALICE_INFO("Pixel Data: {}", pixel_data);
+        // if (pixel_data == -1)
+        //     m_hovered_entity = {};
+        // else
+        //     m_hovered_entity = { (entt::entity)pixel_data, m_active_scene.get() };
     }
 
     m_framebuffer->Unbind();
@@ -195,26 +197,23 @@ void EditorLayer::OnImGuiRender()
     // Viewport
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
     ImGui::Begin("Viewport");
-    auto viewport_offset = ImGui::GetCursorPos();
+
+
+    auto viewport_min_region = ImGui::GetWindowContentRegionMin();
+    auto viewport_max_region = ImGui::GetWindowContentRegionMax();
+    auto viewport_offset = ImGui::GetWindowPos();
+    m_viewport_bounds[0] = { viewport_min_region.x + viewport_offset.x, viewport_min_region.y + viewport_offset.y };
+    m_viewport_bounds[1] = { viewport_max_region.x + viewport_offset.x, viewport_max_region.y + viewport_offset.y };
 
     m_viewport_focused = ImGui::IsWindowFocused();
     m_viewport_hovered = ImGui::IsWindowHovered();
-    Application::Get().GetImGuiLayer()->BlockEvents(m_viewport_focused && m_viewport_hovered);
+    Application::Get().GetImGuiLayer()->BlockEvents(!m_viewport_hovered);
 
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     m_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
 
     uint32_t frame_buffer_texture = m_framebuffer->GetColorAttachmentRendererID();
     ImGui::Image(reinterpret_cast<void*>(frame_buffer_texture), ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-    
-    auto window_size = ImGui::GetWindowSize();
-    ImVec2 min_bound = ImGui::GetWindowPos();
-    min_bound.x += viewport_offset.x;
-    min_bound.y += viewport_offset.y;
-
-    ImVec2 max_bound = { min_bound.x + window_size.x, min_bound.y + window_size.y };
-    m_viewport_bounds[0] = { min_bound.x, min_bound.y };
-    m_viewport_bounds[1] = { max_bound.x, max_bound.y };
 
     // Gizmos
     Entity selected_entity = m_scene_hierarchy_panel.GetSelectedEntity();
@@ -227,14 +226,6 @@ void EditorLayer::OnImGuiRender()
         float window_height = (float)ImGui::GetWindowHeight();
         ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_width, window_height);
         
-        // Camera
-        //
-        // Runtime Camera
-        // auto camera_entity = m_active_scene->GetPrimaryCameraEntity();
-        // const auto& camera = camera_entity.GetComponent<CameraComponent>().camera;
-        // const glm::mat4& camera_proj = camera.GetProjection();
-        // glm::mat4 camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
-
         // Editor Camera
         const glm::mat4& camera_proj = m_editor_camera.GetProjection();
         glm::mat4 camera_view = m_editor_camera.GetViewMatrix();
