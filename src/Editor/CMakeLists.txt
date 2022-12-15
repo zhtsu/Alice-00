@@ -16,7 +16,7 @@ target_link_libraries(
     Alice_Renderer
     Alice_Utils
     Alice_Scene
-    # Alice_Math
+    Alice_Math
 )
 
 set_target_properties(Editor PROPERTIES OUTPUT_NAME "editor")

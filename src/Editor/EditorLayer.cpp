@@ -5,7 +5,7 @@
 #include "Alice/Debug/Instrumentor.hpp"
 #include "Alice/Scene/SceneSerializer.hpp"
 #include "Alice/Utils/FileDialogs.hpp"
-// #include "Alice/Math/Math.hpp"
+#include "Alice/Math/Math.hpp"
 
 namespace Alice
 {
@@ -256,19 +256,15 @@ void EditorLayer::OnImGuiRender()
             (ImGuizmo::OPERATION)m_gizmo_type, ImGuizmo::LOCAL, glm::value_ptr(transform),
             nullptr, snap ? snap_values : nullptr);
 
-        // @TODO:
-        // !!! BUG !!!
-        // Manipulate make transfrom to NaN when try to changed translation or rotation by gizmos. 
-        //
-        // if (is_maipulated && ImGuizmo::IsUsing())
-        // {
-        //     glm::vec3 translation, rotation, scale;
-        //     Math::DecomposeTransform(transform, translation, rotation, scale);
-        //     glm::vec3 delta_rotation = rotation - transform_comp.rotation;
-        //     transform_comp.translation = translation;
-        //     transform_comp.rotation += delta_rotation;
-        //     transform_comp.scale = scale;
-        // }
+        if (is_maipulated && ImGuizmo::IsUsing())
+        {
+            glm::vec3 translation, rotation, scale;
+            Math::DecomposeTransform(transform, translation, rotation, scale);
+            glm::vec3 delta_rotation = rotation - transform_comp.rotation;
+            transform_comp.translation = translation;
+            transform_comp.rotation += delta_rotation;
+            transform_comp.scale = scale;
+        }
     }
 
     ImGui::End();

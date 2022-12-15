@@ -107,7 +107,7 @@ void EditorCamera::MouseRotate(const glm::vec2& delta)
 
 void EditorCamera::MouseZoom(float delta)
 {
-    m_distance -= delta * ZoomSpeed();
+    m_distance += delta * ZoomSpeed();
     if (m_distance < 1.0f)
     {
         m_focal_point += GetForwardDirection();
