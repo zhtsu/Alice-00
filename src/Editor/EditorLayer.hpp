@@ -30,7 +30,6 @@ private:
     void SaveSceneAs();
 
 private:
-    Entity m_camera_entity;
     Entity m_hovered_entity;
 
     OrthographicCameraController m_camera_controller;
