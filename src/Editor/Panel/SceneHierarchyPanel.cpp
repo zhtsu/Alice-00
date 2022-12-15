@@ -96,9 +96,6 @@ void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 
     if (entity_deleted)
     {
-        // @TODO: 
-        // !!! BUG !!!
-        // Entities that removed first are still rendered until a new SpriteRendererComponent is added to a new Entity.
         ALICE_TRACE("Destroy Entity: {}", entity.GetComponent<TagComponent>().tag);
         m_context->DestroyEntity(entity);
         if (m_selected_context == entity)

@@ -74,9 +74,6 @@ public:
     operator entt::entity() const { return m_entity_handle; }
 
 private:
-    // @TODO:
-    // !!! BUG !!!
-    // Cannot convert a entt::entity to a integer currectly when runtime
     entt::entity m_entity_handle{ entt::null };
     Scene* m_scene = nullptr;
 };
