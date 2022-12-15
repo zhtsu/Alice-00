@@ -2,6 +2,7 @@
 
 #include "Alice/Alice.hpp"
 #include "Panel/SceneHierarchyPanel.hpp"
+#include "Panel/ContentBrowserPanel.hpp"
 
 namespace Alice
 {
@@ -46,6 +47,7 @@ private:
 
     // Panels
     SceneHierarchyPanel m_scene_hierarchy_panel;
+    ContentBrowserPanel m_content_browser_panel;
 };
 
 } // namespace Alice
