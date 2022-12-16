@@ -33,7 +33,7 @@ git submodule update
 ```bash
 git submodule update
 ```
-可以根据根目录下 .gitmodules 文件中提供的地址手动下载第三方库
+可以根据根目录下 .gitmodules 文件中提供的地址手动下载第三方库到 3rdparty 目录
 
 ### 生成可执行文件
 双击根目录下 scripts 文件夹中的 Build.bat 脚本即可开始生成

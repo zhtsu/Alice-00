@@ -33,7 +33,7 @@ If an error occurs when running following the command.
 ```bash
 git submodule update
 ```
-You may need to manually download third-party by links that included in .gitmodules file.
+You may need to manually download third-party to 3rdparty/ by links that included in .gitmodules file.
 
 ### Build
 Double-click to run scripts/Build.bat
