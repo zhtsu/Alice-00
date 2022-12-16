@@ -192,7 +192,11 @@ void EditorLayer::OnImGuiRender()
     std::string hovered_entity_name = "None";
     if (m_hovered_entity)
         hovered_entity_name = m_hovered_entity.GetComponent<TagComponent>().tag;
-    ImGui::Text("Hovered Entities: %s (%d)", hovered_entity_name.c_str(), (uint32_t)m_hovered_entity);
+    ImGui::Text("Hovered Entity: %s (%d)", hovered_entity_name.c_str(), (uint32_t)m_hovered_entity);
+    std::string selected_entity_name = "None";
+    if ( m_scene_hierarchy_panel.GetSelectedEntity())
+        selected_entity_name =  m_scene_hierarchy_panel.GetSelectedEntity().GetComponent<TagComponent>().tag;
+    ImGui::Text("Selected Entity: %s (%d)", selected_entity_name.c_str(), (uint32_t)m_scene_hierarchy_panel.GetSelectedEntity());
     ImGui::NewLine();
 
     ImGui::End();

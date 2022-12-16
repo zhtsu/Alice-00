@@ -37,3 +37,6 @@ git submodule update
 
 ### 生成可执行文件
 双击根目录下 scripts 文件夹中的 Build.bat 脚本即可开始生成
+
+## 屏幕截图
+![screenshots/editor.png](screenshots/editor.png)

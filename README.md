@@ -37,3 +37,6 @@ You may need to manually download third-party to 3rdparty/ by links that include
 
 ### Build
 Double-click to run scripts/Build.bat
+
+## Screenshot
+![screenshots/editor.png](screenshots/editor.png)
