@@ -14,7 +14,7 @@ Series Playlist: [Game Engine Series](https://www.youtube.com/playlist?list=PLlr
 - Batch rendering for 2D
 - Entity Component System architecture
 - Include a scene editor
-- Using C# as scripting language
+- ~~TODO: Using C# as scripting language~~
 - Exporting performance data
 
 ## Get Start
