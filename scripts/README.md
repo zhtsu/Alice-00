@@ -1,9 +1,9 @@
 # Tips
 - Make sure all 3rd-party is ready before run *.bat.
 - Only MinGW-W64 is supported as the builder.
-- Use Build.bat to rebuild project when any CMakeList.txt was updated or file structure was changed.
-- Use Compile.bat to recompile code when only the source file was updated.
-- Use Run.bat to speedy run program that had compiled successfully.
+- Run Build.bat to rebuild project when any CMakeList.txt was updated or file structure was changed.
+- Run Compile.bat to recompile code when only the source file was updated.
+- Run Run.bat to speedy run program that had compiled successfully.
 
 # 提示
 - 运行脚本前请确保已经下载所有第三方库
