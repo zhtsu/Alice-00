@@ -30,6 +30,9 @@ void EditorLayer::OnAttach()
     m_active_scene = CreateRef<Scene>();
     m_scene_hierarchy_panel.SetContext(m_active_scene);
     m_editor_camera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+
+    m_icon_play = Texture2D::Create("resources/icons/play.png");
+    m_icon_pause = Texture2D::Create("resources/icons/pause.png");
 }
 
 void EditorLayer::OnDetach()
@@ -53,10 +56,6 @@ void EditorLayer::OnUpdate(Timestep ts)
         m_editor_camera.SetViewportSize(m_viewport_size.x, m_viewport_size.y);
     }
 
-    // Update Camera
-    if (m_viewport_focused)
-        m_camera_controller.OnUpdate(ts);
-
     m_editor_camera.OnUpdate(ts);
 
     // Render
@@ -69,7 +68,23 @@ void EditorLayer::OnUpdate(Timestep ts)
     m_framebuffer->ClearAttachment(1, -1);
 
     // Update Scene
-    m_active_scene->OnUpdateEditor(ts, m_editor_camera);
+    switch (m_scene_state)
+    {
+        case SceneState::Edit:
+        {
+            // Update Camera
+            if (m_viewport_focused)
+                m_camera_controller.OnUpdate(ts);
+
+            m_active_scene->OnUpdateEditor(ts, m_editor_camera);
+            break;
+        }
+        case SceneState::Play:
+        {
+            m_active_scene->OnUpdateRuntime(ts);
+            break;
+        }
+    }
 
     auto[mx, my] = ImGui::GetMousePos();
     mx -= m_viewport_bounds[0].x;
@@ -203,7 +218,7 @@ void EditorLayer::OnImGuiRender()
 
     // Viewport
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0.0f, 0.0f });
-    ImGui::Begin("Viewport");
+    ImGui::Begin("##viewport", nullptr, ImGuiDockNodeFlags_AutoHideTabBar);
 
     auto viewport_min_region = ImGui::GetWindowContentRegionMin();
     auto viewport_max_region = ImGui::GetWindowContentRegionMax();
@@ -282,6 +297,41 @@ void EditorLayer::OnImGuiRender()
     ImGui::End();
     ImGui::PopStyleVar();
 
+    PutToolbar();
+
+    ImGui::End();
+}
+
+void EditorLayer::PutToolbar()
+{
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+    auto& colors = ImGui::GetStyle().Colors;;
+    const auto& button_hovered = colors[ImGuiCol_ButtonHovered];
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
+        ImVec4(button_hovered.x, button_hovered.y, button_hovered.z, 0.5f));
+    const auto& button_active = colors[ImGuiCol_ButtonActive];
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive,
+        ImVec4(button_active.x, button_active.y, button_active.z, 0.5f));
+
+    ImGui::Begin("##toolbar", nullptr,
+        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar |
+        ImGuiWindowFlags_NoScrollWithMouse | ImGuiDockNodeFlags_AutoHideTabBar);
+
+    Ref<Texture2D> icon = (m_scene_state == SceneState::Play ? m_icon_pause : m_icon_play);
+    float size = ImGui::GetWindowHeight() - 4.0f;
+    ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
+    if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(icon->GetRendererID()), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+    {
+        if (m_scene_state == SceneState::Edit)
+            OnScenePlay();
+        else if (m_scene_state == SceneState::Play)
+            OnSceneStop();
+    }
+
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(3);
     ImGui::End();
 }
 
@@ -398,6 +448,16 @@ void EditorLayer::SaveSceneAs()
         SceneSerializer serializer(m_active_scene);
         serializer.Serialize(filepath);
     }
+}
+
+void EditorLayer::OnScenePlay()
+{
+    m_scene_state = SceneState::Play;
+}
+
+void EditorLayer::OnSceneStop()
+{
+    m_scene_state = SceneState::Edit;
 }
 
 } // namespace Alice

@@ -29,6 +29,11 @@ private:
     void OpenScene(const std::filesystem::path& path);
     void SaveSceneAs();
 
+    void OnScenePlay();
+    void OnSceneStop();
+
+    void PutToolbar();
+
 private:
     Entity m_hovered_entity;
 
@@ -48,6 +53,16 @@ private:
     // Panels
     SceneHierarchyPanel m_scene_hierarchy_panel;
     ContentBrowserPanel m_content_browser_panel;
+
+    // Toolbar
+    enum class SceneState
+    {
+        Edit = 0, Play = 1
+    };
+
+    SceneState m_scene_state = SceneState::Edit;
+    
+    Ref<Texture2D> m_icon_play, m_icon_pause;
 };
 
 } // namespace Alice
