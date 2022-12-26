@@ -2,13 +2,75 @@
 #include "Entity.hpp"
 #include "Components.hpp"
 #include "Alice/Renderer/Renderer2D.hpp"
+#include <box2d/b2_world.h>
+#include <box2d/b2_body.h>
+#include <box2d/b2_fixture.h>
+#include <box2d/b2_polygon_shape.h>
 
 namespace Alice
 {
 
+static b2BodyType ToBox2DType(Rigidbody2DComponent::BodyType body_type)
+{
+    switch (body_type)
+    {
+        case Rigidbody2DComponent::BodyType::Static:    return b2_staticBody;
+        case Rigidbody2DComponent::BodyType::Dynamic:   return b2_dynamicBody;
+        case Rigidbody2DComponent::BodyType::Kinematic: return b2_kinematicBody;
+    }
+
+    ALICE_ASSERT(false, "Invalid body type!");
+
+    return b2_staticBody;
+}
+
 Scene::Scene()
 {
 
+}
+
+void Scene::OnRuntimeStart()
+{
+    m_physics_world = new b2World({ 0.0f, -9.8f });
+
+    auto view = m_registry.view<Rigidbody2DComponent>();
+    for (auto entity_id : view)
+    {
+        Entity entity = { entity_id, this };
+        auto& transform = entity.GetComponent<TransformComponent>();
+        auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
+        b2BodyDef body_def;
+        body_def.type = ToBox2DType(rb2d.type);
+        body_def.position.Set(transform.translation.x, transform.translation.y);
+        body_def.angle = transform.rotation.z;
+
+        b2Body* body = m_physics_world->CreateBody(&body_def);
+        body->SetFixedRotation(rb2d.fixed_rotation);
+        rb2d.runtime_body = body;
+
+        if (entity.HasComponent<BoxCollider2DComponent>())
+        {
+            auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+
+            b2PolygonShape box_shape;
+            box_shape.SetAsBox(bc2d.size.x * transform.scale.x, bc2d.size.y * transform.scale.y);
+            
+            b2FixtureDef fixture_def;
+            fixture_def.shape = &box_shape;
+            fixture_def.density = bc2d.density;
+            fixture_def.friction = bc2d.friction;
+            fixture_def.restitution = bc2d.restitution;
+            fixture_def.restitutionThreshold = bc2d.restitution_threshold;
+            body->CreateFixture(&fixture_def);
+        }
+    }
+}
+
+void Scene::OnRuntimeStop()
+{
+    delete m_physics_world;
+    m_physics_world = nullptr;
 }
 
 void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
@@ -42,6 +104,27 @@ void Scene::OnUpdateRuntime(Timestep ts)
 
             nsc.instance->OnUpdate(ts);
         });
+    }
+
+    // Physics
+    {
+        const int32_t velocity_iterations = 6;
+        const int32_t position_iterations = 2;
+        m_physics_world->Step(ts, velocity_iterations, position_iterations);
+
+        auto view = m_registry.view<Rigidbody2DComponent>();
+        for (auto entity_id : view)
+        {
+            Entity entity = { entity_id, this };
+            auto& transform = entity.GetComponent<TransformComponent>();
+            auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
+            b2Body* body = (b2Body*)rb2d.runtime_body;
+            const auto& position = body->GetPosition();
+            transform.translation.x = position.x;
+            transform.translation.y = position.y;
+            transform.rotation.z = body->GetAngle();
+        }
     }
 
     // Render
@@ -133,19 +216,26 @@ void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& co
 template<>
 void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
 {
-    
 }
 
 template<>
 void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
 {
-
 }
 
 template<>
 void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
 {
+}
 
+template<>
+void Scene::OnComponentAdded<Rigidbody2DComponent>(Entity entity, Rigidbody2DComponent& component)
+{
+}
+
+template<>
+void Scene::OnComponentAdded<BoxCollider2DComponent>(Entity entity, BoxCollider2DComponent& component)
+{
 }
 
 } // namespace Alice

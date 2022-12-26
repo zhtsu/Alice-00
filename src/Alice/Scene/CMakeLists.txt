@@ -14,6 +14,7 @@ target_link_libraries(
     Alice_Renderer
     entt
     glm
+    box2d
     yaml-cpp
 )
 

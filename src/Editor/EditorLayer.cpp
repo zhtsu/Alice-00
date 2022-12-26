@@ -453,11 +453,13 @@ void EditorLayer::SaveSceneAs()
 void EditorLayer::OnScenePlay()
 {
     m_scene_state = SceneState::Play;
+    m_active_scene->OnRuntimeStart();
 }
 
 void EditorLayer::OnSceneStop()
 {
     m_scene_state = SceneState::Edit;
+    m_active_scene->OnRuntimeStop();
 }
 
 } // namespace Alice

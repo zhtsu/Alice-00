@@ -78,4 +78,36 @@ struct NativeScriptComponent
     }
 };
 
+struct Rigidbody2DComponent
+{
+    enum class BodyType
+    {
+        Static = 0, Dynamic, Kinematic
+    };
+
+    BodyType type = BodyType::Static;
+    bool fixed_rotation = false;
+
+    void* runtime_body = nullptr;
+
+    Rigidbody2DComponent() = default;
+    Rigidbody2DComponent(const Rigidbody2DComponent&) = default;
+};
+
+struct BoxCollider2DComponent
+{
+    glm::vec2 offset = { 0.0f, 0.0f };
+    glm::vec2 size = { 0.5f, 0.5f };
+
+    float density = 1.0f;
+    float friction = 0.5f;
+    float restitution = 0.0f;
+    float restitution_threshold = 0.5f;
+
+    void* runtime_fixture = nullptr;
+
+    BoxCollider2DComponent() = default;
+    BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
+};
+
 } // namespace Alice;

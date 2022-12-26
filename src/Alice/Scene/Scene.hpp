@@ -3,6 +3,8 @@
 #include <entt.hpp>
 #include "Alice/Core/Timestep.hpp"
 
+class b2World;
+
 namespace Alice
 {
 
@@ -22,6 +24,9 @@ public:
     Entity CreateEntity(const std::string& name = std::string());
     void DestroyEntity(Entity entity);
 
+    void OnRuntimeStart();
+    void OnRuntimeStop();
+
     void OnUpdateEditor(Timestep ts, EditorCamera& camera);
     void OnUpdateRuntime(Timestep ts);
     void OnViewportResize(uint32_t width, uint32_t height);
@@ -38,6 +43,8 @@ private:
 
 private:
     entt::registry m_registry;
+    b2World* m_physics_world = nullptr;
+
     uint32_t m_viewport_width = 0, m_viewport_height = 0;
 
     uint32_t m_rendered_entities_count = 0;
