@@ -166,7 +166,7 @@ void Scene::OnViewportResize(uint32_t width, uint32_t height)
     m_viewport_width = width;
     m_viewport_height = height;
 
-    auto&& view = m_registry.view<CameraComponent>();    
+    auto&& view = m_registry.view<CameraComponent>();
     for (const auto& entity : view)
     {
         auto& camera_component = view.get<CameraComponent>(entity);
@@ -177,7 +177,13 @@ void Scene::OnViewportResize(uint32_t width, uint32_t height)
 
 Entity Scene::CreateEntity(const std::string& name)
 {
+    return CreateEntityWithUUID(UUID(), name);
+}
+
+Entity Scene::CreateEntityWithUUID(UUID uuid, const std::string& name)
+{
     Entity entity = { m_registry.create(), this };
+    entity.AddComponent<IDComponent>(uuid);
     entity.AddComponent<TransformComponent>();
     auto& tag = entity.AddComponent<TagComponent>();
     tag.tag = name.empty() ? "Entity" : name;
@@ -199,6 +205,12 @@ Entity Scene::GetPrimaryCameraEntity()
             return Entity{ entity, this };
     }
     return {};
+}
+
+template<>
+void Scene::OnComponentAdded<IDComponent>(Entity entity, IDComponent& component)
+{
+    
 }
 
 template<>

@@ -146,8 +146,10 @@ static Rigidbody2DComponent::BodyType BodyTypeFromString(const std::string& body
 
 static void SerializeEntity(YAML::Emitter& out, Entity entity)
 {
+    ALICE_ASSERT(entity.HasComponent<IDComponent>(), "Invalid entity!");
+
     out << YAML::BeginMap;
-    out << YAML::Key << "Entity" << YAML::Value << "121212121";
+    out << YAML::Key << "Entity" << YAML::Value << entity.GetUUID();
 
     // TagComponent
     if (entity.HasComponent<TagComponent>())
@@ -287,8 +289,6 @@ bool SceneSerializer::Deserialize(const std::string& filepath)
     {
         for (auto entity : entities)
         {
-            // @TODO:
-            // UUID wait to realize
             uint64_t uuid = entity["Entity"].as<uint64_t>();
 
             std::string name;
@@ -298,7 +298,7 @@ bool SceneSerializer::Deserialize(const std::string& filepath)
 
             ALICE_TRACE("Deserialized entity with ID = {}, name = {}", uuid, name);
 
-            Entity deserialize_entity = m_scene->CreateEntity(name);
+            Entity deserialize_entity = m_scene->CreateEntityWithUUID(uuid, name);
             // TransformComponent
             auto transform_component = entity["TransformComponent"];
             if (transform_component)

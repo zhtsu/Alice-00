@@ -9,9 +9,18 @@
 #include "Alice/Renderer/Texture.hpp"
 #include "SceneCamera.hpp"
 #include "ScriptableEntity.hpp"
+#include "Alice/Core/UUID.hpp"
 
 namespace Alice
 {
+
+struct IDComponent
+{
+    UUID id;
+
+    IDComponent() = default;
+    IDComponent(const IDComponent&) = default;
+};
 
 struct TagComponent
 {

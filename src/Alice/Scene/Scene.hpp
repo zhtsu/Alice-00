@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entt.hpp>
+#include "Alice/Core/UUID.hpp"
 #include "Alice/Core/Timestep.hpp"
 
 class b2World;
@@ -22,6 +23,7 @@ public:
     ~Scene() = default;
 
     Entity CreateEntity(const std::string& name = std::string());
+    Entity CreateEntityWithUUID(UUID uuid, const std::string& name);
     void DestroyEntity(Entity entity);
 
     void OnRuntimeStart();

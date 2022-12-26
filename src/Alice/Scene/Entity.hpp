@@ -69,6 +69,8 @@ public:
         return !(*this == other);
     }
 
+    uint64_t GetUUID();
+
     operator bool() const { return m_entity_handle != entt::null; }
     operator uint32_t() const { return (uint32_t)m_entity_handle; }
     operator entt::entity() const { return m_entity_handle; }

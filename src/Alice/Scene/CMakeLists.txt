@@ -12,6 +12,7 @@ target_link_libraries(
     Alice_Scene
     Alice_Log
     Alice_Renderer
+    Alice_Core
     entt
     glm
     box2d
