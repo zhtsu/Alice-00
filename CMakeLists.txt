@@ -14,6 +14,9 @@ set(GLFW_BUILD_EXAMPLES OFF)
 set(GLFW_BUILD_TESTS OFF)
 set(GLFW_BUILD_DOCS OFF)
 set(GLFW_INSTALL OFF)
+# set box2d
+set(BOX2D_BUILD_UNIT_TESTS OFF)
+set(BOX2D_BUILD_TESTBED OFF)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 
@@ -29,6 +32,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/entt)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/yaml-cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/nativefiledialog)
 add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/ImGuizmo)
+add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/box2d)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Alice)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/Sandbox)
