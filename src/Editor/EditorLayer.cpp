@@ -368,8 +368,13 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
         }
         case ALICE_KEY_S:
         {
-            if (control && shift)
-                SaveSceneAs();
+            if (control)
+            {
+                if (shift)
+                    SaveSceneAs();
+                else
+                    SaveScene();
+            }
             break;
         }
         case ALICE_KEY_D:
@@ -427,6 +432,8 @@ void EditorLayer::NewScene()
     m_active_scene = CreateRef<Scene>();
     m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
     m_scene_hierarchy_panel.SetContext(m_active_scene);
+
+    m_editor_scene_path = std::filesystem::path();
 }
 
 void EditorLayer::OpenScene()
@@ -448,6 +455,7 @@ void EditorLayer::OpenScene(const std::filesystem::path& path)
     }
 
     m_editor_scene = CreateRef<Scene>();
+    m_editor_scene_path = path;
     m_editor_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
     m_scene_hierarchy_panel.SetContext(m_editor_scene);
 
@@ -457,14 +465,28 @@ void EditorLayer::OpenScene(const std::filesystem::path& path)
     m_active_scene = m_editor_scene;
 }
 
+void EditorLayer::SaveScene()
+{
+    if (!m_editor_scene_path.empty())
+        SerializeScene(m_active_scene, m_editor_scene_path);
+    else
+        SaveSceneAs();
+}
+
 void EditorLayer::SaveSceneAs()
 {
     std::string filepath = FileDialogs::SaveFile("ascene");
     if (!filepath.empty())
     {
-        SceneSerializer serializer(m_active_scene);
-        serializer.Serialize(filepath);
+        SerializeScene(m_active_scene, filepath);
+        m_editor_scene_path = filepath;
     }
+}
+
+void EditorLayer::SerializeScene(Ref<Scene> scene, const std::filesystem::path& path)
+{
+    SceneSerializer serializer(scene);
+    serializer.Serialize(path.string());
 }
 
 void EditorLayer::OnScenePlay()

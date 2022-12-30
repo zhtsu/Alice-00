@@ -27,7 +27,10 @@ private:
     void NewScene();
     void OpenScene();
     void OpenScene(const std::filesystem::path& path);
+    void SaveScene();
     void SaveSceneAs();
+
+    void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
 
     void OnScenePlay();
     void OnSceneStop();
@@ -49,6 +52,7 @@ private:
     glm::vec2 m_viewport_bounds[2];
 
     Ref<Scene> m_active_scene, m_editor_scene;
+    std::filesystem::path m_editor_scene_path;
 
     int m_gizmo_type = -1;
 

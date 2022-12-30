@@ -85,7 +85,7 @@ Ref<Scene> Scene::Copy(Ref<Scene> other)
 
 void Scene::DuplicateEntity(Entity entity)
 {
-    std::string name = "Copied " + entity.GetName();
+    std::string name = entity.GetName();
     Entity new_entity = CreateEntity(name);
 
     CopyComponentIfExists<TransformComponent>(entity, new_entity);
