@@ -32,6 +32,8 @@ private:
     void OnScenePlay();
     void OnSceneStop();
 
+    void OnDuplicateEntity();
+
     void PutToolbar();
 
 private:

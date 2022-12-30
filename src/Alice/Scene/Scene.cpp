@@ -44,6 +44,13 @@ static void CopyComponent(entt::registry& src, entt::registry& dst, const std::u
     }
 }
 
+template<class ComponentType>
+static void CopyComponentIfExists(Entity src, Entity dst)
+{
+    if (src.HasComponent<ComponentType>())
+        dst.AddOrReplaceComponent<ComponentType>(src.GetComponent<ComponentType>());
+}
+
 Ref<Scene> Scene::Copy(Ref<Scene> other)
 {
     Ref<Scene> new_scene = CreateRef<Scene>();
@@ -74,6 +81,19 @@ Ref<Scene> Scene::Copy(Ref<Scene> other)
     CopyComponent<BoxCollider2DComponent>(src_scene_registry, dst_scene_registry, entt_map);
 
     return new_scene;
+}
+
+void Scene::DuplicateEntity(Entity entity)
+{
+    std::string name = "Copied " + entity.GetName();
+    Entity new_entity = CreateEntity(name);
+
+    CopyComponentIfExists<TransformComponent>(entity, new_entity);
+    CopyComponentIfExists<SpriteRendererComponent>(entity, new_entity);
+    CopyComponentIfExists<CameraComponent>(entity, new_entity);
+    CopyComponentIfExists<NativeScriptComponent>(entity, new_entity);
+    CopyComponentIfExists<Rigidbody2DComponent>(entity, new_entity);
+    CopyComponentIfExists<BoxCollider2DComponent>(entity, new_entity);
 }
 
 void Scene::OnRuntimeStart()

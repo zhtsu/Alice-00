@@ -32,27 +32,30 @@ void SceneHierarchyPanel::OnImGuiRender()
     // Scene Hierarchy
     ImGui::Begin("Scene Hierarchy");
     
-    m_context->m_registry.each([&](auto entity_id){
-        Entity entity{ entity_id, m_context.get() };
-        DrawEntityNode(entity);
-    });
-
-    // Click blank to cancel focus
-    if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-        m_selected_context = {};
-
-    // Right-click on blank space to create Entity
-    if (ImGui::BeginPopupContextWindow(0, ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight))
+    if (m_context)
     {
-        if (ImGui::MenuItem("Create Entity"))
-        {
-            m_entity_created_count++;
-            std::string new_entity_num = std::to_string(m_entity_created_count);
-            m_selected_context = m_context->CreateEntity("Untitled Entity " + new_entity_num);
-            ALICE_TRACE("Create Entity: {}", m_selected_context.GetComponent<TagComponent>().tag);
-        }
+        m_context->m_registry.each([&](auto entity_id){
+            Entity entity{ entity_id, m_context.get() };
+            DrawEntityNode(entity);
+        });
 
-        ImGui::EndPopup();
+        // Click blank to cancel focus
+        if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+            m_selected_context = {};
+
+        // Right-click on blank space to create Entity
+        if (ImGui::BeginPopupContextWindow(0, ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight))
+        {
+            if (ImGui::MenuItem("Create Entity"))
+            {
+                m_entity_created_count++;
+                std::string new_entity_num = std::to_string(m_entity_created_count);
+                m_selected_context = m_context->CreateEntity("Untitled Entity " + new_entity_num);
+                ALICE_TRACE("Create Entity: {}", m_selected_context.GetComponent<TagComponent>().tag);
+            }
+
+            ImGui::EndPopup();
+        }
     }
 
     // End Scene Hierarchy

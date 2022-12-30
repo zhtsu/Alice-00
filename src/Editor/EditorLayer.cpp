@@ -372,6 +372,12 @@ bool EditorLayer::OnKeyPressed(KeyPressedEvent& event)
                 SaveSceneAs();
             break;
         }
+        case ALICE_KEY_D:
+        {
+            if (control)
+                OnDuplicateEntity();
+            break;
+        }
         // Gizmos
         case ALICE_KEY_Q:
         {
@@ -467,6 +473,8 @@ void EditorLayer::OnScenePlay()
 
     m_active_scene = Scene::Copy(m_editor_scene);
     m_active_scene->OnRuntimeStart();
+
+    m_scene_hierarchy_panel.SetContext(m_active_scene);
 }
 
 void EditorLayer::OnSceneStop()
@@ -475,6 +483,18 @@ void EditorLayer::OnSceneStop()
     
     m_active_scene->OnRuntimeStop();
     m_active_scene = m_editor_scene;
+
+    m_scene_hierarchy_panel.SetContext(m_active_scene);
+}
+
+void EditorLayer::OnDuplicateEntity()
+{
+    if (m_scene_state != SceneState::Edit)
+        return;
+
+    Entity selected_entity = m_scene_hierarchy_panel.GetSelectedEntity();
+    if (selected_entity)
+        m_editor_scene->DuplicateEntity(selected_entity);
 }
 
 } // namespace Alice

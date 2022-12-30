@@ -25,6 +25,8 @@ public:
 
     static Ref<Scene> Copy(Ref<Scene> other);
 
+    void DuplicateEntity(Entity entity);
+
     Entity CreateEntity(const std::string& name = std::string());
     Entity CreateEntityWithUUID(UUID uuid, const std::string& name);
     void DestroyEntity(Entity entity);
