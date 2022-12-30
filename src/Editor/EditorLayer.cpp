@@ -432,6 +432,9 @@ void EditorLayer::OpenScene()
 
 void EditorLayer::OpenScene(const std::filesystem::path& path)
 {
+    if (m_scene_state != SceneState::Edit)
+        OnSceneStop();
+
     m_active_scene = CreateRef<Scene>();
     m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
     m_scene_hierarchy_panel.SetContext(m_active_scene);
