@@ -435,12 +435,20 @@ void EditorLayer::OpenScene(const std::filesystem::path& path)
     if (m_scene_state != SceneState::Edit)
         OnSceneStop();
 
-    m_active_scene = CreateRef<Scene>();
-    m_active_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
-    m_scene_hierarchy_panel.SetContext(m_active_scene);
+    if (path.extension().string() != ".ascene")
+    {
+        ALICE_WARN("Could not open file '{}', not a scene file!", path.filename().string());
+        return;
+    }
 
-    SceneSerializer serializer(m_active_scene);
+    m_editor_scene = CreateRef<Scene>();
+    m_editor_scene->OnViewportResize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+    m_scene_hierarchy_panel.SetContext(m_editor_scene);
+
+    SceneSerializer serializer(m_editor_scene);
     serializer.Deserialize(path.string());
+
+    m_active_scene = m_editor_scene;
 }
 
 void EditorLayer::SaveSceneAs()
@@ -456,13 +464,17 @@ void EditorLayer::SaveSceneAs()
 void EditorLayer::OnScenePlay()
 {
     m_scene_state = SceneState::Play;
+
+    // m_active_scene = Scene::Copy(m_editor_scene);
     m_active_scene->OnRuntimeStart();
 }
 
 void EditorLayer::OnSceneStop()
 {
     m_scene_state = SceneState::Edit;
+    
     m_active_scene->OnRuntimeStop();
+    m_active_scene = m_editor_scene;
 }
 
 } // namespace Alice

@@ -46,7 +46,7 @@ private:
     glm::vec2 m_viewport_size = { 0.0f, 0.0f };
     glm::vec2 m_viewport_bounds[2];
 
-    Ref<Scene> m_active_scene;
+    Ref<Scene> m_active_scene, m_editor_scene;
 
     int m_gizmo_type = -1;
 

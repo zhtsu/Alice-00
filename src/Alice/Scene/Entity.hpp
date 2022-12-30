@@ -70,6 +70,7 @@ public:
     }
 
     uint64_t GetUUID();
+    const std::string& GetName();
 
     operator bool() const { return m_entity_handle != entt::null; }
     operator uint32_t() const { return (uint32_t)m_entity_handle; }
