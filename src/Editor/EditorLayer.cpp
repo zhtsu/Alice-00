@@ -465,7 +465,7 @@ void EditorLayer::OnScenePlay()
 {
     m_scene_state = SceneState::Play;
 
-    // m_active_scene = Scene::Copy(m_editor_scene);
+    m_active_scene = Scene::Copy(m_editor_scene);
     m_active_scene->OnRuntimeStart();
 }
 

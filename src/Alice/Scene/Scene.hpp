@@ -3,6 +3,7 @@
 #include <entt.hpp>
 #include "Alice/Core/UUID.hpp"
 #include "Alice/Core/Timestep.hpp"
+#include "Alice/Core/Base.hpp"
 
 class b2World;
 
@@ -21,6 +22,8 @@ class Scene
 public:
     Scene();
     ~Scene() = default;
+
+    static Ref<Scene> Copy(Ref<Scene> other);
 
     Entity CreateEntity(const std::string& name = std::string());
     Entity CreateEntityWithUUID(UUID uuid, const std::string& name);

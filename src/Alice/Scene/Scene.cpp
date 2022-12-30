@@ -29,6 +29,53 @@ Scene::Scene()
 
 }
 
+template<class ComponentType>
+static void CopyComponent(entt::registry& src, entt::registry& dst, const std::unordered_map<UUID, entt::entity>& entt_map)
+{
+    auto view = src.view<ComponentType>();
+    for (auto entity : view)
+    {
+        UUID uuid = src.get<IDComponent>(entity).id;
+        ALICE_ASSERT(entt_map.find(uuid) != entt_map.end(), "Entity not exists in registry!");
+        entt::entity dst_entity = entt_map.at(uuid);
+
+        auto& component = src.get<ComponentType>(entity);
+        dst.emplace_or_replace<ComponentType>(dst_entity, component);
+    }
+}
+
+Ref<Scene> Scene::Copy(Ref<Scene> other)
+{
+    Ref<Scene> new_scene = CreateRef<Scene>();
+
+    new_scene->m_viewport_width = other->m_viewport_width;
+    new_scene->m_viewport_height = other->m_viewport_height;
+
+    std::unordered_map<UUID, entt::entity> entt_map;
+    auto& src_scene_registry = other->m_registry;
+    auto& dst_scene_registry = new_scene->m_registry;
+
+    // Copy entities
+    auto id_view = src_scene_registry.view<IDComponent>();
+    for (auto entity : id_view)
+    {
+        UUID uuid = src_scene_registry.get<IDComponent>(entity).id;
+        const auto& name = src_scene_registry.get<TagComponent>(entity).tag;
+        Entity new_entity = new_scene->CreateEntityWithUUID(uuid, name);
+        entt_map[uuid] = (entt::entity)new_entity;
+    }
+
+    // Copy components
+    CopyComponent<TransformComponent>(src_scene_registry, dst_scene_registry, entt_map);
+    CopyComponent<SpriteRendererComponent>(src_scene_registry, dst_scene_registry, entt_map);
+    CopyComponent<CameraComponent>(src_scene_registry, dst_scene_registry, entt_map);
+    CopyComponent<NativeScriptComponent>(src_scene_registry, dst_scene_registry, entt_map);
+    CopyComponent<Rigidbody2DComponent>(src_scene_registry, dst_scene_registry, entt_map);
+    CopyComponent<BoxCollider2DComponent>(src_scene_registry, dst_scene_registry, entt_map);
+
+    return new_scene;
+}
+
 void Scene::OnRuntimeStart()
 {
     m_physics_world = new b2World({ 0.0f, -9.8f });

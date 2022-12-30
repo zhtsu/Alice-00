@@ -29,6 +29,14 @@ public:
         return component;
     }
 
+    template<class T, class... Args>
+    T& AddOrReplaceComponent(Args&&... args)
+    {
+        T& component = m_scene->m_registry.emplace_or_replace<T>(m_entity_handle, std::forward<Args>(args)...);
+        m_scene->OnComponentAdded<T>(*this, component);
+        return component;
+    }
+
     template<class T>
     T& GetComponent()
     {
