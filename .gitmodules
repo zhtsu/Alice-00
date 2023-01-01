@@ -13,9 +13,9 @@
 [submodule "3rdparty/imgui"]
 	path = 3rdparty/imgui
 	url = https://github.com/zhtsu/imgui.git
-[submodule "3rdparty/stb"]
-	path = 3rdparty/stb
-	url = https://github.com/zhtsu/stb.git
+[submodule "3rdparty/stb_image"]
+	path = 3rdparty/stb_image
+	url = https://github.com/zhtsu/stb_image.git
 [submodule "3rdparty/entt"]
 	path = 3rdparty/entt
 	url = https://github.com/zhtsu/entt.git
