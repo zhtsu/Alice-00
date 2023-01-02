@@ -48,24 +48,16 @@ target_link_libraries(
     Sandbox
 )
 
-# @TODO:
-# Remove old assets before copy current assets
-# add_custom_command(
-#     TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E remove_directory
-#     "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/assets"  
-# )
-
 add_custom_command(
     TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    # @TODO:
+    # Remove old assets before copy current assets
+    # COMMAND ${CMAKE_COMMAND} -E remove_directory
+    #     "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/assets"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/assets"
-        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/assets"    
-)
-
-add_custom_command(
-    TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/assets"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${PROJECT_SOURCE_DIR}/resources"
-        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/resources"    
+        "$<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/resources"
 )
