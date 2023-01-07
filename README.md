@@ -3,7 +3,7 @@
 
 [[中文]](README.zhCN.md)
 
-C++ 2D Game Engine with OpenGL.
+C++ 2D Game Engine using OpenGL.
 
 This is a learning project that made by following TheCherno's Game Engine Series.
 
