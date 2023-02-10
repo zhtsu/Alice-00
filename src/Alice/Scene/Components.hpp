@@ -62,6 +62,17 @@ struct SpriteRendererComponent
     SpriteRendererComponent(const glm::vec4& _color) : color(_color) {}
 };
 
+struct CircleRendererComponent
+{
+    glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+    float radius = 0.5f;
+    float thickness = 1.0f;
+    float fade = 0.005f;
+
+    CircleRendererComponent() = default;
+    CircleRendererComponent(const CircleRendererComponent&) = default;
+};
+
 struct CameraComponent
 {
     Alice::SceneCamera camera;
