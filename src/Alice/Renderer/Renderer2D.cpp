@@ -20,6 +20,17 @@ struct QuadVertex
     int entity_id;
 };
 
+struct CircleVertex
+{
+    glm::vec3 world_position;
+    glm::vec3 local_position;
+    glm::vec4 color;
+    float thickness;
+    float fade;
+
+    int entity_id;
+};
+
 struct Renderer2DData
 {
     static const uint32_t kMaxQuads = 10000;
@@ -27,14 +38,24 @@ struct Renderer2DData
     static const uint32_t kMaxIndices = kMaxQuads * 6;
     static const uint32_t kMaxTextureSlots = 32;
 
+    // Quad
     Ref<VertexArray> quad_vertex_array;
     Ref<VertexBuffer> quad_vertex_buffer;
-    Ref<Shader> texture_shader;
+    Ref<Shader> quad_shader;
     Ref<Texture2D> white_texture;
 
     uint32_t quad_index_count = 0;
     QuadVertex* quad_vertex_buffer_base = nullptr;
     QuadVertex* quad_vertex_buffer_ptr = nullptr;
+
+    // Circle
+    Ref<VertexArray> circle_vertex_array;
+    Ref<VertexBuffer> circle_vertex_buffer;
+    Ref<Shader> circle_shader;
+
+    uint32_t circle_index_count = 0;
+    CircleVertex* circle_vertex_buffer_base = nullptr;
+    CircleVertex* circle_vertex_buffer_ptr = nullptr;
 
     std::array<Ref<Texture2D>, kMaxTextureSlots> texture_slots;
     uint32_t texture_slot_index = 1; // 0 slot use pure white texture
@@ -83,6 +104,22 @@ void Renderer2D::Init()
     s_data.quad_vertex_array->SetIndexBuffer(quad_index_buffer);
     delete[] indices;
 
+    // Circle
+    s_data.circle_vertex_array = VertexArray::Create();
+
+    s_data.circle_vertex_buffer = VertexBuffer::Create(s_data.kMaxVertices * sizeof(CircleVertex));
+    s_data.circle_vertex_buffer->SetLayout({
+        { ShaderDataType::Float3, "a_WorldPosition" },
+        { ShaderDataType::Float3, "a_LocalPosition" },
+        { ShaderDataType::Float4, "a_Color" },
+        { ShaderDataType::Float, "a_Thickness" },
+        { ShaderDataType::Float, "a_fade" },
+        { ShaderDataType::Int, "a_EntityID" }
+    });
+    s_data.circle_vertex_array->AddVertexBuffer(s_data.circle_vertex_buffer);
+    s_data.circle_vertex_array->SetIndexBuffer(quad_index_buffer);
+    s_data.circle_vertex_buffer_base = new CircleVertex[s_data.kMaxVertices];
+
     s_data.white_texture = Texture2D::Create(1, 1);
     uint32_t white_texture_data = 0xffffffff;
     s_data.white_texture->SetData(&white_texture_data, sizeof(uint32_t));
@@ -92,11 +129,16 @@ void Renderer2D::Init()
         samplers[i] = i;
 
     // Texture shader
-    std::string texture_shader_path = 
-        PathHelper::GeneratePath(FileType::Shader, "Texture.glsl");
-    s_data.texture_shader = Shader::Create(texture_shader_path);
-    s_data.texture_shader->Bind();
-    s_data.texture_shader->SetIntArray("u_Textures", samplers, s_data.kMaxTextureSlots);
+    std::string quad_shader_path = 
+        PathHelper::GeneratePath(FileType::Shader, "Quad.glsl");
+    s_data.quad_shader = Shader::Create(quad_shader_path);
+    s_data.quad_shader->Bind();
+    s_data.quad_shader->SetIntArray("u_Textures", samplers, s_data.kMaxTextureSlots);
+
+    // Circle shader
+    std::string circle_shader_path = 
+        PathHelper::GeneratePath(FileType::Shader, "Circle.glsl");
+    s_data.circle_shader = Shader::Create(circle_shader_path);
 
     s_data.texture_slots[0] = s_data.white_texture;
 
@@ -116,6 +158,9 @@ void Renderer2D::StartBatch()
     s_data.quad_index_count = 0;
     s_data.quad_vertex_buffer_ptr = s_data.quad_vertex_buffer_base;
 
+    s_data.circle_index_count = 0;
+    s_data.circle_vertex_buffer_ptr = s_data.circle_vertex_buffer_base;
+
     s_data.texture_slot_index = 1;
 }
 
@@ -129,8 +174,8 @@ void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
 {
     glm::mat4 view_proj = camera.GetProjection() * glm::inverse(transform);
 
-    s_data.texture_shader->Bind();
-    s_data.texture_shader->SetMat4("u_ViewProjection", view_proj);
+    s_data.quad_shader->Bind();
+    s_data.quad_shader->SetMat4("u_ViewProjection", view_proj);
 
     StartBatch();
 }
@@ -139,16 +184,16 @@ void Renderer2D::BeginScene(const EditorCamera& camera)
 {
     glm::mat4 view_proj = camera.GetViewProjection();
 
-    s_data.texture_shader->Bind();
-    s_data.texture_shader->SetMat4("u_ViewProjection", view_proj);
+    s_data.quad_shader->Bind();
+    s_data.quad_shader->SetMat4("u_ViewProjection", view_proj);
 
     StartBatch();
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera)
 {
-    s_data.texture_shader->Bind();
-    s_data.texture_shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+    s_data.quad_shader->Bind();
+    s_data.quad_shader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
     StartBatch();
 }
@@ -169,6 +214,16 @@ void Renderer2D::Flush()
             s_data.texture_slots[i]->Bind(i);
 
         RenderCommand::DrawIndexed(s_data.quad_vertex_array, s_data.quad_index_count);
+        s_data.stats.draw_calls++;
+    }
+
+    if (s_data.circle_index_count)
+    {
+        uint32_t data_size = (uint32_t)((uint8_t*)s_data.circle_vertex_buffer_ptr - (uint8_t*)s_data.circle_vertex_buffer_base);
+		s_data.circle_vertex_buffer->SetData(s_data.circle_vertex_buffer_base, data_size);
+
+        s_data.circle_shader->Bind();
+        RenderCommand::DrawIndexed(s_data.circle_vertex_array, s_data.circle_index_count);
         s_data.stats.draw_calls++;
     }
 }
@@ -303,6 +358,26 @@ void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComp
         DrawQuad(transform, sprite.texture, sprite.tiling_factor, sprite.color, entity_id);
     else
         DrawQuad(transform, sprite.color, entity_id);
+}
+
+void Renderer2D::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness, float fade, int entity_id)
+{
+    constexpr int quad_vertex_count = 4;
+    
+    for (int i = 0; i < quad_vertex_count; i++)
+    {
+        s_data.circle_vertex_buffer_ptr->world_position = transform * s_data.quad_vertex_positions[i];
+        s_data.circle_vertex_buffer_ptr->local_position = s_data.quad_vertex_positions[i] * 2.0f;
+        s_data.circle_vertex_buffer_ptr->color = color;
+        s_data.circle_vertex_buffer_ptr->thickness = thickness;
+        s_data.circle_vertex_buffer_ptr->fade = fade;
+        s_data.circle_vertex_buffer_ptr->entity_id = entity_id;
+        s_data.circle_vertex_buffer_ptr++;
+    }
+
+    s_data.circle_index_count += 6;
+
+    s_data.stats.quad_count++;
 }
 
 void Renderer2D::ResetStats()

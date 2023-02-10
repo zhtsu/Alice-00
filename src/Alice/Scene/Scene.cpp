@@ -220,7 +220,7 @@ void Scene::OnUpdateRuntime(Timestep ts)
         for (auto& entity : group)
         {
             auto&& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+            Renderer2D::DrawQuad(transform.GetTransform(), sprite.color);
             m_rendered_entities_count++;
         }
 
@@ -299,6 +299,11 @@ void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& componen
 
 template<>
 void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+{
+}
+
+template<>
+void Scene::OnComponentAdded<CircleRendererComponent>(Entity entity, CircleRendererComponent& component)
 {
 }
 

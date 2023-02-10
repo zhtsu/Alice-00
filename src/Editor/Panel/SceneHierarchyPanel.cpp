@@ -262,6 +262,12 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
                 ImGui::CloseCurrentPopup();
             }
 
+            if (!m_selected_context.HasComponent<CircleRendererComponent>() && ImGui::MenuItem("CircleRenderer"))
+            {
+                m_selected_context.AddComponent<CircleRendererComponent>();
+                ImGui::CloseCurrentPopup();
+            }
+
             if (!m_selected_context.HasComponent<Rigidbody2DComponent>() && ImGui::MenuItem("Rigidbody2D"))
             {
                 m_selected_context.AddComponent<Rigidbody2DComponent>();
@@ -362,6 +368,13 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
             ImGui::EndDragDropTarget();
         }
         ImGui::DragFloat("Tiling Factor", &component.tiling_factor, 0.1f, 0.0f, 100.0f);
+    });
+
+    DrawComponent<CircleRendererComponent>("CircleRenderer", entity, [](auto& component)
+    {
+        ImGui::ColorEdit4("Color", glm::value_ptr(component.color)); 
+        ImGui::DragFloat("Thickness", &component.thickness, 0.025f, 0.0f, 1.0f);
+        ImGui::DragFloat("Fade", &component.fade, 0.00025f, 0.0f, 1.0f);
     });
 
     DrawComponent<Rigidbody2DComponent>("Rigidbody2D", entity, [](auto& component){

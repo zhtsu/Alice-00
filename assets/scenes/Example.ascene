@@ -41,7 +41,7 @@ Entities:
     TagComponent:
       Tag: White
     TransformComponent:
-      Translation: [-7.31755279e-07, 1.54037845, 0]
+      Translation: [-1.89999998, 1.54037845, 0]
       Rotation: [0, 0, 0.000278024323]
       Scale: [0.999999881, 1, 1]
     SpriteRendererComponent:
