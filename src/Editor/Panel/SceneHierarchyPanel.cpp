@@ -250,6 +250,12 @@ void SceneHierarchyPanel::DrawComponents(Entity entity)
 
         if (ImGui::BeginPopup("AddComponent"))
         {
+            if (!m_selected_context.HasComponent<TransformComponent>() && ImGui::MenuItem("Transform"))
+            {
+                m_selected_context.AddComponent<TransformComponent>();
+                ImGui::CloseCurrentPopup();
+            }
+
             if (!m_selected_context.HasComponent<CameraComponent>() && ImGui::MenuItem("Camera"))
             {
                 m_selected_context.AddComponent<CameraComponent>();
