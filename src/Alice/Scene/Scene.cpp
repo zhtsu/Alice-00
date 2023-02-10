@@ -156,6 +156,7 @@ void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
         }
     }
 
+    // @TODO: Fail to render circle
     {
         auto&& view = m_registry.view<TransformComponent, CircleRendererComponent>();
         for (auto& entity : view)
