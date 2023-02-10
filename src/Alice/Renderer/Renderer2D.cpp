@@ -1,7 +1,6 @@
 #include "Renderer2D.hpp"
 #include "VertexArray.hpp"
 #include "Shader.hpp"
-#include "Alice/Utils/PathHelper.hpp"
 #include "Alice/Renderer/RenderCommand.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "Alice/Scene/Components.hpp"
@@ -57,6 +56,7 @@ struct Renderer2DData
     CircleVertex* circle_vertex_buffer_base = nullptr;
     CircleVertex* circle_vertex_buffer_ptr = nullptr;
 
+    //
     std::array<Ref<Texture2D>, kMaxTextureSlots> texture_slots;
     uint32_t texture_slot_index = 1; // 0 slot use pure white texture
 
@@ -69,6 +69,7 @@ static Renderer2DData s_data;
 
 void Renderer2D::Init()
 {
+    // Quad
     s_data.quad_vertex_array = VertexArray::Create();
 
     s_data.quad_vertex_buffer = VertexBuffer::Create(s_data.kMaxVertices * sizeof(QuadVertex));
@@ -113,13 +114,14 @@ void Renderer2D::Init()
         { ShaderDataType::Float3, "a_LocalPosition" },
         { ShaderDataType::Float4, "a_Color" },
         { ShaderDataType::Float, "a_Thickness" },
-        { ShaderDataType::Float, "a_fade" },
+        { ShaderDataType::Float, "a_Fade" },
         { ShaderDataType::Int, "a_EntityID" }
     });
     s_data.circle_vertex_array->AddVertexBuffer(s_data.circle_vertex_buffer);
-    s_data.circle_vertex_array->SetIndexBuffer(quad_index_buffer);
+    s_data.circle_vertex_array->SetIndexBuffer(quad_index_buffer); // Use quad indexbuffer
     s_data.circle_vertex_buffer_base = new CircleVertex[s_data.kMaxVertices];
 
+    //
     s_data.white_texture = Texture2D::Create(1, 1);
     uint32_t white_texture_data = 0xffffffff;
     s_data.white_texture->SetData(&white_texture_data, sizeof(uint32_t));
@@ -129,16 +131,12 @@ void Renderer2D::Init()
         samplers[i] = i;
 
     // Texture shader
-    std::string quad_shader_path = 
-        PathHelper::GeneratePath(FileType::Shader, "Quad.glsl");
-    s_data.quad_shader = Shader::Create(quad_shader_path);
+    s_data.quad_shader = Shader::Create("assets/shaders/Quad.glsl");
     s_data.quad_shader->Bind();
     s_data.quad_shader->SetIntArray("u_Textures", samplers, s_data.kMaxTextureSlots);
 
     // Circle shader
-    std::string circle_shader_path = 
-        PathHelper::GeneratePath(FileType::Shader, "Circle.glsl");
-    s_data.circle_shader = Shader::Create(circle_shader_path);
+    s_data.circle_shader = Shader::Create("assets/shaders/Circle.glsl");
 
     s_data.texture_slots[0] = s_data.white_texture;
 
@@ -362,9 +360,7 @@ void Renderer2D::DrawSprite(const glm::mat4& transform, const SpriteRendererComp
 
 void Renderer2D::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness, float fade, int entity_id)
 {
-    constexpr int quad_vertex_count = 4;
-    
-    for (int i = 0; i < quad_vertex_count; i++)
+    for (int i = 0; i < 4; i++)
     {
         s_data.circle_vertex_buffer_ptr->world_position = transform * s_data.quad_vertex_positions[i];
         s_data.circle_vertex_buffer_ptr->local_position = s_data.quad_vertex_positions[i] * 2.0f;
