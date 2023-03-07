@@ -495,6 +495,12 @@ void EditorLayer::SerializeScene(Ref<Scene> scene, const std::filesystem::path& 
 
 void EditorLayer::OnScenePlay()
 {
+    if (!m_editor_scene)
+    {
+        ALICE_WARN("Do not have opened scene in editor!");
+        return;
+    }
+
     m_scene_state = SceneState::Play;
 
     m_active_scene = Scene::Copy(m_editor_scene);
@@ -505,6 +511,12 @@ void EditorLayer::OnScenePlay()
 
 void EditorLayer::OnSceneStop()
 {
+    if (!m_active_scene)
+    {
+        ALICE_WARN("Do not have playing scene in editor!");
+        return;
+    }
+
     m_scene_state = SceneState::Edit;
     
     m_active_scene->OnRuntimeStop();
