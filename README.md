@@ -1,4 +1,4 @@
-# Alice-00
+# Alice-2D
 [![license](https://img.shields.io/github/license/zhtsu/Alice-00)](LICENSE)
 
 [[中文]](README.zhCN.md)
