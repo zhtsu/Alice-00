@@ -307,21 +307,25 @@ void EditorLayer::PutToolbar()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+
     auto& colors = ImGui::GetStyle().Colors;;
     const auto& button_hovered = colors[ImGuiCol_ButtonHovered];
+
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
         ImVec4(button_hovered.x, button_hovered.y, button_hovered.z, 0.5f));
     const auto& button_active = colors[ImGuiCol_ButtonActive];
     ImGui::PushStyleColor(ImGuiCol_ButtonActive,
         ImVec4(button_active.x, button_active.y, button_active.z, 0.5f));
 
-    ImGui::Begin("##toolbar", nullptr,
-        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar |
-        ImGuiWindowFlags_NoScrollWithMouse | ImGuiDockNodeFlags_AutoHideTabBar);
+    // ImGui::Begin("toolbar", nullptr,
+    //     ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar |
+    //     ImGuiWindowFlags_NoScrollWithMouse | ImGuiDockNodeFlags_AutoHideTabBar);
+    ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoTitleBar);
 
     Ref<Texture2D> icon = (m_scene_state == SceneState::Play ? m_icon_pause : m_icon_play);
     float size = ImGui::GetWindowHeight() - 4.0f;
     ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
+
     if (ImGui::ImageButton(reinterpret_cast<ImTextureID>(icon->GetRendererID()), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
     {
         if (m_scene_state == SceneState::Edit)
@@ -491,6 +495,12 @@ void EditorLayer::SerializeScene(Ref<Scene> scene, const std::filesystem::path& 
 
 void EditorLayer::OnScenePlay()
 {
+    if (!m_editor_scene)
+    {
+        ALICE_WARN("Do not have opened scene in editor!");
+        return;
+    }
+
     m_scene_state = SceneState::Play;
 
     m_active_scene = Scene::Copy(m_editor_scene);
@@ -501,6 +511,12 @@ void EditorLayer::OnScenePlay()
 
 void EditorLayer::OnSceneStop()
 {
+    if (!m_active_scene)
+    {
+        ALICE_WARN("Do not have playing scene in editor!");
+        return;
+    }
+
     m_scene_state = SceneState::Edit;
     
     m_active_scene->OnRuntimeStop();

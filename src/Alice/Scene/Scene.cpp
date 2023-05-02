@@ -234,7 +234,7 @@ void Scene::OnUpdateRuntime(Timestep ts)
         for (auto& entity : group)
         {
             auto&& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            Renderer2D::DrawQuad(transform.GetTransform(), sprite.color);
+            Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
             m_rendered_entities_count++;
         }
 
