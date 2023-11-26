@@ -30,6 +30,7 @@ git submodule init
 git submodule update
 ```
 If you get some issues when you executing 'git submodule update'
+
 You may need to manually download third-party to 3rdparty/ through the links included in .gitmodules file.
 
 ### Build
