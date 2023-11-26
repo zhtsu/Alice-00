@@ -31,7 +31,7 @@ git submodule update
 ```
 If you get some issues when you executing 'git submodule update'
 
-You may need to manually download third-party to 3rdparty/ through the links included in .gitmodules file.
+You may need to manually download the missing third-party libraries to 3rdparty/ through the links included in .gitmodules file.
 
 ### Build
 Double-click to run scripts/Build.bat
