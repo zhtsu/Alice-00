@@ -29,11 +29,8 @@ cd Alice
 git submodule init
 git submodule update
 ```
-If an error occurs when running following the command. 
-```bash
-git submodule update
-```
-You may need to manually download third-party to 3rdparty/ by links that included in .gitmodules file.
+If you get some issues when you executing 'git submodule update'
+You may need to manually download third-party to 3rdparty/ through the links included in .gitmodules file.
 
 ### Build
 Double-click to run scripts/Build.bat
