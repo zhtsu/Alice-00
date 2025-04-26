@@ -1,8 +1,11 @@
 #include "ParticleSystem.hpp"
 
 #include "Random.hpp"
+
+#define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtc/constants.hpp"
 #include "glm/gtx/compatibility.hpp"
+
 #include "Alice/Renderer/Renderer2D.hpp"
 
 namespace Alice
